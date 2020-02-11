@@ -21,5 +21,5 @@ int main()
 	double geroptrgs = 3;
 	(void)getchar();
 	return 0;
-	//well he hello there
+	//well he hello there.
 }
