@@ -14,7 +14,9 @@
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	
+	std::cout << "esgrmtpero" << std::endl;
+	float lele = 124.f;
+	double geroptrgs = 123;
 	(void)getchar();
 	return 0;
 	//well he
