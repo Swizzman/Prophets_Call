@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -15,8 +14,8 @@
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	std::cout << "esgrmtpero" << std::endl;
+	
 	(void)getchar();
 	return 0;
-	//well hello there my good sir
+	//well he
 }
