@@ -22,4 +22,5 @@ int main()
 	(void)getchar();
 	return 0;
 	//well he hello there.
-}
+	cout << "look how easy it is when you don't have to write std before cout and endl " << endl;
+ }
