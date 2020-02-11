@@ -15,8 +15,8 @@
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	int confictInt = 3;
+	std::cout << "esgrmtpero" << std::endl;
 	(void)getchar();
 	return 0;
-	//well h
+	//well hello there my good sir
 }
