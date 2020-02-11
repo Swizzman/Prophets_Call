@@ -20,6 +20,9 @@ int main()
 	float lele = 124.f;
 	double geroptrgs = 3;
 	(void)getchar();
-	return 0;
 	//well he hello there.
+	std::string textis;
+	getline(cin, textis);
+	cout << textis << endl;
+	return 6;
 }
