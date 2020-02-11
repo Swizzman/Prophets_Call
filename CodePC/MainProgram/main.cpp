@@ -24,5 +24,6 @@ int main()
 	std::string textis;
 	getline(cin, textis);
 	cout << textis << endl;
+	cout << "look how easy it is when you don't have to write std before cout and endl " << endl;
 	return 6;
 }
