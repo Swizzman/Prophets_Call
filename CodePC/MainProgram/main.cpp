@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -18,5 +19,5 @@ int main()
 	float lele = 124.f;
 	(void)getchar();
 	return 0;
-	//well he
+	//well he asdw
 }
