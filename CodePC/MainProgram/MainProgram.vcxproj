@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProphetCallGame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ProphetCallGame.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BFA3F943-8701-4E20-A183-D5C3C8375B61}</ProjectGuid>
