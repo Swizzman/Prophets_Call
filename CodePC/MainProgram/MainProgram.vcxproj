@@ -19,19 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Follower.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
-       <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="Commands.cpp" />
     <ClCompile Include="GameEntity.cpp" />
-
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Prophet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Follower.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
-       <ClInclude Include="Commands.h" />
+    <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
-    <ClInclude Include="ProphetCallGame.h" />
+    <ClInclude Include="Prophet.h" />
     <ClInclude Include="STATE.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
