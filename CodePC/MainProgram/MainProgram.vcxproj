@@ -19,19 +19,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="AttackProphet.cpp" />
+    <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Closest.cpp" />
+    <ClCompile Include="CommandManager.cpp" />
+    <ClCompile Include="Follow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
-       <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="Commands.cpp" />
     <ClCompile Include="GameEntity.cpp" />
-
+    <ClCompile Include="LowestHP.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Regen.cpp" />
+    <ClCompile Include="Reinforcement.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ability.h" />
+    <ClInclude Include="AttackProphet.h" />
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Closest.h" />
+    <ClInclude Include="CommandManager.h" />
+    <ClInclude Include="Follow.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
-       <ClInclude Include="Commands.h" />
+    <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
-    <ClInclude Include="ProphetCallGame.h" />
+    <ClInclude Include="LowestHP.h" />
+    <ClInclude Include="Regen.h" />
+    <ClInclude Include="Reinforcement.h" />
     <ClInclude Include="STATE.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

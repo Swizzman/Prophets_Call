@@ -40,6 +40,7 @@ int GameEntity::getMovingSpeed()
 	return 0;
 }
 
-void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates state)
+void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 }
+

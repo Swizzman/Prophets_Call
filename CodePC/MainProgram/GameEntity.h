@@ -13,7 +13,7 @@ private:
 	bool canAttack;
 
 public:
-	GameEntity(string textureName, int movingSpeed, int health, );
+	GameEntity(string textureName, int movingSpeed, int health);
 	GameEntity();
 	~GameEntity();
 
@@ -26,8 +26,12 @@ public:
 	int getMovingSpeed();
 	virtual void die() = 0;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates state);
+	//virtual void draw(sf::RenderTarget& target, sf::RenderStates state) const;
 
+
+
+	// Inherited via Drawable
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 };
 
