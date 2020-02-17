@@ -30,5 +30,8 @@ public:
 	int getSouls();
 	Follower* getFollowers();
 	void recieveEnemyProphet(Prophet* other);
+
+	// Inherited via GameEntity
+	virtual void die() override;
 };
 

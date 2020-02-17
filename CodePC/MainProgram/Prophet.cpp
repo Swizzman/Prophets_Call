@@ -44,3 +44,7 @@ void Prophet::recieveEnemyProphet(Prophet* other)
 {
 	otherProphet = other;
 }
+
+void Prophet::die()
+{
+}

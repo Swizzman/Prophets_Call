@@ -4,6 +4,16 @@
 
 Game::Game()
 {
+	thisProphet = new Prophet();
+	otherProphet = new Prophet();
+	followerCap = 30;
+	nrOfTotalFollowers = 0;
+	allFollowers = new Follower*[followerCap] { nullptr };
+	for (int i = 0; i < followerCap; i++)
+	{
+		allFollowers[i] = new Follower();
+		nrOfTotalFollowers++;
+	}
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
 }
@@ -33,9 +43,10 @@ State Game::update()
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
+			//Move the playerProphet
+			//Check All the civilians for movement
 		}
 		return state;
-	
 	}
 
 }
@@ -43,5 +54,11 @@ State Game::update()
 void Game::render()
 {
 	window.clear();
+	window.draw(thisProphet);
+	window.draw(otherProphet);
+	for (int i = 0; i < nrOfTotalFollowers; i++)
+	{
+		window.draw(allFollowers[i]);
+	}
 	window.display();
 }

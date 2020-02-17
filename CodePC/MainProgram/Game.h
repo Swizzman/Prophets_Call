@@ -1,9 +1,19 @@
 #pragma once
 #include "GameState.h"
+#include "Prophet.h"
+#include "Follower.h"
+#include "UIManager.h"
+#include "NetworkManager.h"
+#include "SoundManager.h"
 class Game :
 	public GameState
 {
 private:
+	Prophet* thisProphet;
+	Prophet* otherProphet;
+	Follower** allFollowers;
+	int nrOfTotalFollowers;
+	int followerCap;
 	sf::Clock clock;
 	sf::Time timePerFrame;
 	sf::Time elapsedTimeSinceLastUpdate;

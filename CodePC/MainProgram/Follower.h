@@ -10,5 +10,8 @@ private:
 	bool alive;
 public:
 	void increaseDamageDone(int increase);
+
+	// Inherited via GameEntity
+	virtual void die() override;
 };
 
