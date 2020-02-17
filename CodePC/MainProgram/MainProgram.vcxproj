@@ -35,6 +35,8 @@
     <ClCompile Include="Regen.cpp" />
     <ClCompile Include="Reinforcement.cpp" />
     <ClCompile Include="Prophet.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h" />
@@ -52,7 +54,9 @@
     <ClInclude Include="Regen.h" />
     <ClInclude Include="Reinforcement.h" />
     <ClInclude Include="Prophet.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="STATE.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BFA3F943-8701-4E20-A183-D5C3C8375B61}</ProjectGuid>
