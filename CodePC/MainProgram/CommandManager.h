@@ -7,8 +7,7 @@ class CommandManager
 private:
 	int chosenCommand;
 	Prophet *thisProphet;
-	Prophet* enemyProphet;
-
+	Prophet* enemyProphet;	
 
 public:
 	CommandManager();
