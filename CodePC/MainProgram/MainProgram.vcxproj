@@ -38,7 +38,9 @@
     <ClCompile Include="Regen.cpp" />
     <ClCompile Include="Reinforcement.cpp" />
     <ClCompile Include="Prophet.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SoundManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -60,7 +62,9 @@
     <ClInclude Include="Regen.h" />
     <ClInclude Include="Reinforcement.h" />
     <ClInclude Include="Prophet.h" />
-    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SoundManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="STATE.h" />
     <ClInclude Include="UIManager.h" />
   </ItemGroup>

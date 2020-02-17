@@ -4,6 +4,8 @@
 
 Game::Game()
 {
+	elapsedTimeSinceLastUpdate = sf::Time::Zero;
+	timePerFrame = sf::seconds(1 / 60.f);
 }
 
 Game::~Game()
@@ -32,9 +34,10 @@ State Game::update()
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 		}
-
+		return state;
+	
 	}
-	return state;
+
 }
 
 void Game::render()

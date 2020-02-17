@@ -2,10 +2,11 @@
 
 SoundManager::SoundManager()
 {
-	attackBuffer.loadFromFile("attack");
-	abilityBuffer.loadFromFile("ability");
-	convertBuffer.loadFromFile("convert");
-	bombBuffer.loadFromFile("bomb");
+	attackBuffer.loadFromFile("../Sounds/attack.wav");
+	abilityBuffer.loadFromFile("../Sounds/ability.wav");
+	convertBuffer.loadFromFile("../Sounds/convert.wav");
+	bombBuffer.loadFromFile("../Sounds/bomb.wav");
+	sound.setBuffer(attackBuffer);
 }
 
 SoundManager::~SoundManager()
