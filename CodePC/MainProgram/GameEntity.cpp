@@ -88,6 +88,12 @@ int GameEntity::getMovingSpeed()
 	return movingSpeed;
 }
 
+void GameEntity::setPosition(float xPos, float yPos)
+{
+
+	this->sprite.setPosition(xPos, yPos);
+}
+
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
 	target.draw(this->sprite);

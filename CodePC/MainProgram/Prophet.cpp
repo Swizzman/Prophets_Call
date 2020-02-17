@@ -1,7 +1,12 @@
 #include "Prophet.h"
 
-Prophet::Prophet()
+Prophet::Prophet():
+	GameEntity("Prophet.png", 5, 100)
 {
+	convertingSpeed = 10;
+	chosenGroup = 0;
+	collectedSouls = 0;
+	setPosition(100, 100);
 }
 
 Prophet::~Prophet()
