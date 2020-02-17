@@ -28,6 +28,7 @@ public:
 	void attack(GameEntity *enemy, float range, int damage);
 	void move(int x, int y);
 	int getMovingSpeed();
+	void setPosition(float x, float y);
 	virtual void die() = 0;
 
 	// Inherited via Drawable
