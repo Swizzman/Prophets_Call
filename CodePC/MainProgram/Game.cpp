@@ -54,11 +54,11 @@ State Game::update()
 void Game::render()
 {
 	window.clear();
-	window.draw(thisProphet);
-	window.draw(otherProphet);
+	window.draw(*thisProphet);
+	window.draw(*otherProphet);
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
-		window.draw(allFollowers[i]);
+		window.draw(*allFollowers[i]);
 	}
 	window.display();
 }
