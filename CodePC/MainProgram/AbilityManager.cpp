@@ -26,6 +26,6 @@ void AbilityManager::placeAbility(sf::Vector2f position)
 {
 }
 
-void AbilityManager::recievePtr(Prophet* enemyPro, group followerGroup)
+void AbilityManager::recievePtr(Prophet* enemyPro, group* followerGroup)
 {
 }
