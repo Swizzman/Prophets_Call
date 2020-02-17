@@ -4,13 +4,13 @@ class NetworkManager
 {
 
 private:
-	int port;
-	sf::UdpSocket socket;
+	//int port;
+	//sf::UdpSocket socket;
 
 public:
 	NetworkManager();
 	~NetworkManager();
-	void socket();
+	
 	void bindSocket();
 
 };
