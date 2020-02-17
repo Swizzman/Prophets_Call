@@ -25,6 +25,10 @@ int CommandManager::getCurrentCommand()
 	return 0;
 }
 
+void CommandManager::recievePtr(Prophet* enemyPro, group* folGroup)
+{
+}
+
 bool CommandManager::checkDistance()
 {
 	return false;
