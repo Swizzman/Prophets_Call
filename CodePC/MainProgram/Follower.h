@@ -9,8 +9,10 @@ private:
 	float attackRange;
 	bool alive;
 public:
+	Follower();
+	virtual ~Follower();
 	void increaseDamageDone(int increase);
-
+	void placeFollower(int width, int height);
 	// Inherited via GameEntity
 	virtual void die() override;
 };
