@@ -18,7 +18,4 @@ sf::Vector2f ControlManager::getMousePos()
 	return sf::Vector2f();
 }
 
-sf::Keyboard::Key ControlManager::getKey()
-{
-	return sf::Keyboard::Key();
-}
+
