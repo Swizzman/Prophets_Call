@@ -6,7 +6,7 @@ class Commands
 private:
 
 public:
-	virtual GameEntity calculateRoute(GameEntity *thisObject, GameEntity ** object ) = 0;
+	virtual GameEntity* calculateRoute(GameEntity *thisObject, GameEntity ** object ) = 0;
 
 };
 
