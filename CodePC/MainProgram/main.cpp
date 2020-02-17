@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "GameState.h"
+#include "Game.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -16,16 +18,29 @@ using namespace std;
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	std::cout << "esgrmtpero" << std::endl;
-	float lele = 124.f;
-	double geroptrgs = 3;
-	(void)getchar();
-	//well he hello there.
-	std::string textis;
-	getline(cin, textis);
-	cout << textis << endl;
-	cout << "look how easy it is when you don't have to write std before cout and endl " << endl;
-	cout << "Jag orkar inte mer";
-	cout << "Vill inte vara kvar";
-	return 6;
+	GameState* current = nullptr;
+	State currentState = State::PLAY;
+
+	srand((unsigned int)time(0));
+	while (currentState != State::EXIT)
+	{
+		current->handleEvents();
+		current->update();
+		switch (currentState)
+		{
+		case State::PLAY:
+			delete current;
+			current = new Game();
+			break;
+		case State::MENU:
+			break;
+		default:
+			break;
+		}
+		
+		current->render();
+
+	}
+	delete current;
+	return 0;
 }

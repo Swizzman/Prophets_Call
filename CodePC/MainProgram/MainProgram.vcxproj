@@ -19,15 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameState.cpp" />
+       <ClCompile Include="Commands.cpp" />
     <ClCompile Include="GameEntity.cpp" />
+
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ProphetCallGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Commands.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
+       <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="ProphetCallGame.h" />
+    <ClInclude Include="STATE.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BFA3F943-8701-4E20-A183-D5C3C8375B61}</ProjectGuid>
