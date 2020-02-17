@@ -19,7 +19,38 @@ void Prophet::convert()
 
 bool Prophet::checkMovement()
 {
+
+	
 	return false;
+}
+
+void Prophet::moveProphet()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		moveVertical = -1;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		moveVertical = 1;
+	}
+	else
+	{
+		moveVertical = 0;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		moveHorizontal = 1;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		moveHorizontal = -1;
+	}
+	else
+	{
+		moveHorizontal = 0;
+	}
+	move(moveHorizontal, moveVertical);
 }
 
 int Prophet::getNrOfFollowers()

@@ -8,7 +8,7 @@ class GameEntity : public sf::Drawable
 private:
 	sf::Sprite sprite;
 	sf::Texture texture;
-	int movingSpeed = 0;
+	int movingSpeed = 1;
 	int health= 0;
 	bool canAttack = true;
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEntity.h"
 #include "Follower.h"
+#include <iostream>
 struct group
 {
 	int capacity;
@@ -16,7 +17,10 @@ private:
 	int convertingSpeed;
 	int chosenGroup;
 	int collectedSouls;
+	int moveVertical;
+	int moveHorizontal;
 
+	
 	group group1;
 	Prophet* otherProphet;
 public:
@@ -24,6 +28,7 @@ public:
 	virtual ~Prophet();
 	void convert();
 	bool checkMovement();
+	void moveProphet();
 	int getNrOfFollowers();
 	void addFollower();
 	void collectSouls();

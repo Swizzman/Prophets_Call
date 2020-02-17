@@ -31,6 +31,9 @@ void Game::handleEvents()
 		{
 			window.close();
 		}
+		
+	
+
 	}
 }
 
@@ -43,6 +46,7 @@ State Game::update()
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
+			thisProphet->moveProphet();
 			//Move the playerProphet
 			//Check All the civilians for movement
 		}
