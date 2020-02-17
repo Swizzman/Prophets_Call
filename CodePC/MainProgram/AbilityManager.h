@@ -19,7 +19,7 @@ public:
 	int getCurrentAbility();
 	int getRadius();
 	void placeAbility(sf::Vector2f position);
-	void recievePtr(Prophet* enemyPro, group followerGroup);
+	void recievePtr(Prophet* enemyPro, group* followerGroup);
 
 
 };
