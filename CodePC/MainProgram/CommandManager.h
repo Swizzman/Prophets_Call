@@ -8,7 +8,7 @@ private:
 	int chosenCommand;
 	Prophet *thisProphet;
 	Prophet* enemyProphet;
-
+	Prophet** geboi;
 
 public:
 	CommandManager();
