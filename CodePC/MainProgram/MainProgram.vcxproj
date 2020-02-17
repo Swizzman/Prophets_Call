@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="AbilityManager.cpp" />
     <ClCompile Include="AttackProphet.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Closest.cpp" />
     <ClCompile Include="CommandManager.cpp" />
+    <ClCompile Include="ControlManager.cpp" />
     <ClCompile Include="Follow.cpp" />
     <ClCompile Include="Follower.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -32,16 +34,19 @@
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="LowestHP.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Regen.cpp" />
     <ClCompile Include="Reinforcement.cpp" />
     <ClCompile Include="Prophet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h" />
+    <ClInclude Include="AbilityManager.h" />
     <ClInclude Include="AttackProphet.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Closest.h" />
     <ClInclude Include="CommandManager.h" />
+    <ClInclude Include="ControlManager.h" />
     <ClInclude Include="Follow.h" />
     <ClInclude Include="Follower.h" />
     <ClInclude Include="Game.h" />
@@ -49,6 +54,7 @@
     <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="LowestHP.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Regen.h" />
     <ClInclude Include="Reinforcement.h" />
     <ClInclude Include="Prophet.h" />

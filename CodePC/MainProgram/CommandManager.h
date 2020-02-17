@@ -8,7 +8,7 @@ private:
 	int chosenCommand;
 	Prophet *thisProphet;
 	Prophet* enemyProphet;
-	Prophet** geboi;
+	
 
 public:
 	CommandManager();
@@ -17,7 +17,7 @@ public:
 	void switchCommand();
 	void useCommand();
 	int getCurrentCommand();
-	void recievePtr(Prophet* enemyPro);//not done
+	void recievePtr(Prophet* enemyPro, group *folGroup );//not done
 	bool checkDistance();
 
 };
