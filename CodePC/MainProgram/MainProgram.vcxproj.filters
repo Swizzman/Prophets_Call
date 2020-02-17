@@ -57,6 +57,12 @@
     <ClCompile Include="CommandManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Prophet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Follower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="STATE.h">
@@ -99,6 +105,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prophet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Follower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
