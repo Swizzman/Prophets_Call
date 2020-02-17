@@ -1,7 +1,7 @@
 #include "Prophet.h"
 
-Prophet::Prophet():
-	GameEntity("Prophet.png", 5, 100)
+Prophet::Prophet() :
+	GameEntity("Prophet.png", 5, 5, 100)
 {
 	convertingSpeed = 10;
 	chosenGroup = 0;

@@ -8,10 +8,11 @@ Game::Game()
 	otherProphet = new Prophet();
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
-	allFollowers = new Follower*[followerCap] { nullptr };
+	allFollowers = new Follower * [followerCap] { nullptr };
 	for (int i = 0; i < followerCap; i++)
 	{
 		allFollowers[i] = new Follower();
+		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
@@ -45,6 +46,11 @@ State Game::update()
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			//Move the playerProphet
 			//Check All the civilians for movement
+			for (int i = 0; i < nrOfTotalFollowers; i++)
+			{
+				allFollowers[i]->checkCivMove();
+			}
+
 		}
 		return state;
 	}

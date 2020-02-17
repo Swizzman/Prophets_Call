@@ -8,12 +8,13 @@ class GameEntity : public sf::Drawable
 private:
 	sf::Sprite sprite;
 	sf::Texture texture;
-	int movingSpeed = 0;
-	int health= 0;
+	int movingSpeedX;
+	int movingSpeedY;
+	int health;
 	bool canAttack = true;
 
 public:
-	GameEntity(string textureName, int movingSpeed, int health);
+	GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health);
 	GameEntity();
 	~GameEntity();
 
@@ -26,9 +27,12 @@ public:
 	void attackCooldown();
 	bool getAttackBool();
 	void attack(GameEntity *enemy, float range, int damage);
-	void move(int x, int y);
-	int getMovingSpeed();
+	void move();
+	void setMovingSpeed(int newSpeedX, int newSpeedY);
+	int getMovingSpeedX();
+	int getMovingSpeedY();
 	void setPosition(float xPos, float yPos);
+	sf::Vector2f getPosition();
 	virtual void die() = 0;
 
 	// Inherited via Drawable

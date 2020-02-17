@@ -1,10 +1,11 @@
 #include "GameEntity.h"
 
-GameEntity::GameEntity(string textureName, int movingSpeed, int health)
+GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health)
 {
 	this->texture.loadFromFile("../images/" + textureName);
 	this->sprite.setTexture(texture);
-	this->movingSpeed = movingSpeed;
+	this->movingSpeedX = movingSpeedX;
+	this->movingSpeedY = movingSpeedY;
 	this->health = health;
 
 
@@ -78,20 +79,36 @@ void GameEntity::attack(GameEntity* enemy, float range, int damage)
 
 }
 
-void GameEntity::move(int x, int y)
+void GameEntity::move()
 {
-	this->sprite.move(x*movingSpeed,y * movingSpeed);
+	this->sprite.move(movingSpeedX,movingSpeedY);
 }
 
-int GameEntity::getMovingSpeed()
+void GameEntity::setMovingSpeed(int newSpeedX, int newSpeedY)
 {
-	return movingSpeed;
+	this->movingSpeedX = newSpeedX;
+	this->movingSpeedY = newSpeedY;
+}
+
+int GameEntity::getMovingSpeedX()
+{
+	return movingSpeedX;
+}
+
+int GameEntity::getMovingSpeedY()
+{
+	return movingSpeedY;
 }
 
 void GameEntity::setPosition(float xPos, float yPos)
 {
 
 	this->sprite.setPosition(xPos, yPos);
+}
+
+sf::Vector2f GameEntity::getPosition()
+{
+	return this->sprite.getPosition();
 }
 
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
