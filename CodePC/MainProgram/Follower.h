@@ -8,6 +8,7 @@ private:
 	int soulValue;
 	float attackRange;
 	bool alive;
+	bool converted;
 	int maxTime;
 	int windowWidth;
 	int windowHeight;
@@ -19,6 +20,8 @@ public:
 	void increaseDamageDone(int increase);
 	void checkCivMove();
 	void placeFollower(int width, int height);
+	void convert();
+	bool getConverted() const;
 	// Inherited via GameEntity
 	virtual void die() override;
 };

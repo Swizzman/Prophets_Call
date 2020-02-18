@@ -21,20 +21,21 @@ public:
 	void takeDamage(int damage);
 	sf::Vector2f getPos();
 	sf::FloatRect getBounds();
-
+	void switchTexture(std::string newTexture);
 	int getHealth();
 	void gainHelth();
 	void attackCooldown();
 	bool getAttackBool();
 	void attack(GameEntity *enemy, float range, int damage);
 	void move();
+	void moveTowardsDest(sf::Vector2f dest);
 	void setMovingSpeed(int newSpeedX, int newSpeedY);
 	int getMovingSpeedX();
 	int getMovingSpeedY();
 	void setPosition(float xPos, float yPos);
 	sf::Vector2f getPosition();
+	sf::Vector2f getOrigin();
 	virtual void die() = 0;
-
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

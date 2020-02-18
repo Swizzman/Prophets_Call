@@ -15,7 +15,7 @@ GameEntity::GameEntity()
 {
 	texture.loadFromFile("???");
 	this->sprite.setTexture(texture);
-	
+
 }
 
 GameEntity::~GameEntity()
@@ -38,6 +38,12 @@ sf::FloatRect GameEntity::getBounds()
 	return sprite.getGlobalBounds();
 }
 
+void GameEntity::switchTexture(std::string newTexture)
+{
+	texture.loadFromFile("../images/" + newTexture);
+	sprite.setTexture(texture);
+}
+
 int GameEntity::getHealth()
 {
 	return health;
@@ -52,7 +58,7 @@ void GameEntity::gainHelth()
 
 void GameEntity::attackCooldown()
 {
-	
+
 	canAttack = true;
 }
 
@@ -63,7 +69,7 @@ bool GameEntity::getAttackBool()
 
 void GameEntity::attack(GameEntity* enemy, float range, int damage)
 {
-	if (sqrt (pow(enemy->getPos().x - sprite.getPosition().x,2) + pow(enemy->getPos().y - sprite.getPosition().y,2) <=range &&
+	if (sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) <= range &&
 		sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) >= -range)))
 	{
 		if (canAttack == true)
@@ -73,15 +79,23 @@ void GameEntity::attack(GameEntity* enemy, float range, int damage)
 			//attack enemy object
 			canAttack = false;
 		}
-		
+
 	}
-	
+
 
 }
 
 void GameEntity::move()
 {
-	this->sprite.move(movingSpeedX,movingSpeedY);
+	this->sprite.move(movingSpeedX, movingSpeedY);
+}
+
+void GameEntity::moveTowardsDest(sf::Vector2f dest)
+{
+	sf::Vector2f dist = getPosition() - dest;
+	float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
+	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);
+	this->sprite.move(dir.x * movingSpeedX, dir.y * movingSpeedY);
 }
 
 void GameEntity::setMovingSpeed(int newSpeedX, int newSpeedY)
@@ -111,8 +125,14 @@ sf::Vector2f GameEntity::getPosition()
 	return this->sprite.getPosition();
 }
 
+sf::Vector2f GameEntity::getOrigin()
+{
+	return this->sprite.getOrigin();
+}
+
+
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{	
+{
 	target.draw(this->sprite);
 
 }

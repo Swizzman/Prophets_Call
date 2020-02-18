@@ -15,11 +15,12 @@ private:
 	Prophet* otherProphet;
 	Follower** allFollowers;
 	int nrOfTotalFollowers;
-
+	sf::RectangleShape lel;
 	int followerCap;
 	sf::Clock clock;
 	sf::Time timePerFrame;
 	sf::Time elapsedTimeSinceLastUpdate;
+	bool converting;
 public:
 	Game();
 	virtual ~Game();

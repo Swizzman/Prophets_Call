@@ -17,6 +17,7 @@ Game::Game()
 	}
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
+	converting = false;
 }
 
 Game::~Game()
@@ -32,7 +33,28 @@ void Game::handleEvents()
 		{
 			window.close();
 		}
-		
+		if (event.type == sf::Event::KeyPressed)
+		{
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Space:
+				converting = true;
+				break;
+			default:
+				break;
+			}
+		}
+		if (event.type == sf::Event::KeyReleased)
+		{
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Space:
+				converting = false;
+				break;
+			default:
+				break;
+			}
+		}
 	
 
 	}
@@ -48,16 +70,17 @@ State Game::update()
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
+			thisProphet->convertsFollow();
 			//Move the playerProphet
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
 				allFollowers[i]->checkCivMove();
 			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			//Check conversion and start if key is pressed
+			if (converting)
 			{
-				state = State::MENU;
+				thisProphet->convert(allFollowers, nrOfTotalFollowers);
 			}
 		}
 		return state;
@@ -70,7 +93,11 @@ void Game::render()
 	window.clear();
 	window.draw(*thisProphet);
 	window.draw(*otherProphet);
-	
+	if (converting)
+	{
+	window.draw(thisProphet->getConvertCirc());
+
+	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
 		window.draw(*allFollowers[i]);

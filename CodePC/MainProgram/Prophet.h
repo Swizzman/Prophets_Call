@@ -20,14 +20,17 @@ private:
 	int moveVertical;
 	int moveHorizontal;
 
-	
-	group group1;
+	sf::CircleShape convertCirc;
+	group *group1;
 	Prophet* otherProphet;
+	sf::Vector2f getCircCenter() const;
 public:
 	Prophet();
 	virtual ~Prophet();
-	void convert();
+	void convert(Follower** follArr, int nrOf);
+	void convertsFollow();
 	bool checkMovement();
+	bool checkCollision(sf::FloatRect otherBoundingBox);
 	void moveProphet();
 	int getNrOfFollowers();
 	void addFollower();
@@ -35,7 +38,7 @@ public:
 	int getSouls();
 	Follower* getFollowers();
 	void recieveEnemyProphet(Prophet* other);
-
+	sf::CircleShape getConvertCirc() const;
 	// Inherited via GameEntity
 	virtual void die() override;
 };
