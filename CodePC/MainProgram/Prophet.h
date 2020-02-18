@@ -21,8 +21,11 @@ private:
 	int moveVertical;
 	int moveHorizontal;
 	int chosenAbility;
-
+	int pointsToConvert;
+	int convertingTimeMax;
 	sf::CircleShape convertCirc;
+	sf::Time convertingTime;
+	sf::Clock clock;
 	group *group1;
 	Prophet* otherProphet;
 	sf::Vector2f getCircCenter() const;
@@ -31,6 +34,7 @@ public:
 	virtual ~Prophet();
 	void convert(Follower** follArr, int nrOf);
 	void convertsFollow();
+	void resetClock();
 	bool checkMovement();
 	bool checkCollision(sf::FloatRect otherBoundingBox);
 	void moveProphet();

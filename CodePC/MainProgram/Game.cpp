@@ -97,6 +97,10 @@ State Game::update()
 				thisProphet->convert(allFollowers, nrOfTotalFollowers);
 				
 			}
+			else
+			{
+				thisProphet->resetClock();
+			}
 		}
 
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());

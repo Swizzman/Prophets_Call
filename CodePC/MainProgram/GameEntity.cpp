@@ -92,7 +92,7 @@ void GameEntity::move()
 
 void GameEntity::moveTowardsDest(sf::Vector2f dest)
 {
-	sf::Vector2f dist = getPosition() - dest;
+	sf::Vector2f dist = dest- getPosition();
 	float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);
 	this->sprite.move(dir.x * movingSpeedX, dir.y * movingSpeedY);

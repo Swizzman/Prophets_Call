@@ -14,6 +14,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	alive = true;
 	converted = false;
 	maxTime = rand() % 6000 + 2000;
+	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
 
 }
@@ -52,6 +53,10 @@ void Follower::checkCivMove()
 			setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
 
 		}
+	}
+	else
+	{
+		setMovingSpeed(1, 1);
 	}
 }
 

@@ -12,6 +12,7 @@ private:
 	int maxTime;
 	int windowWidth;
 	int windowHeight;
+	int convertedAmount;
 	sf::Time moveTimer;
 	sf::Clock clock;
 public:

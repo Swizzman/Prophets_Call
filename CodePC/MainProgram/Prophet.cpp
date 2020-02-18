@@ -8,6 +8,8 @@ sf::Vector2f Prophet::getCircCenter() const
 Prophet::Prophet() :
 	GameEntity("Prophet.png", 5, 5, 100)
 {
+	this->pointsToConvert = 100;
+	this->convertingTimeMax = 1000;
 	this->group1 = new group();
 	this->group1->capacity = 20;
 	this->group1->nrOfFollowers = 0;
@@ -33,22 +35,27 @@ Prophet::~Prophet()
 
 void Prophet::convert(Follower** follArr, int nrOf)
 {
-
-	for (int i = 0; i < nrOf && group1->nrOfFollowers < group1->capacity; i++)
+	convertingTime += clock.restart();
+	if (convertingTime.asMilliseconds() > convertingTimeMax)
 	{
-		if (!follArr[i]->getConverted())
-		{
 
-			if (group1->nrOfFollowers < group1->capacity)
+		for (int i = 0; i < nrOf && group1->nrOfFollowers < group1->capacity; i++)
+		{
+			if (!follArr[i]->getConverted())
 			{
-				if (checkCollision(follArr[i]->getBounds()))
+
+				if (group1->nrOfFollowers < group1->capacity)
 				{
-					follArr[i]->convert();
-					group1->followers[group1->nrOfFollowers++] = follArr[i];
-					std::cout << group1->nrOfFollowers << std::endl;
+					if (checkCollision(follArr[i]->getBounds()))
+					{
+						follArr[i]->convert();
+						group1->followers[group1->nrOfFollowers++] = follArr[i];
+						std::cout << group1->nrOfFollowers << std::endl;
+					}
 				}
 			}
 		}
+		convertingTime = sf::Time::Zero;
 	}
 
 }
@@ -59,6 +66,11 @@ void Prophet::convertsFollow()
 	{
 		group1->followers[i]->moveTowardsDest(getPosition());
 	}
+}
+
+void Prophet::resetClock()
+{
+	clock.restart();
 }
 
 bool Prophet::checkMovement()
@@ -178,7 +190,7 @@ int Prophet::getCurrentAbility()
 void Prophet::changeAbility()
 {
 	chosenAbility++;
-	if (chosenAbility >= 3 )
+	if (chosenAbility >= 3)
 	{
 		chosenAbility = 0;
 	}
@@ -196,6 +208,6 @@ void Prophet::die()
 	{
 		delete group1->followers[i];
 	}
-	delete [] group1->followers;
+	delete[] group1->followers;
 	delete group1;
 }
