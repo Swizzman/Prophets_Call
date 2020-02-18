@@ -89,8 +89,9 @@ State Game::update()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
 				window.close();
+				std::exit(0);
 			}
-<			//Check conversion and start if key is pressed
+			//Check conversion and start if key is pressed
 			if (converting)
 			{
 				thisProphet->convert(allFollowers, nrOfTotalFollowers);

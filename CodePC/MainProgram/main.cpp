@@ -49,5 +49,6 @@ int main()
 
 	}
 	delete current;
-	return 0;
+	(void)getchar();
+	return 1;
 }
