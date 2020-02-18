@@ -24,8 +24,8 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	GameState* current = nullptr;
-	State currentState = State::PLAY;
-	current = new Game();
+	State currentState = State::MENU;
+	current = new Menu();
 	srand((unsigned int)time(0));
 	while (currentState != State::EXIT)
 	{

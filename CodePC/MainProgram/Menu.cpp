@@ -6,17 +6,25 @@ Menu::Menu()
 	playText.setFont(font);
 	mainMenuText.setFont(font);
 	CloseText.setFont(font);
+	ConnectingText.setFont(font);
 	playText.setString("Play");
-	mainMenuText.setString("Main Menu");
-	CloseText.setString("Get me out of here");
+	mainMenuText.setString("Prophets Call");
+	CloseText.setString("Quit");
+	ConnectingText.setString("Connect");
+	ConnectingText.setCharacterSize(40);
 	mainMenuText.setCharacterSize(80);
-	mainMenuText.setPosition(810, 200);
+	mainMenuText.setPosition(910 - mainMenuText.getGlobalBounds().width/2, 200);
 	playText.setCharacterSize(40);
-	playText.setPosition(810 +(mainMenuText.getGlobalBounds().width/2 - playText.getGlobalBounds().width/2),350);
+	playText.setPosition(mainMenuText.getPosition().x +(mainMenuText.getGlobalBounds().width/2 - playText.getGlobalBounds().width/2),350);
 	CloseText.setCharacterSize(40);
-	CloseText.setPosition(810 + (mainMenuText.getGlobalBounds().width/2 - CloseText.getGlobalBounds().width/2), 420);
+	CloseText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - CloseText.getGlobalBounds().width/2), 420);
+	ConnectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - ConnectingText.getGlobalBounds().width / 2), 490);
 
 	currentHighlightedButton = 0;
+
+	window.setKeyRepeatEnabled(false);
+
+
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -42,6 +50,14 @@ void Menu::handleEvents()
 		}
 		if (event.type == sf::Event::KeyPressed)
 		{
+			if (event.key.code == sf::Keyboard::Q)
+			{
+				
+				changeFullscreenMode();
+			}
+		}
+		/*if (event.type == sf::Event::KeyPressed)
+		{
 			if (event.key.code == sf::Keyboard::W)
 			{
 				if (currentHighlightedButton > 0)
@@ -66,7 +82,7 @@ void Menu::handleEvents()
 				}
 				std::cout << currentHighlightedButton << std::endl;
 			}
-		}
+		}*/
 
 
 
@@ -80,13 +96,51 @@ State Menu::update()
 	while (window.isOpen())
 	{
 		elapsedTimeSinceLastUpdate += clock.restart();
+		sf::FloatRect fr(mouse.getPosition().x, mouse.getPosition().y, 10, 10);
+		if (playText.getGlobalBounds().intersects(fr))
+		{
+			playText.setFillColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				state = State::PLAY;
+			}
+
+		}
+		else
+		{
+			playText.setFillColor(sf::Color::White);
+		}
+
+		if (CloseText.getGlobalBounds().intersects(fr))
+		{
+			CloseText.setFillColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				window.close();
+			}
+		}
+		else
+		{
+			CloseText.setFillColor(sf::Color::White);
+		}
+		if (ConnectingText.getGlobalBounds().intersects(fr))
+		{
+			ConnectingText.setFillColor(sf::Color::Yellow);
+		}
+		else
+		{
+			ConnectingText.setFillColor(sf::Color::White);
+		}
+
+		
+		
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 
 			
-			
-				if (currentHighlightedButton == 0)
+		
+				/*if (currentHighlightedButton == 0)
 				{
 					playText.setFillColor(sf::Color::Yellow);
 					CloseText.setFillColor(sf::Color::White);
@@ -97,9 +151,9 @@ State Menu::update()
 					CloseText.setFillColor(sf::Color::Yellow);
 					playText.setFillColor(sf::Color::White);
 					
-				}
+				}*/
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		{
 			if (currentHighlightedButton == 0)
 			{
@@ -107,7 +161,7 @@ State Menu::update()
 			}
 
 
-		}
+		}*/
 		return state;
 	}
 
@@ -122,7 +176,9 @@ void Menu::render()
 	window.draw(playText);
 	window.draw(mainMenuText);
 	window.draw(CloseText);
+	window.draw(ConnectingText);
 	window.display();
-	window.setKeyRepeatEnabled(false);
+	
+	
 }
 
