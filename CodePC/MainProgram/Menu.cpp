@@ -17,8 +17,8 @@ Menu::Menu()
 	playText.setCharacterSize(40);
 	playText.setPosition(mainMenuText.getPosition().x +(mainMenuText.getGlobalBounds().width/2 - playText.getGlobalBounds().width/2),350);
 	CloseText.setCharacterSize(40);
-	CloseText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - CloseText.getGlobalBounds().width/2), 420);
-	ConnectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - ConnectingText.getGlobalBounds().width / 2), 490);
+	ConnectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - ConnectingText.getGlobalBounds().width/2), 420);
+	CloseText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - CloseText.getGlobalBounds().width / 2), 490);
 
 	currentHighlightedButton = 0;
 

@@ -5,7 +5,7 @@ Prophet::Prophet() :
 {
 	convertingSpeed = 10;
 	chosenGroup = 0;
-	collectedSouls = 0;
+	collectedSouls = 200;
 	setPosition(100, 100);
 }
 
@@ -80,6 +80,23 @@ Follower* Prophet::getFollowers()
 void Prophet::recieveEnemyProphet(Prophet* other)
 {
 	otherProphet = other;
+}
+
+int Prophet::getCurrentAbility()
+{
+
+
+	return chosenAbility;
+}
+
+void Prophet::changeAbility()
+{
+	chosenAbility++;
+	if (chosenAbility >= 3 )
+	{
+		chosenAbility = 0;
+	}
+	std::cout << chosenAbility << std::endl;
 }
 
 void Prophet::die()

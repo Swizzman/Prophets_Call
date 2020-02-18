@@ -17,6 +17,10 @@ Game::Game()
 	}
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
+	uiManager.setUpPp(thisProphet->getHealth());
+	uiManager.setUpCS();
+	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
+	
 }
 
 Game::~Game()
@@ -31,6 +35,27 @@ void Game::handleEvents()
 		if (event.type == sf::Event::Closed)
 		{
 			window.close();
+		}
+
+		if (event.type == sf::Event::KeyPressed)
+		{
+			if (event.key.code == sf::Keyboard::Num1)
+			{
+				
+			}
+			if (event.key.code == sf::Keyboard::LControl)
+			{
+				thisProphet->changeAbility();
+				
+			}
+			if (event.key.code == sf::Keyboard::Space)
+			{
+
+				thisProphet->takeDamage(rand() %20);
+				std::cout << "wdasd" << std::endl;
+			}
+
+
 		}
 		
 	
@@ -55,11 +80,13 @@ State Game::update()
 				allFollowers[i]->checkCivMove();
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
-				state = State::MENU;
+				window.close();
 			}
 		}
+
+		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		return state;
 	}
 
@@ -75,5 +102,6 @@ void Game::render()
 	{
 		window.draw(*allFollowers[i]);
 	}
+	uiManager.drawUI(window);
 	window.display();
 }
