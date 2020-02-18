@@ -17,6 +17,10 @@ Game::Game()
 	}
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
+	uiManager.setUpPp(thisProphet->getHealth());
+	uiManager.setUpCS();
+	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
+	
 	converting = false;
 }
 
@@ -39,6 +43,10 @@ void Game::handleEvents()
 			{
 			case sf::Keyboard::Space:
 				converting = true;
+				break;
+			case sf::Keyboard::Num1:
+				thisProphet->changeAbility();
+
 				break;
 			default:
 				break;
@@ -77,12 +85,20 @@ State Game::update()
 			{
 				allFollowers[i]->checkCivMove();
 			}
-			//Check conversion and start if key is pressed
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				window.close();
+			}
+<			//Check conversion and start if key is pressed
 			if (converting)
 			{
 				thisProphet->convert(allFollowers, nrOfTotalFollowers);
+				
 			}
 		}
+
+		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		return state;
 	}
 
@@ -102,5 +118,6 @@ void Game::render()
 	{
 		window.draw(*allFollowers[i]);
 	}
+	uiManager.drawUI(window);
 	window.display();
 }

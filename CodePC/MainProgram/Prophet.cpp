@@ -168,6 +168,23 @@ void Prophet::recieveEnemyProphet(Prophet* other)
 	otherProphet = other;
 }
 
+int Prophet::getCurrentAbility()
+{
+
+
+	return chosenAbility;
+}
+
+void Prophet::changeAbility()
+{
+	chosenAbility++;
+	if (chosenAbility >= 3 )
+	{
+		chosenAbility = 0;
+	}
+	std::cout << chosenAbility << std::endl;
+}
+
 sf::CircleShape Prophet::getConvertCirc() const
 {
 	return convertCirc;

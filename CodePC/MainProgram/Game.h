@@ -14,6 +14,7 @@ private:
 	Prophet* thisProphet;
 	Prophet* otherProphet;
 	Follower** allFollowers;
+	UIManager uiManager;
 	int nrOfTotalFollowers;
 	sf::RectangleShape lel;
 	int followerCap;

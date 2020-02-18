@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GameState.h"
 #include "Game.h"
+#include "Menu.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -23,8 +24,8 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	GameState* current = nullptr;
-	State currentState = State::PLAY;
-	current = new Game();
+	State currentState = State::MENU;
+	current = new Menu();
 	srand((unsigned int)time(0));
 	while (currentState != State::EXIT)
 	{
@@ -37,6 +38,8 @@ int main()
 			current = new Game();
 			break;
 		case State::MENU:
+			delete current;
+			current = new Menu();
 			break;
 		default:
 			break;

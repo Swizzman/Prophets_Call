@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "GameState.h"
+
 #include <iostream>
 class Menu : public GameState 
 {
@@ -11,7 +12,9 @@ private:
 	sf::Text playText;
 	sf::Text mainMenuText;
 	sf::Text CloseText;
-	sf::Text ConectingText;
+	sf::Text ConnectingText;
+	sf::Mouse mouse;
+	
 
 	sf::Clock clock;
 	sf::Time timePerFrame;
