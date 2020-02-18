@@ -34,6 +34,7 @@
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="LowestHP.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Regen.cpp" />
     <ClCompile Include="Reinforcement.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="LowestHP.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Regen.h" />
     <ClInclude Include="Reinforcement.h" />

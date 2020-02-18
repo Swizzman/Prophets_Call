@@ -5,6 +5,7 @@
 #include "UIManager.h"
 #include "NetworkManager.h"
 #include "SoundManager.h"
+#include "Menu.h"
 
 class Game :
 	public GameState

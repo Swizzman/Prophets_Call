@@ -55,6 +55,10 @@ State Game::update()
 				allFollowers[i]->checkCivMove();
 			}
 
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			{
+				state = State::MENU;
+			}
 		}
 		return state;
 	}
@@ -66,6 +70,7 @@ void Game::render()
 	window.clear();
 	window.draw(*thisProphet);
 	window.draw(*otherProphet);
+	
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
 		window.draw(*allFollowers[i]);
