@@ -21,6 +21,7 @@ private:
 	int moveVertical;
 	int moveHorizontal;
 	int chosenAbility;
+
 	sf::CircleShape convertCirc;
 	group *group1;
 	Prophet* otherProphet;
