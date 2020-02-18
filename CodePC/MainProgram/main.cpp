@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GameState.h"
 #include "Game.h"
+#include "Menu.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "sfml-window-d.lib")
@@ -37,6 +38,8 @@ int main()
 			current = new Game();
 			break;
 		case State::MENU:
+			delete current;
+			current = new Menu();
 			break;
 		default:
 			break;

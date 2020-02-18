@@ -50,7 +50,8 @@ void Prophet::moveProphet()
 	{
 		moveHorizontal = 0;
 	}
-	move(moveHorizontal, moveVertical);
+	setMovingSpeed(moveHorizontal, moveVertical);
+		move();
 }
 
 int Prophet::getNrOfFollowers()
