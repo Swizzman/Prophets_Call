@@ -6,10 +6,9 @@ sf::Vector2f Prophet::getCircCenter() const
 }
 
 Prophet::Prophet() :
-	GameEntity("Prophet.png", 5, 5, 100)
+	GameEntity("Prophet.png", 0, 0, 100)
 {
-	this->pointsToConvert = 100;
-	this->convertingTimeMax = 1000;
+
 	//this->group1 = new group();
 
 	for (int i = 0; i < GROUPNR; i++)
@@ -22,13 +21,14 @@ Prophet::Prophet() :
 
 		
 	}
+	this->xSpeed = 5;
+	this->ySpeed = 5;
+	this->convertingTimeMax = 500;
 
 	this->convertingSpeed = 10;
 	this->chosenGroup = 0;
 	this->collectedSouls = 0;
 	setPosition(100, 100);
-	this->moveHorizontal = 0;
-	this->moveVertical = 0;
 	this->otherProphet = nullptr;
 	this->convertCirc.setRadius(150);
 	this->convertCirc.setFillColor(sf::Color::Transparent);
@@ -63,9 +63,13 @@ void Prophet::convert(Follower** follArr, int nrOf)
 							if (checkCollision(follArr[i]->getBounds()))
 							{
 								follArr[i]->convert();
-								group[a].followers[group[a].nrOfFollowers++] = follArr[i];
-								std::cout << group[a].nrOfFollowers << std::endl;
-								std::cout << currentCommandGroup << std::endl;
+								if (follArr[i]->getConverted())
+								{
+									group[a].followers[group[a].nrOfFollowers++] = follArr[i];
+									std::cout << group[a].nrOfFollowers << std::endl;
+
+								}
+								
 							}
 						}
 					}
@@ -112,66 +116,57 @@ bool Prophet::checkCollision(sf::FloatRect otherBoundingBox)
 	{
 		collided = true;
 	}
-	if (sqrt(pow(otherBoundingBox.left - circCenter.x, 2) +
+	else if (sqrt(pow(otherBoundingBox.left - circCenter.x, 2) +
 		pow(otherBoundingBox.top + otherBoundingBox.height - circCenter.y, 2)) < CircRadius)
 	{
 		collided = true;
 	}
-	if (sqrt(pow(otherBoundingBox.left + otherBoundingBox.width - circCenter.x, 2) +
+	else if (sqrt(pow(otherBoundingBox.left + otherBoundingBox.width - circCenter.x, 2) +
 		pow(otherBoundingBox.top - circCenter.y, 2)) < CircRadius)
 	{
 		collided = true;
 	}
-	if (sqrt(pow(otherBoundingBox.left + otherBoundingBox.width - circCenter.x, 2) +
+	else if (sqrt(pow(otherBoundingBox.left + otherBoundingBox.width - circCenter.x, 2) +
 		pow(otherBoundingBox.top + otherBoundingBox.height - circCenter.y, 2)) < CircRadius)
 	{
 		collided = true;
 	}
-
-	/*float distX = abs((convertCirc.getGlobalBounds().left + convertCirc.getGlobalBounds().width / 2) -  (otherBoundingBox.left + otherBoundingBox.width/2));
-	float distY = abs((convertCirc.getGlobalBounds().top + convertCirc.getGlobalBounds().height / 2) - (otherBoundingBox.top + otherBoundingBox.height / 2));
-	if (distX > (otherBoundingBox.width / 2 + convertCirc.getRadius()) ||
-		distY > (otherBoundingBox.height / 2 + convertCirc.getRadius()))
-	{
-		collided = false;
-	}
-	else if(distX <= otherBoundingBox.width / 2 && distY <= otherBoundingBox.height / 2)
-	{
-		collided = true;
-	}*/
 
 	return collided;
 }
 
 void Prophet::moveProphet()
 {
+	int hDir = 0;
+	int vDir = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		this->moveVertical = -1;
+		vDir = -this->ySpeed;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		this->moveVertical = 1;
+		vDir = this->ySpeed;
+
 	}
 	else
 	{
-		this->moveVertical = 0;
+		vDir = 0;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		this->moveHorizontal = 1;
+		hDir = this->xSpeed;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		this->moveHorizontal = -1;
+
+		hDir = -this->xSpeed;
 	}
 	else
 	{
-		this->moveHorizontal = 0;
+		hDir = 0;
 	}
-	setMovingSpeed(moveHorizontal, moveVertical);
+	setMovingSpeed(hDir, vDir);
 	move();
-	//convertCirc.setPosition(getBounds().left, getBounds().top);
 	convertCirc.setPosition(getBounds().left - getBounds().width, getBounds().top - getBounds().height - 20);
 
 }
