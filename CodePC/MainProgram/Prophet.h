@@ -15,6 +15,8 @@ class Prophet :
 
 {
 private:
+	static const int GROUPNR = 3;
+
 	int convertingSpeed;
 	int chosenGroup;
 	int collectedSouls;
@@ -26,9 +28,10 @@ private:
 	sf::CircleShape convertCirc;
 	sf::Time convertingTime;
 	sf::Clock clock;
-	group *group1;
+	group group[GROUPNR];
 	Prophet* otherProphet;
 	sf::Vector2f getCircCenter() const;
+	int currentCommandGroup;
 public:
 	Prophet();
 	virtual ~Prophet();
@@ -47,6 +50,8 @@ public:
 	int getCurrentAbility();
 	void changeAbility();
 	sf::CircleShape getConvertCirc() const;
+	void changeCurrentCommandGroup();
+	int getcurrentGroupCommand();
 	// Inherited via GameEntity
 	virtual void die() override;
 };

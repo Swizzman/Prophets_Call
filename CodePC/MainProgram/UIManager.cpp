@@ -14,6 +14,7 @@ UIManager::UIManager()
 	
 	chosenAbility = 0;
 	numberOfFollowers = 4;
+	
 	//followerPortraitStruct *fps;
 	//commandStruct* cs;
 
@@ -31,6 +32,13 @@ UIManager::UIManager()
 			
 
 		}
+		for (int a = 0; a < 3; a++)
+		{
+			this->cs[i]->nummberText[a];
+			
+		}
+		this->cs[i]->nummberOfFollowersInGroup = 0;
+	
 	}
 	
 	for (int i = 0; i < numberOfFollowers; i++)
@@ -40,7 +48,7 @@ UIManager::UIManager()
 	}
 
 
-
+	currentCommandControll = 0;
 	//setUpPp();
 
 }
@@ -69,7 +77,24 @@ void UIManager::setUpCS()
 		}
 		
 
+		
 
+			if (currentCommandControll == i)
+			{
+				for (int a = 0; a < 4; a++)
+				{
+					cs[i]->commandRec[a].setOutlineColor(sf::Color::Magenta);
+				}
+
+			}
+			else
+			{
+				for (int a = 0; a < 4; a++)
+				{
+					cs[i]->commandRec[a].setOutlineColor(sf::Color::White);
+				}
+			}
+		
 
 
 	}
@@ -148,9 +173,33 @@ void UIManager::setUpPp(int health)
 
 }
 
-void UIManager::updateCS()
+void UIManager::updateCS(int currentCommand)
 {
+		
 	
+	for (int i = 0; i < GROUPCAP; i++)
+	{
+		if (currentCommandControll == i)
+		{
+			std::cout << currentCommand << std::endl;
+			for (int a = 0; a < 4; a++)
+			{
+				if (currentCommand == a)
+				{
+					cs[i]->commandRec[a].setFillColor(sf::Color::Magenta);
+
+				}
+				else
+				{
+					cs[i]->commandRec[a].setFillColor(sf::Color::Transparent);
+				}
+
+
+			}
+
+		}
+	}
+
 
 
 }
@@ -196,6 +245,34 @@ void UIManager::updatePp(int health, int soul ,int currentAbility)
 
 }
 
+void UIManager::changeCS()
+{
+	currentCommandControll++;
+	if (currentCommandControll > GROUPCAP - 1)
+	{
+		currentCommandControll = 0;
+	}
+
+	for (int i = 0; i < GROUPCAP; i++)
+	{
+		if (currentCommandControll == i)
+		{
+			for (int a = 0; a < 4; a++)
+			{
+				cs[i]->commandRec[a].setOutlineColor(sf::Color::Magenta);
+			}
+			
+		}
+		else
+		{
+			for (int a = 0; a < 4; a++)
+			{
+				cs[i]->commandRec[a].setOutlineColor(sf::Color::White);
+			}
+		}
+	}
+}
+
 void UIManager::drawUI(sf::RenderWindow &window)
 {
 
@@ -226,9 +303,9 @@ void UIManager::drawUI(sf::RenderWindow &window)
 
 		for (int a = 0; a < 4; a++)
 		{
-			window.draw(this->cs[i]->commandNames[a]);
-			window.draw(this->cs[i]->commandRec[a]);
 		
+			window.draw(this->cs[i]->commandRec[a]);
+			window.draw(this->cs[i]->commandNames[a]);
 		}
 
 	}

@@ -10,11 +10,19 @@ Prophet::Prophet() :
 {
 	this->pointsToConvert = 100;
 	this->convertingTimeMax = 1000;
-	this->group1 = new group();
-	this->group1->capacity = 20;
-	this->group1->nrOfFollowers = 0;
-	this->group1->currentCommand = 0;
-	this->group1->followers = new Follower * [this->group1->capacity]{ nullptr };
+	//this->group1 = new group();
+
+	for (int i = 0; i < GROUPNR; i++)
+	{
+
+		this->group[i].capacity = 20;
+		this->group[i].nrOfFollowers = 0;
+		this->group[i].currentCommand = 0;
+		this->group[i].followers = new Follower * [this->group[i].capacity]{ nullptr };
+
+		
+	}
+
 	this->convertingSpeed = 10;
 	this->chosenGroup = 0;
 	this->collectedSouls = 0;
@@ -27,6 +35,7 @@ Prophet::Prophet() :
 	this->convertCirc.setOutlineColor(sf::Color::Red);
 	this->convertCirc.setOutlineThickness(5.f);
 	this->convertCirc.setOrigin(getOrigin());
+	currentCommandGroup = 0;
 }
 
 Prophet::~Prophet()
@@ -38,19 +47,27 @@ void Prophet::convert(Follower** follArr, int nrOf)
 	convertingTime += clock.restart();
 	if (convertingTime.asMilliseconds() > convertingTimeMax)
 	{
-
-		for (int i = 0; i < nrOf && group1->nrOfFollowers < group1->capacity; i++)
+		for (int a = 0; a < GROUPNR; a++)
 		{
-			if (!follArr[i]->getConverted())
+			if (currentCommandGroup == a)
 			{
 
-				if (group1->nrOfFollowers < group1->capacity)
+				
+				for (int i = 0; i < nrOf && group[a].nrOfFollowers < group[a].capacity; i++)
 				{
-					if (checkCollision(follArr[i]->getBounds()))
+					if (!follArr[i]->getConverted())
 					{
-						follArr[i]->convert();
-						group1->followers[group1->nrOfFollowers++] = follArr[i];
-						std::cout << group1->nrOfFollowers << std::endl;
+
+						if (group[a].nrOfFollowers < group[a].capacity)
+						{
+							if (checkCollision(follArr[i]->getBounds()))
+							{
+								follArr[i]->convert();
+								group[a].followers[group[a].nrOfFollowers++] = follArr[i];
+								std::cout << group[a].nrOfFollowers << std::endl;
+								std::cout << currentCommandGroup << std::endl;
+							}
+						}
 					}
 				}
 			}
@@ -62,10 +79,17 @@ void Prophet::convert(Follower** follArr, int nrOf)
 
 void Prophet::convertsFollow()
 {
-	for (int i = 0; i < group1->nrOfFollowers; i++)
+	for (int a = 0; a < GROUPNR; a++)
 	{
-		group1->followers[i]->moveTowardsDest(getPosition());
+		if (currentCommandGroup == a)
+		{
+			for (int i = 0; i < group[a].nrOfFollowers; i++)
+			{
+				group[a].followers[i]->moveTowardsDest(getPosition());
+			}
+		}
 	}
+	
 }
 
 void Prophet::resetClock()
@@ -154,7 +178,14 @@ void Prophet::moveProphet()
 
 int Prophet::getNrOfFollowers()
 {
-	return group1->nrOfFollowers;
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		if (currentCommandGroup == i)
+		{
+			return group[i].nrOfFollowers;
+		}
+	}
+	
 }
 
 void Prophet::addFollower()
@@ -172,7 +203,14 @@ int Prophet::getSouls()
 
 Follower* Prophet::getFollowers()
 {
-	return *group1->followers;
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		if (currentCommandGroup == i)
+		{
+			return *group[i].followers;
+		}
+	}
+	
 }
 
 void Prophet::recieveEnemyProphet(Prophet* other)
@@ -202,12 +240,49 @@ sf::CircleShape Prophet::getConvertCirc() const
 	return convertCirc;
 }
 
+void Prophet::changeCurrentCommandGroup()
+{
+	currentCommandGroup++;
+	
+	if (currentCommandGroup > GROUPNR - 1)
+	{
+		currentCommandGroup = 0;
+	}
+	
+}
+
+int Prophet::getcurrentGroupCommand()
+{
+
+	for (int i = 0; i < GROUPNR; i++)
+	{
+
+		if (currentCommandGroup == i)
+		{
+			this->group[i].currentCommand++;
+			if (this->group[i].currentCommand > 3)
+			{
+				this->group[i].currentCommand = 0;
+			}
+			std::cout << this->group[i].currentCommand << std::endl;
+			return this->group[i].currentCommand;
+		}
+	}
+	
+
+	
+}
+
 void Prophet::die()
 {
-	for (int i = 0; i < group1->nrOfFollowers; i++)
+	for (int i = 0; i < GROUPNR; i++)
 	{
-		delete group1->followers[i];
+		for (int i = 0; i < group[i].nrOfFollowers; i++)
+		{
+			delete group[i].followers[i];
+		}
+		delete[] group[i].followers;
 	}
-	delete[] group1->followers;
-	delete group1;
+	
+	delete group;
 }

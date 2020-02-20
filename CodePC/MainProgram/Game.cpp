@@ -19,6 +19,7 @@ Game::Game()
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
+
 	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
 	
 	converting = false;
@@ -46,7 +47,20 @@ void Game::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
+				thisProphet->takeDamage(rand()%20);
 
+				break;
+
+			case sf::Keyboard::Tab:
+				uiManager.changeCS();
+				thisProphet->changeCurrentCommandGroup();
+
+				break;
+			case sf::Keyboard::LShift:
+				uiManager.updateCS(thisProphet->getcurrentGroupCommand());
+				break;
+			case sf::Keyboard::Enter:
+				changeFullscreenMode();
 				break;
 			default:
 				break;
