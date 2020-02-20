@@ -69,7 +69,7 @@ void Game::handleEvents()
 			case  sf::Keyboard::Escape:
 				
 					window.close();
-				//	std::exit(0);
+					std::exit(0);
 				
 					break;
 			default:
@@ -125,8 +125,8 @@ State Game::update()
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
-				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()).getTextureName());
+				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
 
 		}
