@@ -66,7 +66,7 @@ void Prophet::convert(Follower** follArr, int nrOf)
 								if (follArr[i]->getConverted())
 								{
 									group[a].followers[group[a].nrOfFollowers++] = follArr[i];
-									std::cout << group[a].nrOfFollowers << std::endl;
+									//std::cout << group[a].nrOfFollowers << std::endl;
 
 								}
 								
@@ -208,6 +208,20 @@ Follower* Prophet::getFollowers()
 	
 }
 
+Follower Prophet::getASingleFollower(int whichOne)
+{
+	for (int i = 0; i < GROUPNR; i++)
+	{
+
+		if (currentCommandGroup == i)
+		{
+			
+			return *group[i].followers[whichOne-1];
+		}
+	}
+	
+}
+
 void Prophet::recieveEnemyProphet(Prophet* other)
 {
 	otherProphet = other;
@@ -227,7 +241,7 @@ void Prophet::changeAbility()
 	{
 		chosenAbility = 0;
 	}
-	std::cout << chosenAbility << std::endl;
+	//std::cout << chosenAbility << std::endl;
 }
 
 sf::CircleShape Prophet::getConvertCirc() const
@@ -259,7 +273,7 @@ int Prophet::getcurrentGroupCommand()
 			{
 				this->group[i].currentCommand = 0;
 			}
-			std::cout << this->group[i].currentCommand << std::endl;
+			//std::cout << this->group[i].currentCommand << std::endl;
 			return this->group[i].currentCommand;
 		}
 	}

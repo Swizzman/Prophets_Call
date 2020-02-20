@@ -7,8 +7,9 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	this->movingSpeedX = movingSpeedX;
 	this->movingSpeedY = movingSpeedY;
 	this->health = health;
+	this->textureName = textureName;
 
-
+	
 }
 
 GameEntity::GameEntity()
@@ -42,6 +43,7 @@ void GameEntity::switchTexture(std::string newTexture)
 {
 	texture.loadFromFile("../images/" + newTexture);
 	sprite.setTexture(texture);
+	this->textureName = newTexture;
 }
 
 int GameEntity::getHealth()
@@ -118,6 +120,11 @@ void GameEntity::setPosition(float xPos, float yPos)
 {
 
 	this->sprite.setPosition(xPos, yPos);
+}
+
+string GameEntity::getTextureName()
+{
+	return textureName;
 }
 
 sf::Vector2f GameEntity::getPosition()

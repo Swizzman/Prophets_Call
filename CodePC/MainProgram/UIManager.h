@@ -11,6 +11,7 @@ private:
 		sf::Text followerHealthText;
 		sf::RectangleShape followerHealthBar;
 		sf::Sprite followerImage;
+		
 	};
 	struct ProphetProperties
 	{
@@ -38,6 +39,8 @@ private:
 	sf::RectangleShape abilityRec[3];
 	sf::RectangleShape healthBar;
 	sf::Text convertingText;
+	sf::Texture followerProfileTexture[4];
+	std::string followerProfileTextureName[4];
 	followerPortraitStruct** fps;
 	commandStruct** cs;
 	ProphetProperties pp;
@@ -45,6 +48,7 @@ private:
 	int chosenAbility;
 	int currentCommandControll;
 	float healtProc;
+	bool canDrawPortrait;
 
 public:
 	 UIManager();
@@ -53,8 +57,11 @@ public:
 	 void setUpPp(int health);
 	void updateCS(int currentCommand);
 	void updateFps();
+	void addFps(std::string textureName);
 	void updatePp(int health, int soul, int currentAbility);
 	void changeCS();
+	void updateCSNumber(int nrOfFollowers);
+	int getNrOfCurrentGroup();
 	void drawUI(sf::RenderWindow &window);
 };
 

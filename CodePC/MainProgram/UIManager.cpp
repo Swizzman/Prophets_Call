@@ -11,9 +11,19 @@ UIManager::UIManager()
 	{
 		this->abilityNames[i].setFont(font);
 	}
-	
+	followerProfileTexture[0].loadFromFile("../images/Follower.png");
+	followerProfileTextureName[0] = "Follower.png";
+	followerProfileTexture[1].loadFromFile("../images/Civilian.png");
+	followerProfileTextureName[1] = "Civilian.png";
+	followerProfileTexture[2].loadFromFile("../images/Prophet.png");
+	followerProfileTextureName[2] = "Prophet.png";
+	followerProfileTexture[3].loadFromFile("../images/BTH.bmp");
+	followerProfileTextureName[3] = "BTH.bmp";
+
+
+
 	chosenAbility = 0;
-	numberOfFollowers = 4;
+	numberOfFollowers = 0;
 	
 	//followerPortraitStruct *fps;
 	//commandStruct* cs;
@@ -28,25 +38,23 @@ UIManager::UIManager()
 		{
 			
 			
-				this->cs[i]->commandNames[a].setFont(font);
+			this->cs[i]->commandNames[a].setFont(font);
 			
 
 		}
 		for (int a = 0; a < 3; a++)
 		{
-			this->cs[i]->nummberText[a];
+			this->cs[i]->nummberText[a].setFont(font);;
 			
 		}
 		this->cs[i]->nummberOfFollowersInGroup = 0;
 	
 	}
-	
-	for (int i = 0; i < numberOfFollowers; i++)
-	{
-		this->fps[i] = new followerPortraitStruct();
-		this->fps[i]->followerHealthText.setFont(font);
-	}
+	//this->fps[0] = new followerPortraitStruct();
+	//this->fps[0]->followerImage.setTexture(followerProfileTexture[0]);
+//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthText.setFont(font);
 
+	canDrawPortrait = false;
 
 	currentCommandControll = 0;
 	//setUpPp();
@@ -67,16 +75,42 @@ void UIManager::setUpCS()
 
 		for (int a = 0; a < 4; a++)
 		{
-			this->cs[i]->commandRec[a].setSize(sf::Vector2f(360, 50));
-			this->cs[i]->commandRec[a].setPosition(1920 - 360, 100+ 50*a +(250*i));
+			//this->cs[i]->commandRec[a].setSize(sf::Vector2f(250, 50));
+		//	this->cs[i]->commandRec[a].setPosition(1920 - 250, 100+ 50*a +(250*i));
+			this->cs[i]->commandRec[a].setSize(sf::Vector2f(250, 35));
+			this->cs[i]->commandRec[a].setPosition(1920 - 250, 100+ 35*a +(250*i) +4* a);
 			this->cs[i]->commandRec[a].setOutlineThickness(4);
 			this->cs[i]->commandRec[a].setFillColor(sf::Color::Transparent);
 			this->cs[i]->commandRec[a].setOutlineColor(sf::Color::White);
 			
+			this->cs[i]->commandNames[a].setCharacterSize(20);
+
 			this->cs[i]->commandNames[a].setPosition(this->cs[i]->commandRec[a].getPosition().x +10, this->cs[i]->commandRec[a].getPosition().y + this->cs[i]->commandNames[a].getGlobalBounds().height/4);
 		}
 		
 
+
+		cs[i]->nummberOfFollowerRec.setSize(sf::Vector2f(60, 37));
+		cs[i]->nummberOfFollowerRec.setOutlineThickness(4);
+		cs[i]->nummberOfFollowerRec.setPosition(1920 - 64, this->cs[i]->commandRec[3].getPosition().y + 51 -11 );
+		cs[i]->nummberOfFollowerRec.setFillColor(sf::Color::Transparent);
+
+		for (int a = 0; a < 3; a++)
+		{
+			cs[i]->nummberText[a].setCharacterSize(20);
+			//cs[i]->nummberText[a].setPosition(cs[i]->nummberOfFollowerRec.getPosition().x+5 +11*a, cs[i]->nummberOfFollowerRec.getPosition().y  );
+			
+		}
+		cs[i]->nummberText[1].setCharacterSize(30);
+		cs[i]->nummberText[0].setString("0");
+		cs[i]->nummberText[1].setString("/");
+		cs[i]->nummberText[2].setString("20");
+
+		cs[i]->nummberText[0].setPosition(cs[i]->nummberOfFollowerRec.getPosition().x + cs[i]->nummberOfFollowerRec.getGlobalBounds().width/6 - cs[i]->nummberText[0].getGlobalBounds().width/2, cs[i]->nummberOfFollowerRec.getPosition().y);
+		cs[i]->nummberText[1].setPosition(cs[i]->nummberOfFollowerRec.getPosition().x + cs[i]->nummberOfFollowerRec.getGlobalBounds().width /3   , cs[i]->nummberOfFollowerRec.getPosition().y);
+		cs[i]->nummberText[2].setPosition(cs[i]->nummberOfFollowerRec.getPosition().x + cs[i]->nummberOfFollowerRec.getGlobalBounds().width/2 , cs[i]->nummberOfFollowerRec.getPosition().y + 10);
+
+	
 		
 
 			if (currentCommandControll == i)
@@ -84,19 +118,39 @@ void UIManager::setUpCS()
 				for (int a = 0; a < 4; a++)
 				{
 					cs[i]->commandRec[a].setOutlineColor(sf::Color::Magenta);
+					
 				}
-
+				cs[i]->nummberOfFollowerRec.setOutlineColor(sf::Color::Magenta);
 			}
 			else
 			{
 				for (int a = 0; a < 4; a++)
 				{
 					cs[i]->commandRec[a].setOutlineColor(sf::Color::White);
+					cs[i]->nummberOfFollowerRec.setOutlineColor(sf::Color::White);
 				}
 			}
-		
+			
+
+			
+				for (int a = 0; a < 4; a++)
+				{
+					if (0 == a)
+					{
+						cs[i]->commandRec[a].setFillColor(sf::Color::Magenta);
+
+					}
+					else
+					{
+						cs[i]->commandRec[a].setFillColor(sf::Color::Transparent);
+					}
 
 
+				}
+
+				
+
+			
 	}
 
 
@@ -207,6 +261,71 @@ void UIManager::updateCS(int currentCommand)
 void UIManager::updateFps()
 {
 
+		
+
+	
+	
+}
+
+void UIManager::addFps(std::string textureName)
+{
+	
+	for (int i = 0; i < GROUPCAP; i++)
+	{
+		
+		if (currentCommandControll == i)
+		{
+			
+		//	std::cout << cs[i]->nummberOfFollowersInGroup << std::endl;
+				this->fps[cs[i]->nummberOfFollowersInGroup-1] = new followerPortraitStruct();
+				this->fps[cs[i]->nummberOfFollowersInGroup-1]->followerHealthText.setFont(font);
+		
+				
+			
+				for (int b = 0; b < 4; b++)
+				{
+
+					if (followerProfileTextureName[b] == textureName)
+					{
+						
+					
+						std::cout << textureName << std::endl;
+						this->fps[cs[i]->nummberOfFollowersInGroup-1]->followerImage.setTexture(followerProfileTexture[b]);
+						this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.setScale(60.f / followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
+						this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerHealthBar.setSize(sf::Vector2f(40,20));
+						this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerHealthBar.setFillColor(sf::Color::Green);
+
+
+					
+						if (cs[i]->nummberOfFollowersInGroup - 1 == 0)
+						{
+							
+							this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.getGlobalBounds().width * (cs[i]->nummberOfFollowersInGroup - 1), pp.ppRec[3].getPosition().y);
+					
+							std::cout << 80 / followerProfileTexture[b].getSize().x << std::endl;
+						}
+						else
+						{
+							this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + 
+								30 * (cs[i]->nummberOfFollowersInGroup - 1) + this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.getGlobalBounds().width * 
+								(cs[i]->nummberOfFollowersInGroup - 1) , pp.ppRec[3].getPosition().y);
+							
+						
+							std::cout << this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.getScale().x << std::endl;
+							std::cout << followerProfileTexture[b].getSize().x << std::endl;
+						}
+
+
+					}
+
+
+				}
+
+				
+		}
+		
+
+	}
 	
 }
 
@@ -260,6 +379,7 @@ void UIManager::changeCS()
 			for (int a = 0; a < 4; a++)
 			{
 				cs[i]->commandRec[a].setOutlineColor(sf::Color::Magenta);
+				cs[i]->nummberOfFollowerRec.setOutlineColor(sf::Color::Magenta);
 			}
 			
 		}
@@ -268,9 +388,43 @@ void UIManager::changeCS()
 			for (int a = 0; a < 4; a++)
 			{
 				cs[i]->commandRec[a].setOutlineColor(sf::Color::White);
+				cs[i]->nummberOfFollowerRec.setOutlineColor(sf::Color::White);
 			}
 		}
 	}
+}
+
+void UIManager::updateCSNumber(int nrOfFollowers)
+{
+	
+	for (int i = 0; i < GROUPCAP; i++)
+	{
+		if (currentCommandControll == i)
+		{
+
+			cs[i]->nummberOfFollowersInGroup++;
+			cs[i]->nummberText[0].setString(std::to_string(cs[i]->nummberOfFollowersInGroup));
+			cs[i]->nummberText[1].setString("/");
+			cs[i]->nummberText[2].setString("20");
+
+			cs[i]->nummberText[0].setPosition(cs[i]->nummberOfFollowerRec.getPosition().x + cs[i]->nummberOfFollowerRec.getGlobalBounds().width / 6 - cs[i]->nummberText[0].getGlobalBounds().width / 2, cs[i]->nummberOfFollowerRec.getPosition().y);
+		}
+		
+	}
+
+}
+
+int UIManager::getNrOfCurrentGroup()
+{
+	for (int i = 0; i < GROUPCAP; i++)
+	{
+		if (currentCommandControll == i)
+		{
+			return cs[i]->nummberOfFollowersInGroup;
+		}
+		
+	}
+	
 }
 
 void UIManager::drawUI(sf::RenderWindow &window)
@@ -300,14 +454,28 @@ void UIManager::drawUI(sf::RenderWindow &window)
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 
-
+		window.draw(this->cs[i]->nummberOfFollowerRec);
+		for (int a = 0; a < 3; a++)
+		{
+			window.draw(this->cs[i]->nummberText[a]);
+		}
+		
 		for (int a = 0; a < 4; a++)
 		{
 		
 			window.draw(this->cs[i]->commandRec[a]);
 			window.draw(this->cs[i]->commandNames[a]);
 		}
-
+		if (currentCommandControll == i )
+		{
+			for (int a = 0; a < cs[i]->nummberOfFollowersInGroup ; a++)
+			{
+				//std::cout << cs[i]->nummberOfFollowersInGroup << std::endl;
+				window.draw(this->fps[a]->followerImage);
+			}
+		}
+		
+			
 	}
 	
 }

@@ -62,6 +62,12 @@ void Game::handleEvents()
 			case sf::Keyboard::Enter:
 				changeFullscreenMode();
 				break;
+			case  sf::Keyboard::Escape:
+				
+					window.close();
+				//	std::exit(0);
+				
+					break;
 			default:
 				break;
 			}
@@ -100,11 +106,7 @@ State Game::update()
 				allFollowers[i]->checkCivMove();
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			{
-				window.close();
-				std::exit(0);
-			}
+			
 			//Check conversion and start if key is pressed
 			if (converting)
 			{
@@ -115,6 +117,14 @@ State Game::update()
 			{
 				thisProphet->resetClock();
 			}
+
+			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
+			{
+				//cout << thisProphet->getNrOfFollowers() << endl;
+				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()).getTextureName());
+			}
+
 		}
 
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
@@ -126,6 +136,7 @@ State Game::update()
 void Game::render()
 {
 	window.clear();
+	
 	window.draw(*thisProphet);
 	window.draw(*otherProphet);
 	if (converting)

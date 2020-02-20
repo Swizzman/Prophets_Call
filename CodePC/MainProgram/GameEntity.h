@@ -12,6 +12,7 @@ private:
 	int movingSpeedY;
 	int health;
 	bool canAttack = true;
+	string textureName;
 
 public:
 	GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health);
@@ -33,6 +34,7 @@ public:
 	int getMovingSpeedX();
 	int getMovingSpeedY();
 	void setPosition(float xPos, float yPos);
+	string getTextureName();
 	sf::Vector2f getPosition();
 	sf::Vector2f getOrigin();
 	virtual void die() = 0;

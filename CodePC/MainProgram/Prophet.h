@@ -45,6 +45,7 @@ public:
 	void collectSouls();
 	int getSouls();
 	Follower* getFollowers();
+	Follower getASingleFollower(int whichOne);
 	void recieveEnemyProphet(Prophet* other);
 	int getCurrentAbility();
 	void changeAbility();
