@@ -22,6 +22,8 @@ private:
 	sf::Time timePerFrame;
 	sf::Time elapsedTimeSinceLastUpdate;
 	bool converting;
+	bool abilityplaced;
+	sf::Mouse mouse;
 public:
 	Game();
 	virtual ~Game();

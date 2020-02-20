@@ -19,10 +19,12 @@ Game::Game()
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
-
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
 	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
 	
 	converting = false;
+	abilityplaced = false;
 }
 
 Game::~Game()
@@ -48,9 +50,11 @@ void Game::handleEvents()
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
 				thisProphet->takeDamage(rand()%20);
-
 				break;
-
+			case sf::Keyboard::LControl:
+				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
+				abilityplaced = true;
+					break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();
 				thisProphet->changeCurrentCommandGroup();
@@ -143,6 +147,10 @@ void Game::render()
 	{
 	window.draw(thisProphet->getConvertCirc());
 
+	}
+	if (abilityplaced)
+	{
+		window.draw(*this->thisProphet->getCurAbil());
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
