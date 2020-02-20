@@ -70,8 +70,16 @@ void Follower::placeFollower(int width, int height)
 
 void Follower::convert()
 {
-	converted = true;
-	switchTexture("Follower.png");
+	if (convertedAmount >= 100)
+	{
+		converted = true;
+		switchTexture("Follower.png");
+
+	}
+	else
+	{
+		convertedAmount += 30;
+	}
 }
 
 

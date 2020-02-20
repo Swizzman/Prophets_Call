@@ -18,10 +18,9 @@ private:
 	int convertingSpeed;
 	int chosenGroup;
 	int collectedSouls;
-	int moveVertical;
-	int moveHorizontal;
+	int xSpeed;
+	int ySpeed;
 	int chosenAbility;
-	int pointsToConvert;
 	int convertingTimeMax;
 	sf::CircleShape convertCirc;
 	sf::Time convertingTime;
