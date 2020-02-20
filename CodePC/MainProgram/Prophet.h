@@ -2,6 +2,8 @@
 #include "GameEntity.h"
 #include "Follower.h"
 #include <iostream>
+#include "AbilityManager.h"
+#include "Ability.h"
 
 struct group
 {
@@ -29,6 +31,9 @@ private:
 	sf::Clock clock;
 	group group[GROUPNR];
 	Prophet* otherProphet;
+	AbilityManager abilityMan;
+	sf::Mouse abilityMouse;
+	bool abilityActive;
 	sf::Vector2f getCircCenter() const;
 	int currentCommandGroup;
 public:
@@ -43,15 +48,20 @@ public:
 	int getNrOfFollowers();
 	void addFollower();
 	void collectSouls();
+	void placeAbil(sf::Vector2f position);
 	int getSouls();
 	Follower* getFollowers();
 	void recieveEnemyProphet(Prophet* other);
 	int getCurrentAbility();
 	void changeAbility();
+	void checkAbility();
 	sf::CircleShape getConvertCirc() const;
 	void changeCurrentCommandGroup();
 	int getcurrentGroupCommand();
+	Ability* getCurAbil() const;
+	void drawAbil(sf::RenderWindow* window);
 	// Inherited via GameEntity
 	virtual void die() override;
+
 };
 

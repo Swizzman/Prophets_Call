@@ -24,7 +24,7 @@ Prophet::Prophet() :
 	this->xSpeed = 5;
 	this->ySpeed = 5;
 	this->convertingTimeMax = 500;
-
+	this->chosenAbility = 0;
 	this->convertingSpeed = 10;
 	this->chosenGroup = 0;
 	this->collectedSouls = 0;
@@ -191,6 +191,11 @@ void Prophet::collectSouls()
 {
 }
 
+void Prophet::placeAbil(sf::Vector2f position)
+{
+	abilityMan.placeCurrentAbility(position);
+}
+
 int Prophet::getSouls()
 {
 	return collectedSouls;
@@ -211,6 +216,7 @@ Follower* Prophet::getFollowers()
 void Prophet::recieveEnemyProphet(Prophet* other)
 {
 	otherProphet = other;
+	abilityMan.recievePtr(other, &group[currentCommandGroup]);
 }
 
 int Prophet::getCurrentAbility()
@@ -228,6 +234,14 @@ void Prophet::changeAbility()
 		chosenAbility = 0;
 	}
 	std::cout << chosenAbility << std::endl;
+}
+
+void Prophet::checkAbility()
+{
+	if ((abilityActive = abilityMan.getAbilityActive()) == true)
+	{
+		abilityMan.placeCurrentAbility((sf::Vector2f)abilityMouse.getPosition());
+	}
 }
 
 sf::CircleShape Prophet::getConvertCirc() const
@@ -267,6 +281,12 @@ int Prophet::getcurrentGroupCommand()
 
 	
 }
+
+Ability* Prophet::getCurAbil() const
+{
+	return abilityMan.getCurrentAbility();
+}
+
 
 void Prophet::die()
 {
