@@ -61,6 +61,11 @@ UIManager::UIManager()
 
 }
 
+UIManager::~UIManager()
+{
+
+}
+
 void UIManager::setUpCS()
 {
 
@@ -271,8 +276,13 @@ void UIManager::updateFps(int health, int whichFollower)
 			//std::cout << health << ":"<< whichFollower << std::endl;
 			if (health < 0)
 				health = 0;
+			if (whichFollower <= cs[i]->nummberOfFollowersInGroup-1)
+			{
+				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
 
-				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10 )/100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
+
+			}
+				
 				//this->fps[whichFollower]->followerHealthBar.setPosition(this->fps[whichFollower]->followerImage.getPosition().x + this->fps[whichFollower]->followerImage.getGlobalBounds().width / 2 - this->fps[whichFollower]->followerHealthBar.getGlobalBounds().width / 2, this->fps[whichFollower]->followerImage.getPosition().y + this->fps[whichFollower]->followerImage.getGlobalBounds().height + this->fps[whichFollower]->followerHealthBar.getGlobalBounds().height / 2);
 
 			

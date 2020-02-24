@@ -54,6 +54,7 @@ private:
 
 public:
 	 UIManager();
+	 virtual~UIManager();
 	 void setUpCS();
 	 void setUpFps();
 	 void setUpPp(int health);
