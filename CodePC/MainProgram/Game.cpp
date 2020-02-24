@@ -74,7 +74,7 @@ void Game::handleEvents()
 			case  sf::Keyboard::Escape:
 				
 					window.close();
-				//	std::exit(0);
+					std::exit(0);
 				
 					break;
 					
