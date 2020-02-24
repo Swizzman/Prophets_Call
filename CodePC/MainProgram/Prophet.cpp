@@ -213,7 +213,7 @@ Follower* Prophet::getFollowers()
 	
 }
 
-Follower Prophet::getASingleFollower(int whichOne)
+Follower& Prophet::getASingleFollower(int whichOne)
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
@@ -221,7 +221,7 @@ Follower Prophet::getASingleFollower(int whichOne)
 		if (currentCommandGroup == i)
 		{
 			
-			return *group[i].followers[whichOne-1];
+			return *group[i].followers[whichOne];
 		}
 	}
 	

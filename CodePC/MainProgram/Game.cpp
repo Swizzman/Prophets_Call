@@ -40,16 +40,21 @@ void Game::handleEvents()
 		{
 			window.close();
 		}
-		if (event.type == sf::Event::KeyPressed)
+	
+		if (event.type == sf::Event::KeyPressed )
 		{
+			
 			switch (event.key.code)
 			{
 			case sf::Keyboard::Space:
+			
 				converting = true;
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
+				thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
 				thisProphet->takeDamage(rand()%20);
+				
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
@@ -72,6 +77,7 @@ void Game::handleEvents()
 				//	std::exit(0);
 				
 					break;
+					
 			default:
 				break;
 			}
@@ -125,12 +131,18 @@ State Game::update()
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
+				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()-1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()-1).getHealth());
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()).getTextureName());
+				uiManager.setUpFps();
+				
+			
 			}
 
 		}
-
+		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
+		{
+			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
+		}
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		return state;
 	}

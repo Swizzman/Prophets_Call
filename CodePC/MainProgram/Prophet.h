@@ -51,7 +51,7 @@ public:
 	void placeAbil(sf::Vector2f position);
 	int getSouls();
 	Follower* getFollowers();
-	Follower getASingleFollower(int whichOne);
+	Follower& getASingleFollower(int whichOne);
 	void recieveEnemyProphet(Prophet* other);
 	int getCurrentAbility();
 	void changeAbility();

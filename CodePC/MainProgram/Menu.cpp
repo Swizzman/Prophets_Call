@@ -96,8 +96,10 @@ State Menu::update()
 	while (window.isOpen())
 	{
 		elapsedTimeSinceLastUpdate += clock.restart();
-		sf::FloatRect fr(mouse.getPosition().x, mouse.getPosition().y, 10, 10);
-		if (playText.getGlobalBounds().intersects(fr))
+		sf::Vector2f tempVec = static_cast<sf::Vector2f>(mouse.getPosition(window));
+		//sf::FloatRect fr(tempVec.x, tempVec.y,10,10);
+		//sf::FloatRect fr(mouse.getPosition().x, mouse.getPosition().y, 10, 10);
+		if (playText.getGlobalBounds().contains(tempVec))
 		{
 			playText.setFillColor(sf::Color::Yellow);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -111,7 +113,7 @@ State Menu::update()
 			playText.setFillColor(sf::Color::White);
 		}
 
-		if (CloseText.getGlobalBounds().intersects(fr))
+		if (CloseText.getGlobalBounds().contains(tempVec))
 		{
 			CloseText.setFillColor(sf::Color::Yellow);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -123,7 +125,7 @@ State Menu::update()
 		{
 			CloseText.setFillColor(sf::Color::White);
 		}
-		if (ConnectingText.getGlobalBounds().intersects(fr))
+		if (ConnectingText.getGlobalBounds().contains(tempVec))
 		{
 			ConnectingText.setFillColor(sf::Color::Yellow);
 		}

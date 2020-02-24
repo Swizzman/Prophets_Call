@@ -164,7 +164,7 @@ void UIManager::setUpFps()
 
 void UIManager::setUpPp(int health)
 {
-	this->pp.ppRec[0].setSize(sf::Vector2f(1800, 200));
+	this->pp.ppRec[0].setSize(sf::Vector2f(1610, 200));
 	this->pp.ppRec[0].setPosition(960 - this->pp.ppRec[0].getGlobalBounds().width / 2, 850);
 
 	this->pp.ppRec[1].setSize(sf::Vector2f(360, 200));
@@ -258,16 +258,33 @@ void UIManager::updateCS(int currentCommand)
 
 }
 
-void UIManager::updateFps()
+void UIManager::updateFps(int health, int whichFollower)
 {
 
 		
+	for (int i = 0; i < GROUPCAP; i++)
+	{
 
-	
+
+		if (currentCommandControll == i)
+		{
+			//std::cout << health << ":"<< whichFollower << std::endl;
+			if (health < 0)
+				health = 0;
+
+				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10 )/100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
+				//this->fps[whichFollower]->followerHealthBar.setPosition(this->fps[whichFollower]->followerImage.getPosition().x + this->fps[whichFollower]->followerImage.getGlobalBounds().width / 2 - this->fps[whichFollower]->followerHealthBar.getGlobalBounds().width / 2, this->fps[whichFollower]->followerImage.getPosition().y + this->fps[whichFollower]->followerImage.getGlobalBounds().height + this->fps[whichFollower]->followerHealthBar.getGlobalBounds().height / 2);
+
+			
+
+		}
+
+
+	}
 	
 }
 
-void UIManager::addFps(std::string textureName)
+void UIManager::addFps(std::string textureName, int maxHealth)
 {
 	
 	for (int i = 0; i < GROUPCAP; i++)
@@ -277,51 +294,78 @@ void UIManager::addFps(std::string textureName)
 		{
 			
 		//	std::cout << cs[i]->nummberOfFollowersInGroup << std::endl;
-				this->fps[cs[i]->nummberOfFollowersInGroup-1] = new followerPortraitStruct();
-				this->fps[cs[i]->nummberOfFollowersInGroup-1]->followerHealthText.setFont(font);
-		
-				
-			
+				this->fps[cs[i]->nummberOfFollowersInGroup] = new followerPortraitStruct();
+				this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthText.setFont(font);
+				this->fps[cs[i]->nummberOfFollowersInGroup]->followerMaxHealth = maxHealth;
+	
 				for (int b = 0; b < 4; b++)
 				{
 
 					if (followerProfileTextureName[b] == textureName)
 					{
-						
-					
+
+
 						std::cout << textureName << std::endl;
-						this->fps[cs[i]->nummberOfFollowersInGroup-1]->followerImage.setTexture(followerProfileTexture[b]);
-						this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.setScale(60.f / followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
-						this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerHealthBar.setSize(sf::Vector2f(40,20));
-						this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerHealthBar.setFillColor(sf::Color::Green);
-
-
-					
-						if (cs[i]->nummberOfFollowersInGroup - 1 == 0)
-						{
-							
-							this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.getGlobalBounds().width * (cs[i]->nummberOfFollowersInGroup - 1), pp.ppRec[3].getPosition().y);
-					
-							std::cout << 80 / followerProfileTexture[b].getSize().x << std::endl;
-						}
-						else
-						{
-							this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + 
-								30 * (cs[i]->nummberOfFollowersInGroup - 1) + this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.getGlobalBounds().width * 
-								(cs[i]->nummberOfFollowersInGroup - 1) , pp.ppRec[3].getPosition().y);
-							
-						
-							std::cout << this->fps[cs[i]->nummberOfFollowersInGroup - 1]->followerImage.getScale().x << std::endl;
-							std::cout << followerProfileTexture[b].getSize().x << std::endl;
-						}
+						this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setTexture(followerProfileTexture[b]);
+						this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f / followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
 
 
 					}
-
-
 				}
 
-				
+						this->fps[cs[i]->nummberOfFollowersInGroup ]->followerHealthBar.setSize(sf::Vector2f(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width -10,15));
+						this->fps[cs[i]->nummberOfFollowersInGroup ]->followerHealthBar.setFillColor(sf::Color::Green);
+						this->fps[cs[i]->nummberOfFollowersInGroup]->followerRedHealth.setSize(sf::Vector2f(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width - 10, 15));
+						this->fps[cs[i]->nummberOfFollowersInGroup]->followerRedHealth.setFillColor(sf::Color::Red);
+
+						if (cs[i]->nummberOfFollowersInGroup  == 0)
+						{
+							
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width * (cs[i]->nummberOfFollowersInGroup ), pp.ppRec[3].getPosition().y);
+							//this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + 980.f / 10.f * (cs[i]->nummberOfFollowersInGroup+1) - this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width , pp.ppRec[3].getPosition().y);
+
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width /2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width/2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerRedHealth.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+
+
+						}
+						else if(cs[i]->nummberOfFollowersInGroup <= 9)
+						{
+						/*	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width
+								+ 980 / 10  * (cs[i]->nummberOfFollowersInGroup +1)- this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width , pp.ppRec[3].getPosition().y);*/
+
+							this->fps[cs[i]->nummberOfFollowersInGroup ]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + 
+								30 * (cs[i]->nummberOfFollowersInGroup ) + this->fps[cs[i]->nummberOfFollowersInGroup ]->followerImage.getGlobalBounds().width * 
+								(cs[i]->nummberOfFollowersInGroup ) , pp.ppRec[3].getPosition().y);
+
+
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerRedHealth.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+
+						
+							std::cout << this->fps[cs[i]->nummberOfFollowersInGroup ]->followerImage.getScale().x << std::endl;
+						
+						}
+						else if(cs[i]->nummberOfFollowersInGroup == 10)
+						{
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width *0, pp.ppRec[3].getPosition().y+ 100);
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerRedHealth.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+
+						}
+						else
+						{
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width +
+							30 * (cs[i]->nummberOfFollowersInGroup-10) + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width *
+								(cs[i]->nummberOfFollowersInGroup-10), pp.ppRec[3].getPosition().y+100);
+
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height/2);
+							this->fps[cs[i]->nummberOfFollowersInGroup]->followerRedHealth.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2 - this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().width / 2, this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().y + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().height + this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
+
+						}
+
+
+					
 		}
 		
 
@@ -472,6 +516,9 @@ void UIManager::drawUI(sf::RenderWindow &window)
 			{
 				//std::cout << cs[i]->nummberOfFollowersInGroup << std::endl;
 				window.draw(this->fps[a]->followerImage);
+				window.draw(this->fps[a]->followerRedHealth);
+				window.draw(this->fps[a]->followerHealthBar);
+
 			}
 		}
 		

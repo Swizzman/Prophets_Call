@@ -10,7 +10,9 @@ private:
 	{
 		sf::Text followerHealthText;
 		sf::RectangleShape followerHealthBar;
+		sf::RectangleShape followerRedHealth;
 		sf::Sprite followerImage;
+		float followerMaxHealth;
 		
 	};
 	struct ProphetProperties
@@ -56,8 +58,8 @@ public:
 	 void setUpFps();
 	 void setUpPp(int health);
 	void updateCS(int currentCommand);
-	void updateFps();
-	void addFps(std::string textureName);
+	void updateFps(int health, int whichFollower);
+	void addFps(std::string textureName, int maxHealth);
 	void updatePp(int health, int soul, int currentAbility);
 	void changeCS();
 	void updateCSNumber(int nrOfFollowers);
