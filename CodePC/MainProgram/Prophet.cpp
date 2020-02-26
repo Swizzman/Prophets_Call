@@ -37,6 +37,7 @@ Prophet::Prophet() :
 	this->convertCirc.setOrigin(getOrigin());
 	currentCommandGroup = 0;
 	
+	
 }
 
 Prophet::~Prophet()
@@ -326,6 +327,12 @@ void Prophet::aFollowerGotKilled(int whichFollower)
 {
 	
 
+
+}
+
+void Prophet::changeCurrentCommand()
+{
+	commandMan.switchCommand(currentCommandGroup);
 
 }
 

@@ -78,7 +78,9 @@ void GameHost::handleEvents()
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-				break;
+				thisProphet->changeCurrentCommand();
+				
+					break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();
 				thisProphet->changeCurrentCommandGroup();

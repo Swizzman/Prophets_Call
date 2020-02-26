@@ -4,6 +4,8 @@
 #include <iostream>
 #include "AbilityManager.h"
 #include "Ability.h"
+#include "Commands.h"
+#include "CommandManager.h"
 
 struct group
 {
@@ -32,6 +34,7 @@ private:
 	group group[GROUPNR];
 	Prophet* otherProphet;
 	AbilityManager abilityMan;
+	CommandManager commandMan;
 	sf::Mouse abilityMouse;
 	bool abilityActive;
 	sf::Vector2f getCircCenter() const;
@@ -63,6 +66,7 @@ public:
 	Ability* getCurAbil() const;
 	void drawAbil(sf::RenderWindow* window);
 	void aFollowerGotKilled(int whichFollower);
+	void changeCurrentCommand();
 	// Inherited via GameEntity
 	virtual void die() override;
 
