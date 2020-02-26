@@ -2,8 +2,8 @@
 
 Server::Server()
 {
-	port = 2000;
-	listener.listen(port, sf::IpAddress::getLocalAddress());
+	port = 55000;
+	listener.listen(port);
 	std::cout << sf::IpAddress::getLocalAddress();
 	isRunning = true;
 	selector.add(listener);
