@@ -1,8 +1,8 @@
-#include "Game.h"
+#include "GameHost.h"
 
 
-using namespace std;
-Game::Game()
+
+GameHost::GameHost()
 {
 	thisProphet = new Prophet();
 	otherProphet = new Prophet();
@@ -29,12 +29,18 @@ Game::Game()
 	abilityplaced = false;
 }
 
-Game::~Game()
+GameHost::~GameHost()
 {
-	std::cout << "Goodbye world" << std::endl;
+	delete thisProphet;
+	delete otherProphet;
+	for (int i = 0; i < nrOfTotalFollowers; i++)
+	{
+		delete allFollowers[i];
+	}
+	delete[] allFollowers;
 }
 
-void Game::handleEvents()
+void GameHost::handleEvents()
 {
 	sf::Event event;
 	while (window.pollEvent(event))
@@ -102,7 +108,7 @@ void Game::handleEvents()
 	}
 }
 
-State Game::update()
+State GameHost::update()
 {
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
@@ -169,7 +175,7 @@ State Game::update()
 
 }
 
-void Game::render()
+void GameHost::render()
 {
 	window.clear();
 	

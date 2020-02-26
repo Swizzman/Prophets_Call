@@ -3,11 +3,11 @@
 #include "Prophet.h"
 #include "Follower.h"
 #include "UIManager.h"
-#include "NetworkManager.h"
+#include "NETWORKSTATE.h"
 #include "SoundManager.h"
 #include "Menu.h"
 
-class Game :
+class GameClient :
 	public GameState
 {
 private:
@@ -25,11 +25,13 @@ private:
 	bool abilityplaced;
 	sf::Mouse mouse;
 public:
-	Game();
-	virtual ~Game();
+	GameClient();
+	virtual ~GameClient();
 	// Inherited via GameState
 	virtual void handleEvents() override;
 	virtual State update() override;
 	virtual void render() override;
 };
+
+
 

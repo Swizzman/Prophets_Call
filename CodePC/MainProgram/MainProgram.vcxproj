@@ -23,22 +23,24 @@
     <ClCompile Include="AbilityManager.cpp" />
     <ClCompile Include="AttackProphet.cpp" />
     <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="Closest.cpp" />
     <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="ControlManager.cpp" />
     <ClCompile Include="Follow.cpp" />
     <ClCompile Include="Follower.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameClient.cpp" />
+    <ClCompile Include="GameHost.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="LowestHP.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Regen.cpp" />
     <ClCompile Include="Reinforcement.cpp" />
     <ClCompile Include="Prophet.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="SoundManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -49,21 +51,24 @@
     <ClInclude Include="AbilityManager.h" />
     <ClInclude Include="AttackProphet.h" />
     <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="Closest.h" />
     <ClInclude Include="CommandManager.h" />
     <ClInclude Include="ControlManager.h" />
     <ClInclude Include="Follow.h" />
     <ClInclude Include="Follower.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameClient.h" />
+    <ClInclude Include="GameHost.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="LowestHP.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NETWORKSTATE.h" />
     <ClInclude Include="Regen.h" />
     <ClInclude Include="Reinforcement.h" />
     <ClInclude Include="Prophet.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="SoundManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>

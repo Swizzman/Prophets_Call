@@ -276,7 +276,7 @@ void UIManager::updateFps(int health, int whichFollower)
 
 		if (currentCommandControll == i)
 		{
-			//std::cout << health << ":"<< whichFollower << std::endl;
+			//std::cout << health << ":"<< whichFollower << std::endl;s
 			if (health < 0)
 				health = 0;
 			if (whichFollower <= cs[i]->nummberOfFollowersInGroup-1)
