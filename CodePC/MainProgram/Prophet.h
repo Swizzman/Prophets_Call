@@ -36,12 +36,10 @@ private:
 	bool abilityActive;
 	sf::Vector2f getCircCenter() const;
 	int currentCommandGroup;
-	bool *isConverting;
 	int nrOfCivs;
 public:
 	Prophet();
 	virtual ~Prophet();
-	void getNrOfCiv(int NrOfCiv);
 	void convert(Follower** follArr, int nrOf);
 	void convertsFollow();
 	void resetClock();
@@ -64,7 +62,6 @@ public:
 	int getcurrentGroupCommand();
 	Ability* getCurAbil() const;
 	void drawAbil(sf::RenderWindow* window);
-	int whichCivIsConverting();
 	void aFollowerGotKilled(int whichFollower);
 	// Inherited via GameEntity
 	virtual void die() override;

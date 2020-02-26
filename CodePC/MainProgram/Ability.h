@@ -13,7 +13,7 @@ private:
 public:
 
 	Ability(std::string texture, int radius);
-	~Ability();
+	virtual ~Ability();
 	int getRadius();
 	void setPosition(sf::Vector2f position);
 	virtual void abilityActive() = 0;

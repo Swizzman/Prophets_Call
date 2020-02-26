@@ -24,7 +24,7 @@ private:
 
 public:
 	Menu();
-	~Menu();
+	virtual ~Menu();
 
 	sf::Text renderText();
 

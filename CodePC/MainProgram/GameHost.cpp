@@ -2,7 +2,7 @@
 
 
 
-GameHost::GameHost()
+GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
 	otherProphet = new Prophet();
@@ -15,18 +15,27 @@ GameHost::GameHost()
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	thisProphet->getNrOfCiv(nrOfTotalFollowers);
-	
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
-	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
 	uiManager.setUpFps(nrOfTotalFollowers);
 	converting = false;
 	abilityplaced = false;
+
+}
+
+void GameHost::networking()
+{
+
+	server.run();
+
+	
+
+
 }
 
 GameHost::~GameHost()
@@ -49,27 +58,27 @@ void GameHost::handleEvents()
 		{
 			window.close();
 		}
-	
-		if (event.type == sf::Event::KeyPressed )
+
+		if (event.type == sf::Event::KeyPressed)
 		{
-			
+
 			switch (event.key.code)
 			{
 			case sf::Keyboard::Space:
-			
+
 				converting = true;
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
-				if(thisProphet->getNrOfFollowers() > 0)
-				thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
-				thisProphet->takeDamage(rand()%20);
-				
+				if (thisProphet->getNrOfFollowers() > 0)
+					thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
+				thisProphet->takeDamage(rand() % 20);
+
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-					break;
+				break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();
 				thisProphet->changeCurrentCommandGroup();
@@ -81,13 +90,12 @@ void GameHost::handleEvents()
 			case sf::Keyboard::Enter:
 				changeFullscreenMode();
 				break;
-			case  sf::Keyboard::Escape:
-				
-					window.close();
-					std::exit(0);
-				
-					break;
-					
+				//case  sf::Keyboard::Escape:
+				//	
+				//		window.close();
+				//		std::exit(0);
+				//		break;
+
 			default:
 				break;
 			}
@@ -103,7 +111,7 @@ void GameHost::handleEvents()
 				break;
 			}
 		}
-	
+
 
 	}
 }
@@ -113,9 +121,11 @@ State GameHost::update()
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
 	{
+
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
+			
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
 			thisProphet->convertsFollow();
@@ -126,18 +136,13 @@ State GameHost::update()
 				allFollowers[i]->checkCivMove();
 			}
 
-			
+
 			//Check conversion and start if key is pressed
 			if (converting)
 			{
 				thisProphet->convert(allFollowers, nrOfTotalFollowers);
-				if (thisProphet->whichCivIsConverting() <= nrOfTotalFollowers)
-				{
-					//uiManager.convertingBar(allFollowers[thisProphet->whichCivIsConverting()]->getConvertedAmount, allFollowers[thisProphet->whichCivIsConverting()]->getBounds(), thisProphet->whichCivIsConverting());
-				
-				}
-				
-				
+
+
 			}
 			else
 			{
@@ -147,7 +152,7 @@ State GameHost::update()
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
-				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()-1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()-1).getHealth());
+				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth());
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
 
@@ -157,7 +162,7 @@ State GameHost::update()
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
-		
+
 
 
 		/*for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
@@ -168,7 +173,11 @@ State GameHost::update()
 
 			}
 		}*/
-	
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			netWorkThread.join();
+			state = State::EXIT;
+		}
 
 		return state;
 	}
@@ -178,12 +187,12 @@ State GameHost::update()
 void GameHost::render()
 {
 	window.clear();
-	
+
 	window.draw(*thisProphet);
 	window.draw(*otherProphet);
 	if (converting)
 	{
-	window.draw(thisProphet->getConvertCirc());
+		window.draw(thisProphet->getConvertCirc());
 
 	}
 	if (abilityplaced)

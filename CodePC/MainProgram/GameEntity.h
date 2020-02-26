@@ -18,7 +18,7 @@ private:
 public:
 	GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health);
 	GameEntity();
-	~GameEntity();
+	virtual  ~GameEntity();
 
 	void takeDamage(int damage);
 	sf::Vector2f getPos();

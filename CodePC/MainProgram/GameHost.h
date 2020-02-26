@@ -6,6 +6,9 @@
 #include "NETWORKSTATE.h"
 #include "SoundManager.h"
 #include "Menu.h"
+#include "Server.h"
+#include <SFML/System.hpp>
+#include <thread>
 
 class GameHost :
 	public GameState
@@ -23,9 +26,12 @@ private:
 	sf::Time elapsedTimeSinceLastUpdate;
 	bool converting;
 	bool abilityplaced;
+	Server server;
 	sf::Mouse mouse;
+	std::thread netWorkThread;
 public:
 	GameHost();
+	void networking();
 	virtual ~GameHost();
 	// Inherited via GameState
 	virtual void handleEvents() override;

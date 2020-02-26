@@ -12,7 +12,7 @@ private:
 
 public:
 	CommandManager();
-	~CommandManager();
+	virtual ~CommandManager();
 	void goToPoint(sf::Vector2f point);
 	void switchCommand();
 	void useCommand();

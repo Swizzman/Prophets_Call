@@ -11,7 +11,7 @@ private:
 public:
 
     ControlManager();
-    ~ControlManager();
+    virtual ~ControlManager();
     int getMovementInput();
     sf::Vector2f getMousePos();
   

@@ -53,6 +53,5 @@ int main()
 
 	}
 	delete current;
-	(void)getchar();
 	return 1;
 }

@@ -3,7 +3,8 @@
 Server::Server()
 {
 	port = 2000;
-	listener.listen(port);
+	listener.listen(port, sf::IpAddress::getLocalAddress());
+	std::cout << sf::IpAddress::getLocalAddress();
 	isRunning = true;
 	selector.add(listener);
 }
@@ -16,12 +17,20 @@ void Server::run()
 {
 	while (isRunning)
 	{
-		if (selector.wait)
+
+
+		std::cout << "isRunning\n";
+		if (selector.wait())
 		{
+			std::cout << "wait\n";
+
 			if (selector.isReady(listener))
 			{
+				std::cout << "isReady\n";
 
 			}
 		}
+
 	}
+
 }

@@ -119,6 +119,7 @@ State Menu::update()
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				window.close();
+				state = State::EXIT;
 			}
 		}
 		else

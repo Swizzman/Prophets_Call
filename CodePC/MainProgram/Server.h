@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Network.hpp>
 #include "Client.h"
+#include <iostream>
 class Server
 {
 private:

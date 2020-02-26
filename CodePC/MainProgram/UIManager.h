@@ -3,10 +3,10 @@
 #include <string>
 #include <iostream>
 
-class UIManager 
+class UIManager
 {
 private:
-	struct followerPortraitStruct 
+	struct followerPortraitStruct
 	{
 		sf::Text followerHealthText;
 		sf::RectangleShape followerHealthBar;
@@ -15,7 +15,7 @@ private:
 		float followerMaxHealth;
 
 
-		
+
 	};
 	struct ProphetProperties
 	{
@@ -32,7 +32,7 @@ private:
 		sf::Text commandNames[4];
 		int nummberOfFollowersInGroup;
 		sf::Text nummberText[3];
-		
+
 	};
 private:
 	static const int ABILITYCAP = 3;
@@ -59,11 +59,11 @@ private:
 	//sf::RectangleShape** convertingRec;
 	int nrOfCiv;
 public:
-	 UIManager();
-	 virtual~UIManager();
-	 void setUpCS();
-	 void setUpFps(int nrOfCiv);
-	 void setUpPp(int health);
+	UIManager();
+	virtual~UIManager();
+	void setUpCS();
+	void setUpFps(int nrOfCiv);
+	void setUpPp(int health);
 	void updateCS(int currentCommand);
 	void updateFps(int health, int whichFollower);
 	void addFps(std::string textureName, int maxHealth);
@@ -71,8 +71,7 @@ public:
 	void changeCS();
 	void updateCSNumber(int nrOfFollowers);
 	int getNrOfCurrentGroup();
-	void geNrOfCiv(int nrOfCiv);
 	void convertingBar(int convertingPercent, sf::FloatRect civPos, int whichCiv);
-	void drawUI(sf::RenderWindow &window);
+	void drawUI(sf::RenderWindow& window);
 };
 

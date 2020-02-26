@@ -41,18 +41,18 @@ Prophet::Prophet() :
 
 Prophet::~Prophet()
 {
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		//for (int y = 0; y < group[y].nrOfFollowers; y++)
+		//{
+		//	delete group[i].followers[y];
+		//}
+		delete group[i].followers;
+	}
+
 }
 
-void Prophet::getNrOfCiv(int NrOfCiv)
-{
-	isConverting = new bool(NrOfCiv);
-	nrOfCivs = NrOfCiv;
-	for (int i = 0; i < NrOfCiv; i++)
-	{
-		isConverting[i] = false;
-	
-	}
-}
+
 
 void Prophet::convert(Follower** follArr, int nrOf)
 {
@@ -77,7 +77,6 @@ void Prophet::convert(Follower** follArr, int nrOf)
 						{
 							if (checkCollision(follArr[i]->getBounds()))
 							{
-								isConverting[i] = true;
 								
 								follArr[i]->convert();
 								if (follArr[i]->getConverted())
@@ -89,10 +88,7 @@ void Prophet::convert(Follower** follArr, int nrOf)
 								}
 								
 							}
-							else
-							{
-								isConverting[i] = false;
-							}
+
 							//std::cout << isConverting[i] << std::endl;
 						}
 					}
@@ -324,20 +320,7 @@ Ability* Prophet::getCurAbil() const
 	return abilityMan.getCurrentAbility();
 }
 
-int Prophet::whichCivIsConverting()
-{
-	for (int i = 0; i < nrOfCivs; i++)
-	{
-		if (isConverting[i] == true)
-		{
-			return i;
-		}
-		else
-		return 999;
-		
-	}
 
-}
 
 void Prophet::aFollowerGotKilled(int whichFollower)
 {
@@ -349,14 +332,5 @@ void Prophet::aFollowerGotKilled(int whichFollower)
 
 void Prophet::die()
 {
-	for (int i = 0; i < GROUPNR; i++)
-	{
-		for (int i = 0; i < group[i].nrOfFollowers; i++)
-		{
-			delete group[i].followers[i];
-		}
-		delete[] group[i].followers;
-	}
-	
-	delete group;
+
 }
