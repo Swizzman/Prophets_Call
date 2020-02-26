@@ -15,7 +15,7 @@ GameHost::GameHost()
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	thisProphet->getNrOfCiv(nrOfTotalFollowers);
+
 	
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -69,6 +69,8 @@ void GameHost::handleEvents()
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
+				thisProphet->changeCurrentCommand();
+				
 					break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();

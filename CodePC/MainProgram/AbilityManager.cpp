@@ -24,6 +24,7 @@ int AbilityManager::switchAbility()
 {
 	delete currentAbility;
 	chosenAbility++;
+	
 	if (chosenAbility >= 2)
 	{
 		chosenAbility = 0;

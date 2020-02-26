@@ -16,7 +16,7 @@ void Server::run()
 {
 	while (isRunning)
 	{
-		if (selector.wait)
+		if (selector.wait())
 		{
 			if (selector.isReady(listener))
 			{

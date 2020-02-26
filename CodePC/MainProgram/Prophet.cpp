@@ -37,22 +37,13 @@ Prophet::Prophet() :
 	this->convertCirc.setOrigin(getOrigin());
 	currentCommandGroup = 0;
 	
+	
 }
 
 Prophet::~Prophet()
 {
 }
 
-void Prophet::getNrOfCiv(int NrOfCiv)
-{
-	isConverting = new bool(NrOfCiv);
-	nrOfCivs = NrOfCiv;
-	for (int i = 0; i < NrOfCiv; i++)
-	{
-		isConverting[i] = false;
-	
-	}
-}
 
 void Prophet::convert(Follower** follArr, int nrOf)
 {
@@ -77,7 +68,6 @@ void Prophet::convert(Follower** follArr, int nrOf)
 						{
 							if (checkCollision(follArr[i]->getBounds()))
 							{
-								isConverting[i] = true;
 								
 								follArr[i]->convert();
 								if (follArr[i]->getConverted())
@@ -89,10 +79,7 @@ void Prophet::convert(Follower** follArr, int nrOf)
 								}
 								
 							}
-							else
-							{
-								isConverting[i] = false;
-							}
+							
 							//std::cout << isConverting[i] << std::endl;
 						}
 					}
@@ -343,6 +330,12 @@ void Prophet::aFollowerGotKilled(int whichFollower)
 {
 	
 
+
+}
+
+void Prophet::changeCurrentCommand()
+{
+	commandMan.switchCommand(currentCommandGroup);
 
 }
 
