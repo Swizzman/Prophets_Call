@@ -268,10 +268,9 @@ void UIManager::updateFps(int health, int whichFollower)
 
 		if (currentCommandControll == i)
 		{
-			//std::cout << health << ":"<< whichFollower << std::endl;
+			//std::cout << health << ":"<< whichFollower << std::endl;s
 			if (health < 0)
 				health = 0;
-
 				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10 )/100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
 				//this->fps[whichFollower]->followerHealthBar.setPosition(this->fps[whichFollower]->followerImage.getPosition().x + this->fps[whichFollower]->followerImage.getGlobalBounds().width / 2 - this->fps[whichFollower]->followerHealthBar.getGlobalBounds().width / 2, this->fps[whichFollower]->followerImage.getPosition().y + this->fps[whichFollower]->followerImage.getGlobalBounds().height + this->fps[whichFollower]->followerHealthBar.getGlobalBounds().height / 2);
 

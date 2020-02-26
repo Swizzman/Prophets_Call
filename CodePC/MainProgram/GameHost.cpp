@@ -1,8 +1,8 @@
-#include "Game.h"
+#include "GameHost.h"
 
 
 
-Game::Game()
+GameHost::GameHost()
 {
 	thisProphet = new Prophet();
 	otherProphet = new Prophet();
@@ -21,17 +21,22 @@ Game::Game()
 	uiManager.setUpCS();
 	thisProphet->recieveEnemyProphet(otherProphet);
 	otherProphet->recieveEnemyProphet(thisProphet);
-	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
-	
 	converting = false;
 	abilityplaced = false;
 }
 
-Game::~Game()
+GameHost::~GameHost()
 {
+	delete thisProphet;
+	delete otherProphet;
+	for (int i = 0; i < nrOfTotalFollowers; i++)
+	{
+		delete allFollowers[i];
+	}
+	delete[] allFollowers;
 }
 
-void Game::handleEvents()
+void GameHost::handleEvents()
 {
 	sf::Event event;
 	while (window.pollEvent(event))
@@ -98,7 +103,7 @@ void Game::handleEvents()
 	}
 }
 
-State Game::update()
+State GameHost::update()
 {
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
@@ -149,7 +154,7 @@ State Game::update()
 
 }
 
-void Game::render()
+void GameHost::render()
 {
 	window.clear();
 	
