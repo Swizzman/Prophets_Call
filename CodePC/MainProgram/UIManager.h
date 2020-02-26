@@ -13,6 +13,8 @@ private:
 		sf::RectangleShape followerRedHealth;
 		sf::Sprite followerImage;
 		float followerMaxHealth;
+
+
 		
 	};
 	struct ProphetProperties
@@ -43,6 +45,8 @@ private:
 	sf::Text convertingText;
 	sf::Texture followerProfileTexture[4];
 	std::string followerProfileTextureName[4];
+
+
 	followerPortraitStruct** fps;
 	commandStruct** cs;
 	ProphetProperties pp;
@@ -51,12 +55,14 @@ private:
 	int currentCommandControll;
 	float healtProc;
 	bool canDrawPortrait;
-
+	//sf::RectangleShape** convertingOutline;
+	//sf::RectangleShape** convertingRec;
+	int nrOfCiv;
 public:
 	 UIManager();
 	 virtual~UIManager();
 	 void setUpCS();
-	 void setUpFps();
+	 void setUpFps(int nrOfCiv);
 	 void setUpPp(int health);
 	void updateCS(int currentCommand);
 	void updateFps(int health, int whichFollower);
@@ -65,6 +71,8 @@ public:
 	void changeCS();
 	void updateCSNumber(int nrOfFollowers);
 	int getNrOfCurrentGroup();
+	void geNrOfCiv(int nrOfCiv);
+	void convertingBar(int convertingPercent, sf::FloatRect civPos, int whichCiv);
 	void drawUI(sf::RenderWindow &window);
 };
 

@@ -20,6 +20,8 @@ void GameState::changeFullscreenMode()
 	}
 	else
 	{
+
+
 		window.create(sf::VideoMode(WIDTH, HEIGHT), "Prophets Call");
 	}
 

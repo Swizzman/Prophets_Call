@@ -23,6 +23,7 @@ public:
 	void placeFollower(int width, int height);
 	void convert();
 	bool getConverted() const;
+	int getConvertedAmount()const;
 	// Inherited via GameEntity
 	virtual void die() override;
 };

@@ -88,3 +88,8 @@ bool Follower::getConverted() const
 {
 	return converted;
 }
+
+int Follower::getConvertedAmount() const
+{
+	return convertedAmount;
+}

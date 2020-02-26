@@ -36,15 +36,30 @@ Prophet::Prophet() :
 	this->convertCirc.setOutlineThickness(5.f);
 	this->convertCirc.setOrigin(getOrigin());
 	currentCommandGroup = 0;
+	
 }
 
 Prophet::~Prophet()
 {
 }
 
+void Prophet::getNrOfCiv(int NrOfCiv)
+{
+	isConverting = new bool(NrOfCiv);
+	nrOfCivs = NrOfCiv;
+	for (int i = 0; i < NrOfCiv; i++)
+	{
+		isConverting[i] = false;
+	
+	}
+}
+
 void Prophet::convert(Follower** follArr, int nrOf)
 {
 	convertingTime += clock.restart();
+	
+
+
 	if (convertingTime.asMilliseconds() > convertingTimeMax)
 	{
 		for (int a = 0; a < GROUPNR; a++)
@@ -62,15 +77,23 @@ void Prophet::convert(Follower** follArr, int nrOf)
 						{
 							if (checkCollision(follArr[i]->getBounds()))
 							{
+								isConverting[i] = true;
+								
 								follArr[i]->convert();
 								if (follArr[i]->getConverted())
 								{
+									
 									group[a].followers[group[a].nrOfFollowers++] = follArr[i];
 									//std::cout << group[a].nrOfFollowers << std::endl;
 
 								}
 								
 							}
+							else
+							{
+								isConverting[i] = false;
+							}
+							//std::cout << isConverting[i] << std::endl;
 						}
 					}
 				}
@@ -299,6 +322,28 @@ int Prophet::getcurrentGroupCommand()
 Ability* Prophet::getCurAbil() const
 {
 	return abilityMan.getCurrentAbility();
+}
+
+int Prophet::whichCivIsConverting()
+{
+	for (int i = 0; i < nrOfCivs; i++)
+	{
+		if (isConverting[i] == true)
+		{
+			return i;
+		}
+		else
+		return 999;
+		
+	}
+
+}
+
+void Prophet::aFollowerGotKilled(int whichFollower)
+{
+	
+
+
 }
 
 

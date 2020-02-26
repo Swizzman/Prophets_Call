@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-
+using namespace std;
 Game::Game()
 {
 	thisProphet = new Prophet();
@@ -15,6 +15,8 @@ Game::Game()
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
+	thisProphet->getNrOfCiv(nrOfTotalFollowers);
+	
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
@@ -22,13 +24,14 @@ Game::Game()
 	thisProphet->recieveEnemyProphet(otherProphet);
 	otherProphet->recieveEnemyProphet(thisProphet);
 	//uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls() ,thisProphet->getCurrentAbility());
-	
+	uiManager.setUpFps(nrOfTotalFollowers);
 	converting = false;
 	abilityplaced = false;
 }
 
 Game::~Game()
 {
+	std::cout << "Goodbye world" << std::endl;
 }
 
 void Game::handleEvents()
@@ -52,6 +55,7 @@ void Game::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
+				if(thisProphet->getNrOfFollowers() > 0)
 				thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
 				thisProphet->takeDamage(rand()%20);
 				
@@ -121,6 +125,12 @@ State Game::update()
 			if (converting)
 			{
 				thisProphet->convert(allFollowers, nrOfTotalFollowers);
+				if (thisProphet->whichCivIsConverting() <= nrOfTotalFollowers)
+				{
+					//uiManager.convertingBar(allFollowers[thisProphet->whichCivIsConverting()]->getConvertedAmount, allFollowers[thisProphet->whichCivIsConverting()]->getBounds(), thisProphet->whichCivIsConverting());
+				
+				}
+				
 				
 			}
 			else
@@ -133,9 +143,6 @@ State Game::update()
 				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()-1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers()-1).getHealth());
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-				uiManager.setUpFps();
-				
-			
 			}
 
 		}
@@ -144,6 +151,19 @@ State Game::update()
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
+		
+
+
+		/*for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
+		{
+			if (thisProphet->getASingleFollower(i).getHealth() <= 0)
+			{
+				cout << "DIE FOLLOWER DIE" << endl;
+
+			}
+		}*/
+	
+
 		return state;
 	}
 

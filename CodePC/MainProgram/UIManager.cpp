@@ -25,11 +25,14 @@ UIManager::UIManager()
 	chosenAbility = 0;
 	numberOfFollowers = 0;
 	
+	
 	//followerPortraitStruct *fps;
 	//commandStruct* cs;
 
 	this->cs = new commandStruct * [GROUPCAP]{nullptr};
 	this->fps = new followerPortraitStruct * [numberOfFollowers] {nullptr};
+	//this->convertingRec = new sf::RectangleShape * [nrOfCiv] {nullptr};
+	//this->convertingOutline = new sf::RectangleShape * [nrOfCiv] {nullptr};
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 		this->cs[i] = new commandStruct();
@@ -162,9 +165,9 @@ void UIManager::setUpCS()
 
 }
 
-void UIManager::setUpFps()
+void UIManager::setUpFps(int nrOfCiv)
 {
-
+	this->nrOfCiv = nrOfCiv;
 }
 
 void UIManager::setUpPp(int health)
@@ -479,6 +482,20 @@ int UIManager::getNrOfCurrentGroup()
 		
 	}
 	
+}
+
+void UIManager::convertingBar(int convertingPercent, sf::FloatRect civPos, int whichCiv)
+{
+
+	//convertingRec
+	for (int i = 0; i < nrOfCiv; i++)
+	{
+
+
+
+	}
+
+
 }
 
 void UIManager::drawUI(sf::RenderWindow &window)
