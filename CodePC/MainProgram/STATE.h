@@ -1,2 +1,2 @@
 #pragma once
-enum class State{NO_CHANGE, PLAY, EXIT, MENU};
+enum class State { NO_CHANGE, HOST, CONNECT, EXIT, MENU };

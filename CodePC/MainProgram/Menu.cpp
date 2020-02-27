@@ -104,7 +104,7 @@ State Menu::update()
 			playText.setFillColor(sf::Color::Yellow);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				state = State::PLAY;
+				state = State::HOST;
 			}
 
 		}
@@ -129,6 +129,10 @@ State Menu::update()
 		if (ConnectingText.getGlobalBounds().contains(tempVec))
 		{
 			ConnectingText.setFillColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				state = State::CONNECT;
+			}
 		}
 		else
 		{

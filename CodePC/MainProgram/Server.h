@@ -10,7 +10,8 @@ private:
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
 	bool isRunning;
-	Client client;
+	bool clientConnected;
+	Client* client;
 public:
 	Server();
 	virtual ~Server();

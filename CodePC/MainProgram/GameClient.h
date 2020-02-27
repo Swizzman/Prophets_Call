@@ -6,6 +6,8 @@
 #include "NETWORKSTATE.h"
 #include "SoundManager.h"
 #include "Menu.h"
+#include "Client.h"
+#include <thread>
 
 class GameClient :
 	public GameState
@@ -23,10 +25,13 @@ private:
 	sf::Time elapsedTimeSinceLastUpdate;
 	bool converting;
 	bool abilityplaced;
+	Client client;
 	sf::Mouse mouse;
+	std::thread networkThread;
 public:
 	GameClient();
 	virtual ~GameClient();
+	void netWorking();
 	// Inherited via GameState
 	virtual void handleEvents() override;
 	virtual State update() override;

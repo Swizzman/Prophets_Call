@@ -34,6 +34,10 @@ GameClient::~GameClient()
 	delete[] allFollowers;
 }
 
+void GameClient::netWorking()
+{
+}
+
 void GameClient::handleEvents()
 {
 	sf::Event event;
