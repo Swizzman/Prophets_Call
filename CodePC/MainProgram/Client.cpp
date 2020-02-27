@@ -11,6 +11,7 @@ Client::Client()
 	{
 		connectionSocket.setBlocking(false);
 		std::cout << "Connected to Server";
+		
 	}
 }
 

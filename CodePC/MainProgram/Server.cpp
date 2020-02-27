@@ -17,8 +17,6 @@ Server::~Server()
 
 void Server::run()
 {
-	while (isRunning)
-	{
 
 
 		std::cout << "isRunning\n";
@@ -33,12 +31,16 @@ void Server::run()
 				if (listener.accept(*tempSocket) == sf::Socket::Done)
 				{
 					std::cout << "Client connected\n";
+					sf::Packet tempPacket;
+					tempPacket << sf::Uint16(12);
+					tempSocket->send(tempPacket);
+
 				}
 
 
 			}
 		}
 
-	}
+	
 
 }

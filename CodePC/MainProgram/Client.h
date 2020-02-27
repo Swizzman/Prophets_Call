@@ -5,6 +5,7 @@ class Client
 {
 private:
 	sf::TcpSocket connectionSocket;
+	sf::Packet recievePacket;
 	int iD;
 public:
 	Client();
