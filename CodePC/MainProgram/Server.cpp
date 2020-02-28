@@ -9,6 +9,7 @@ Server::Server()
 	clientConnected = false;
 	selector.add(listener);
 	client = nullptr;
+	clientSock = std::make_unique<sf::TcpSocket>();
 }
 
 Server::~Server()
@@ -27,13 +28,14 @@ void Server::run()
 			if (selector.isReady(listener))
 			{
 				std::cout << "isReady\n";
-				std::unique_ptr<sf::TcpSocket> tempSocket = std::make_unique<sf::TcpSocket>();
-				if (listener.accept(*tempSocket) == sf::Socket::Done)
+				if (listener.accept(*clientSock) == sf::Socket::Done)
 				{
 					std::cout << "Client connected\n";
 					sf::Packet tempPacket;
-					tempPacket << sf::Uint16(12);
-					tempSocket->send(tempPacket);
+					tempPacket << sf::Uint16(55);
+					clientSock->send(tempPacket);
+					std::cout << "Sent info\n";
+					clientConnected = true;
 
 				}
 
@@ -43,4 +45,17 @@ void Server::run()
 
 	
 
+}
+
+bool Server::getClientConnected() const
+{
+	return clientConnected;
+}
+
+void Server::sendPos(sf::Vector2f pos)
+{
+
+	sf::Packet packet;
+	packet << (sf::Uint16)pos.x << (sf::Uint16)pos.y;
+	std::cout << clientSock->send(packet) << std::endl;
 }

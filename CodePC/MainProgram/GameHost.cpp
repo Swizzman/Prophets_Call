@@ -5,7 +5,7 @@
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet = new Prophet();
+	otherProphet =nullptr;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -15,8 +15,8 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
+	/*thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);*/
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -25,6 +25,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	uiManager.setUpFps(nrOfTotalFollowers);
 	converting = false;
 	abilityplaced = false;
+	activeClient = false;
 
 }
 
@@ -127,9 +128,17 @@ State GameHost::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
-			
+			if (!activeClient)
+			{
+				if (server.getClientConnected())
+				{
+					otherProphet = new Prophet();
+					activeClient = true;
+				}
+			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
+			server.sendPos(thisProphet->getPosition());
 			thisProphet->convertsFollow();
 			//Move the playerProphet
 			//Check All the civilians for movement
@@ -191,7 +200,11 @@ void GameHost::render()
 	window.clear();
 
 	window.draw(*thisProphet);
+	if (otherProphet != nullptr)
+	{
 	window.draw(*otherProphet);
+
+	}
 	if (converting)
 	{
 		window.draw(thisProphet->getConvertCirc());

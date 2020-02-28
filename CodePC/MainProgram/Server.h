@@ -12,9 +12,12 @@ private:
 	bool isRunning;
 	bool clientConnected;
 	Client* client;
+	std::unique_ptr<sf::TcpSocket> clientSock;
 public:
 	Server();
 	virtual ~Server();
 	void run();
+	bool getClientConnected() const;
+	void sendPos(sf::Vector2f pos);
 };
 
