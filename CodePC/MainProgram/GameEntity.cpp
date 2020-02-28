@@ -123,6 +123,11 @@ void GameEntity::setPosition(float xPos, float yPos)
 	this->sprite.setPosition(xPos, yPos);
 }
 
+void GameEntity::setPosition(sf::Vector2f position)
+{
+	this->sprite.setPosition(position);
+}
+
 string GameEntity::getTextureName()
 {
 	return textureName;

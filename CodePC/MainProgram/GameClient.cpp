@@ -114,8 +114,10 @@ State GameClient::update()
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
-			thisProphet->moveProphet();
+			//thisProphet->moveProphet();
 			thisProphet->convertsFollow();
+			otherProphet->setPosition(client.recieveProphetPos());
+			std::cout << otherProphet->getPosition().x << ":" << otherProphet->getPosition().y << std::endl;
 			//Move the playerProphet
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
