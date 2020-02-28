@@ -113,10 +113,16 @@ State GameClient::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
+			Packet packet;
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			//thisProphet->moveProphet();
 			thisProphet->convertsFollow();
-			otherProphet->setPosition(client.recieveProphetPos());
+			packet = client.recievePacket();
+			if (packet.type < 4)
+			{
+			otherProphet->setPosition(packet.posX, packet.posY);
+
+			}
 			std::cout << otherProphet->getPosition().x << ":" << otherProphet->getPosition().y << std::endl;
 			//Move the playerProphet
 			//Check All the civilians for movement

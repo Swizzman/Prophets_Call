@@ -10,8 +10,8 @@ Client::Client()
 	else
 	{
 		std::cout << "Connected to Server\n";
-		connectionSocket.receive(recievePacket);
-		recievePacket >> iD;
+		connectionSocket.receive(this->recievePacket);
+		this->recievePacket >> iD;
 		std::cout << iD << std::endl;
 		
 	}
@@ -21,7 +21,7 @@ Client::~Client()
 {
 }
 
-Packet Client::recieveProphetPos()
+Packet Client::recievePacket()
 {
 	sf::Packet packet;
 	Packet recieved;
@@ -30,7 +30,7 @@ Packet Client::recieveProphetPos()
 	packet >> recieved.type;
 	if (recieved.type < 4)
 	{
-		packet >> recieved.position;
+		packet >> recieved.posX >> recieved.posY;
 	}
 	return recieved;
 }

@@ -17,6 +17,6 @@ private:
 public:
 	Client();
 	virtual ~Client();
-	Packet recieveProphetPos();
+	Packet recievePacket();
 };
 
