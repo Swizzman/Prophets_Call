@@ -9,6 +9,7 @@ private:
 	float attackRange;
 	bool alive;
 	bool converted;
+	bool clientNotified;
 	int maxTime;
 	int windowWidth;
 	int windowHeight;
@@ -21,8 +22,9 @@ public:
 	void increaseDamageDone(int increase);
 	void checkCivMove();
 	void placeFollower(int width, int height);
-	void convert();
+	void convert(bool force = false);
 	bool getConverted() const;
+	bool getClientNotified();
 	int getConvertedAmount()const;
 	// Inherited via GameEntity
 	virtual void die() override;

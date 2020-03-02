@@ -1,4 +1,5 @@
 #include "Server.h"
+#include "Client.h"
 
 Server::Server()
 {
@@ -52,10 +53,24 @@ bool Server::getClientConnected() const
 	return clientConnected;
 }
 
-void Server::sendPos(sf::Vector2f pos)
+void Server::sendProphetPos(sf::Vector2f pos)
 {
-
 	sf::Packet packet;
-	packet << (sf::Uint16)pos.x << (sf::Uint16)pos.y;
-	std::cout << clientSock->send(packet) << std::endl;
+	packet << (sf::Uint16) 1 << (sf::Uint32) pos.x << (sf::Uint32) pos.y;
+	clientSock->send(packet);
+	std::cout << "Sent this prophets Position\n";
+}
+
+void Server::sendFollowerPos(sf::Vector2f pos, int index)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 2 << (sf::Uint32) pos.x << (sf::Uint32) pos.y << (sf::Uint16) index;
+	clientSock->send(packet);
+}
+
+void Server::sendConverted(int index)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 4 << (sf::Uint16) index;
+	tcpSocket.send(packet);
 }

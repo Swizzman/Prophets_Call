@@ -13,6 +13,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	attackRange = 5.f;
 	alive = true;
 	converted = false;
+	clientNotified = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
@@ -68,17 +69,32 @@ void Follower::placeFollower(int width, int height)
 	windowWidth = width;
 }
 
-void Follower::convert()
+void Follower::convert(bool force = false)
 {
-	if (convertedAmount >= 100)
+	if (!converted)
 	{
-		converted = true;
-		switchTexture("Follower.png");
 
-	}
-	else
-	{
-		convertedAmount += 30;
+		if (!force)
+		{
+
+			if (convertedAmount >= 100)
+			{
+				converted = true;
+				clientNotified = true;
+				switchTexture("Follower.png");
+
+			}
+			else
+			{
+				convertedAmount += 30;
+			}
+		}
+		else
+		{
+			converted = true;
+			switchTexture("Follower.png");
+
+		}
 	}
 }
 
@@ -87,6 +103,16 @@ void Follower::convert()
 bool Follower::getConverted() const
 {
 	return converted;
+}
+
+bool Follower::getClientNotified()
+{
+	bool whatToReturn = clientNotified;
+	if (clientNotified)
+	{
+		clientNotified = false;
+	}
+	return whatToReturn;
 }
 
 int Follower::getConvertedAmount() const
