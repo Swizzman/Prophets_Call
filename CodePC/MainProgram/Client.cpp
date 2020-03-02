@@ -21,7 +21,7 @@ Client::~Client()
 {
 }
 
-Packet Client::recievePacket()
+Packet Client::recieveAPacket()
 {
 	sf::Packet packet;
 	Packet recieved;

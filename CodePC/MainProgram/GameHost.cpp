@@ -5,7 +5,7 @@
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet =nullptr;
+	otherProphet = nullptr;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -34,7 +34,7 @@ void GameHost::networking()
 
 	server.run();
 
-	
+
 
 
 }
@@ -80,8 +80,8 @@ void GameHost::handleEvents()
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
 				thisProphet->changeCurrentCommand();
-				
-					break;
+
+				break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();
 				thisProphet->changeCurrentCommandGroup();
@@ -138,13 +138,27 @@ State GameHost::update()
 			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
-			server.sendPos(thisProphet->getPosition());
+			if (otherProphet != nullptr)
+			{
+				server.sendProphetPos(thisProphet->getPosition());
+
+			}
 			thisProphet->convertsFollow();
 			//Move the playerProphet
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
 				allFollowers[i]->checkCivMove();
+				if (otherProphet != nullptr)
+				{
+					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					if (allFollowers[i]->getClientNotified())
+					{
+						server.sendConverted(i);
+						cout << "Sent converted";
+					}
+				}
+
 			}
 
 
@@ -202,7 +216,7 @@ void GameHost::render()
 	window.draw(*thisProphet);
 	if (otherProphet != nullptr)
 	{
-	window.draw(*otherProphet);
+		window.draw(*otherProphet);
 
 	}
 	if (converting)

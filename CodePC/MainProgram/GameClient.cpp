@@ -117,7 +117,7 @@ State GameClient::update()
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			//thisProphet->moveProphet();
 			thisProphet->convertsFollow();
-			packet = client.recievePacket();
+			packet = client.recieveAPacket();
 			if (packet.type < 4)
 			{
 			otherProphet->setPosition(packet.posX, packet.posY);

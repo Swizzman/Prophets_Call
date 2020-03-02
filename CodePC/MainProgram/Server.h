@@ -18,6 +18,8 @@ public:
 	virtual ~Server();
 	void run();
 	bool getClientConnected() const;
-	void sendPos(sf::Vector2f pos);
+	void sendProphetPos(sf::Vector2f pos);
+	void sendFollowerPos(sf::Vector2f pos, int index);
+	void sendConverted(int index);
 };
 
