@@ -6,6 +6,7 @@ struct Packet
 	sf::Uint16 type;
 	sf::Uint32 posX;
 	sf::Uint32 posY;
+	sf::Uint16 index;
 
 };
 class Client
@@ -17,6 +18,6 @@ private:
 public:
 	Client();
 	virtual ~Client();
-	Packet recievePacket();
+	Packet recieveAPacket();
 };
 

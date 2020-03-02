@@ -21,16 +21,20 @@ Client::~Client()
 {
 }
 
-Packet Client::recievePacket()
+Packet Client::recieveAPacket()
 {
 	sf::Packet packet;
 	Packet recieved;
 	sf::Uint16 x, y;
 	connectionSocket.receive(packet);
 	packet >> recieved.type;
-	if (recieved.type < 4)
+	if (recieved.type == 1)
 	{
 		packet >> recieved.posX >> recieved.posY;
+	}
+	else if (recieved.type == 2)
+	{
+		packet >> recieved.posX >> recieved.posY >> recieved.index;
 	}
 	return recieved;
 }
