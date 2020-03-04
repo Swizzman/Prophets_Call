@@ -15,8 +15,8 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
+	thisProphet->recieveEnemyProphet(otherProphet, thisProphet);
+	otherProphet->recieveEnemyProphet(thisProphet,otherProphet);
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -31,7 +31,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 void GameHost::networking()
 {
 
-	server.run();
+//	server.run();
 
 	
 
@@ -78,7 +78,7 @@ void GameHost::handleEvents()
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-				thisProphet->changeCurrentCommand();
+				
 				
 					break;
 			case sf::Keyboard::Tab:
@@ -87,6 +87,7 @@ void GameHost::handleEvents()
 
 				break;
 			case sf::Keyboard::LShift:
+				thisProphet->changeCurrentCommand();
 				uiManager.updateCS(thisProphet->getcurrentGroupCommand());
 				break;
 			case sf::Keyboard::Enter:
@@ -113,9 +114,23 @@ void GameHost::handleEvents()
 				break;
 			}
 		}
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			switch (event.mouseButton.button)
+			{
+			case sf::Mouse::Right:
+			
+				thisProphet->placeAbil(tempVec);
+				abilityplaced = true;
+				break;
+			default:
+				break;
+			}
+		}
 
 
 	}
+
 }
 
 State GameHost::update()
@@ -123,11 +138,11 @@ State GameHost::update()
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
 	{
-
+		
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
-			
+			tempVec = static_cast<sf::Vector2f>(mouse.getPosition(window));
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
 			thisProphet->convertsFollow();
@@ -135,10 +150,38 @@ State GameHost::update()
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
+				
+				for (int a = 0; a < nrOfTotalFollowers; a++)
+				{
+					//allFollowers[i]->Collided(allFollowers[a]);
+					if (allFollowers[i]->getBounds().intersects(allFollowers[a]->getBounds()) && i != a)
+					{
+						allFollowers[i]->Collided(allFollowers[a]);
+					}
+				
+					
+				}
 				allFollowers[i]->checkCivMove();
 			}
 
+			if (thisProphet->getIfAbilityIsActive())
+			{
+				
+				thisProphet->timerForAbility();
+				
+			}
+			else
+			{
+				//cout << "asd" << endl;	
+				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+				{
+					thisProphet->endingReinforcementAbility();
+				
+				}
+				abilityplaced = false;
 
+
+			}
 			//Check conversion and start if key is pressed
 			if (converting)
 			{
@@ -197,7 +240,7 @@ void GameHost::render()
 		window.draw(thisProphet->getConvertCirc());
 
 	}
-	if (abilityplaced)
+	if (thisProphet->getIfAbilityIsActive())
 	{
 		window.draw(*this->thisProphet->getCurAbil());
 	}

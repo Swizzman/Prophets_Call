@@ -14,6 +14,11 @@ private:
 	group* followerGroup;
 	Prophet* enemyProphet;
 	bool abilityActive;
+	sf::Clock clock;
+	sf::Time timePerFrame;
+	sf::Time elapsedTimeSinceLastUpdate;
+	bool reinforcementIsOn;
+
 
 public:
 	AbilityManager();
@@ -23,10 +28,14 @@ public:
 	int getCurrentRadius();
 	bool getAbilityActive() const;
 	void startAbility();
+	
 	void stopAbility();
+	void stopReinforceAbility();
+	bool returnReinforcementBool();
 	void updateAbility(sf::Vector2f placement);
 	void placeCurrentAbility(sf::Vector2f position);
 	void recievePtr(Prophet* enemyPro, group* followerGroup);
+	void whileAbilityIsActive();
 	Ability* getCurrentAbility() const;
 
 

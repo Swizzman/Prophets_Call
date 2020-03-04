@@ -1,5 +1,7 @@
 #pragma once
 #include "Commands.h"
+
+class Prophet;
 class Closest :
 	public Commands
 {
@@ -10,6 +12,9 @@ private:
 public:
 	Closest();
 	virtual ~Closest();
-	virtual GameEntity* calculateRoute(GameEntity* thisObject, GameEntity** object) override;
+
+	// Inherited via Commands
+	virtual sf::Vector2f calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, GameEntity* object) override;
+	//virtual GameEntity* calculateRoute(GameEntity* thisObject, GameEntity** object) override;
 };
 

@@ -48,7 +48,8 @@ Prophet::~Prophet()
 		//{
 		//	delete group[i].followers[y];
 		//}
-		delete group[i].followers;
+	
+		delete[] group[i].followers;
 	}
 
 }
@@ -103,16 +104,15 @@ void Prophet::convert(Follower** follArr, int nrOf)
 
 void Prophet::convertsFollow()
 {
-	for (int a = 0; a < GROUPNR; a++)
-	{
-		if (currentCommandGroup == a)
-		{
-			for (int i = 0; i < group[a].nrOfFollowers; i++)
-			{
-				group[a].followers[i]->moveTowardsDest(getPosition());
-			}
-		}
-	}
+	
+			
+				//group[a].followers[i]->moveTowardsDest(getPosition());
+					commandMan.useCommand();
+
+				
+			
+		
+	
 	
 }
 
@@ -203,6 +203,19 @@ int Prophet::getNrOfFollowers()
 	
 }
 
+int Prophet::getAllNrOfFollowers(int thisGroup)
+{
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		if (i ==  thisGroup)
+		{
+			return group[i].nrOfFollowers;
+
+		}
+		
+	}
+}
+
 void Prophet::addFollower()
 {
 }
@@ -247,10 +260,25 @@ Follower& Prophet::getASingleFollower(int whichOne)
 	
 }
 
-void Prophet::recieveEnemyProphet(Prophet* other)
+Follower* Prophet::getAllFollowers(int thisGroup)
+{
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		if (i == thisGroup)
+		{
+
+			return *group[i].followers;
+		
+		}
+
+	}
+}
+
+void Prophet::recieveEnemyProphet(Prophet* other, Prophet* thisOther)
 {
 	otherProphet = other;
 	abilityMan.recievePtr(other, &group[currentCommandGroup]);
+	commandMan.recievePtr(other, &group[currentCommandGroup], thisOther);
 }
 
 int Prophet::getCurrentAbility()
@@ -263,10 +291,11 @@ int Prophet::getCurrentAbility()
 void Prophet::changeAbility()
 {
 	chosenAbility++;
-	if (chosenAbility >= 3)
+	if (chosenAbility > 2)
 	{
 		chosenAbility = 0;
 	}
+	abilityMan.switchAbility();
 	//std::cout << chosenAbility << std::endl;
 }
 
@@ -274,7 +303,8 @@ void Prophet::checkAbility()
 {
 	if ((abilityActive = abilityMan.getAbilityActive()) == true)
 	{
-		abilityMan.placeCurrentAbility((sf::Vector2f)abilityMouse.getPosition());
+
+		//abilityMan.placeCurrentAbility((sf::Vector2f)abilityMouse.getPosition());
 	}
 }
 
@@ -302,7 +332,7 @@ int Prophet::getcurrentGroupCommand()
 
 		if (currentCommandGroup == i)
 		{
-			this->group[i].currentCommand++;
+		//	this->group[i].currentCommand++;
 			if (this->group[i].currentCommand > 3)
 			{
 				this->group[i].currentCommand = 0;
@@ -334,6 +364,30 @@ void Prophet::changeCurrentCommand()
 {
 	commandMan.switchCommand(currentCommandGroup);
 
+}
+
+bool Prophet::getIfAbilityIsActive()
+{
+	
+	return abilityMan.getAbilityActive();
+}
+
+void Prophet::timerForAbility()
+{
+	
+	abilityMan.stopAbility();
+	abilityMan.whileAbilityIsActive();
+
+}
+
+void Prophet::endingReinforcementAbility()
+{
+	abilityMan.stopReinforceAbility();
+}
+
+bool Prophet::returnReinforceBool()
+{
+	return abilityMan.returnReinforcementBool();
 }
 
 

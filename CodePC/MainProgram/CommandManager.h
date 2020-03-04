@@ -5,6 +5,7 @@
 #include "LowestHP.h"
 #include "AttackProphet.h"
 #include "Closest.h"
+#include <ctime>
 class Prophet;
 struct group;
 class CommandManager
@@ -14,14 +15,15 @@ private:
 	Prophet *thisProphet;
 	Prophet* enemyProphet;
 	group* followerGroup;
-	Commands* comands;
+	Commands** comands;
 	int currentGroup;
+	sf::Vector2f* followerDest;
 
 public:
 	CommandManager();
 	virtual ~CommandManager();
-	void goToPoint(sf::Vector2f point);
-	int switchCommand(int currentGroup);
+	void goToPoint(sf::Vector2f point, int group, int nrOfFollower);
+	void switchCommand(int  currentGroup);
 	void useCommand();
 	int getCurrentCommand();
 	void recievePtr(Prophet* enemyPro, group *folGroup , Prophet* thisProhet);//not done

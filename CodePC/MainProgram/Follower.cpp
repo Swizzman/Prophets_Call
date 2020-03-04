@@ -9,6 +9,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	windowHeight = 0;
 	windowWidth = 0;
 	damage = 20;
+	startDamage = 20;
 	soulValue = 40;
 	attackRange = 5.f;
 	alive = true;
@@ -16,7 +17,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
-
+	test = 0;
 }
 
 Follower::~Follower()
@@ -26,6 +27,13 @@ Follower::~Follower()
 void Follower::increaseDamageDone(int increase)
 {
 	damage += increase;
+	cout << damage << endl;
+}
+
+void Follower::returnDamage()
+{
+	damage = startDamage;
+	cout << damage << endl;
 }
 
 void Follower::checkCivMove()
@@ -42,6 +50,7 @@ void Follower::checkCivMove()
 			maxTime = rand() % 6000 + 2000;
 
 		}
+		
 		move();
 		if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
 		{
@@ -92,4 +101,43 @@ bool Follower::getConverted() const
 int Follower::getConvertedAmount() const
 {
 	return convertedAmount;
+}
+
+void Follower::Collided(GameEntity* other)
+{
+	
+	//moveTimer = sf::milliseconds(maxTime);
+	/*if (getMovingSpeedX() == 0 && getMovingSpeedY == 0)
+	{
+		getmov
+	}*/
+	if (!converted)
+	{
+
+
+		if (this->getMovingSpeedY() == 0 && this->getMovingSpeedX() == 0)
+		{
+			setPosition(getPosition().x, getPosition().y);
+		}
+		else if (this->getMovingSpeedX() == 0 && this->getMovingSpeedY() != 0)
+		{
+			setPosition(getPosition().x, getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
+		}
+		else if (this->getMovingSpeedY() == 0)
+		{
+			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y);
+		}
+
+		if (this->getMovingSpeedY() != 0 && this->getMovingSpeedX() != 0)
+		{
+			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
+		}
+
+		
+
+			setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+		
+	}
+	
+
 }
