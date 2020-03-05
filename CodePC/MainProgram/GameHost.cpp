@@ -209,7 +209,7 @@ State GameHost::update()
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
 				{
-					if (allFollowers[i]->getConvertedByOther() == false)
+					if ((allFollowers[i]->getConvertedByOther() == false && allFollowers[i]->getConverted()) || !allFollowers[i]->getConverted())
 					{
 
 						server.sendFollowerPos(allFollowers[i]->getPosition(), i);
