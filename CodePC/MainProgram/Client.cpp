@@ -14,7 +14,7 @@ void Client::run()
 	else
 	{
 		std::cout << "Connected to Server\n";
-
+		connected = true;
 		
 	}
 }
@@ -52,4 +52,9 @@ void Client::sendProphetPos(sf::Vector2f pos)
 	packet << (sf::Uint16) 1 << (sf::Uint32) pos.x << (sf::Uint32) pos.y;
 	connectionSocket.send(packet);
 
+}
+
+bool Client::getConnected() const
+{
+	return connected;
 }

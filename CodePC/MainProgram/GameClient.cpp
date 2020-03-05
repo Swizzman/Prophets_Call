@@ -36,7 +36,25 @@ GameClient::~GameClient()
 
 void GameClient::netWorking()
 {
-	client.run();
+	Packet packet;
+	while (client.getConnected())
+	{
+		packet = client.recieveAPacket();
+		if (packet.type == 1)
+		{
+			otherProphet->setPosition(packet.posX, packet.posY);
+
+		}
+		else if (packet.type == 2)
+		{
+			allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+		}
+		else if (packet.type == 4)
+		{
+			allFollowers[packet.index]->otherConvert();
+
+		}
+	}
 }
 
 void GameClient::handleEvents()
@@ -118,36 +136,10 @@ State GameClient::update()
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
 			thisProphet->convertsFollow();
-			Packet packet;
-			packet = client.recieveAPacket();
-			if (packet.type == 1)
-			{
-				otherProphet->setPosition(packet.posX, packet.posY);
 
-			}
-			else if (packet.type == 4)
-			{
-				allFollowers[packet.index]->otherConvert();
-
-			}
 			client.sendProphetPos(thisProphet->getPosition());
-			
 			//Move the playerProphet
 			//Check All the civilians for movement
-			for (int i = 0; i < nrOfTotalFollowers; i++)
-			{
-				packet = client.recieveAPacket();
-				if (packet.type == 2)
-				{
-					allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
-				}
-				else if (packet.type == 4)
-				{
-					allFollowers[packet.index]->otherConvert();
-
-				}
-			}
-
 
 			//Check conversion and start if key is pressed
 			if (converting)
@@ -159,7 +151,10 @@ State GameClient::update()
 			{
 				thisProphet->resetClock();
 			}
+			for (int i = 0; i < nrOfTotalFollowers; i++)
+			{
 
+			}
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
