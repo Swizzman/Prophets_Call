@@ -104,6 +104,7 @@ void GameClient::handleEvents()
 
 				break;
 			case sf::Keyboard::LShift:
+				thisProphet->changeCurrentCommand();
 				uiManager.updateCS(thisProphet->getcurrentGroupCommand());
 				break;
 			case sf::Keyboard::Enter:
@@ -148,6 +149,7 @@ State GameClient::update()
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			//Move the playerProphet
 			thisProphet->moveProphet();
+
 			thisProphet->convertsFollow();
 
 			client.sendProphetPos(thisProphet->getPosition());
@@ -165,12 +167,21 @@ State GameClient::update()
 			}
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
+				if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
+				{
+					allFollowers[i]->checkCivMove();
+				}
 				if (allFollowers[i]->getOtherNotified())
 				{
 					std::cout << "Sent converted!\n";
 					client.sendConverted(i);
 					allFollowers[i]->otherIsNotified();
 				}
+				if (!allFollowers[i]->getConvertedByOther() && allFollowers[i]->getConverted())
+				{
+					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+				}
+
 
 			}
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())

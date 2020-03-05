@@ -3,6 +3,7 @@
 Client::Client()
 {
 	iP = ("25.74.9.3");
+	connected = false;
 }
 
 void Client::run()
@@ -52,6 +53,13 @@ void Client::sendProphetPos(sf::Vector2f pos)
 	packet << (sf::Uint16) 1 << (sf::Uint32) pos.x << (sf::Uint32) pos.y;
 	connectionSocket.send(packet);
 
+}
+
+void Client::sendFollowerPos(sf::Vector2f pos, int index)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 2 << (sf::Uint32) pos.x << (sf::Uint32) pos.y << (sf::Uint16) index;
+	connectionSocket.send(packet);
 }
 
 void Client::sendConverted(int index)
