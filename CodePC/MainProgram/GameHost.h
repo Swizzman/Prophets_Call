@@ -30,6 +30,7 @@ private:
 	Server server;
 	sf::Mouse mouse;
 	std::thread netWorkThread;
+	sf::Vector2f tempVec;
 public:
 	GameHost();
 	void networking();

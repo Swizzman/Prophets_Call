@@ -26,7 +26,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	converting = false;
 	abilityplaced = false;
 	activeClient = false;
-
+	thisProphet->setPosition(500, 500);
 }
 
 void GameHost::networking()
@@ -79,15 +79,16 @@ void GameHost::handleEvents()
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-				thisProphet->changeCurrentCommand();
-
-				break;
+				
+				
+					break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();
 				thisProphet->changeCurrentCommandGroup();
 
 				break;
 			case sf::Keyboard::LShift:
+				thisProphet->changeCurrentCommand();
 				uiManager.updateCS(thisProphet->getcurrentGroupCommand());
 				break;
 			case sf::Keyboard::Enter:
@@ -114,9 +115,23 @@ void GameHost::handleEvents()
 				break;
 			}
 		}
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			switch (event.mouseButton.button)
+			{
+			case sf::Mouse::Right:
+			
+				thisProphet->placeAbil(tempVec);
+				abilityplaced = true;
+				break;
+			default:
+				break;
+			}
+		}
 
 
 	}
+
 }
 
 State GameHost::update()
@@ -124,44 +139,82 @@ State GameHost::update()
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
 	{
-
+		
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
+			elapsedTimeSinceLastUpdate -= timePerFrame;
 			if (!activeClient)
 			{
 				if (server.getClientConnected())
 				{
 					otherProphet = new Prophet();
 					activeClient = true;
+					thisProphet->recieveEnemyProphet(otherProphet);
+					otherProphet->recieveEnemyProphet(thisProphet);
 				}
 			}
-			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
-			if (otherProphet != nullptr)
+			if (otherProphet != nullptr && activeClient)
 			{
 				server.sendProphetPos(thisProphet->getPosition());
 
 			}
+			Packet packet;
+			packet = server.recieveAPacket();
+			if (packet.type == 1)
+			{
+				otherProphet->setPosition(packet.posX, packet.posY);
+
+			}
+
 			thisProphet->convertsFollow();
 			//Move the playerProphet
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
+				
+				for (int a = 0; a < nrOfTotalFollowers; a++)
+				{
+					//allFollowers[i]->Collided(allFollowers[a]);
+					if (allFollowers[i]->getBounds().intersects(allFollowers[a]->getBounds()) && i != a)
+					{
+						allFollowers[i]->Collided(allFollowers[a]);
+					}
+				
+					
+				}
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
 				{
 					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
-					if (allFollowers[i]->getClientNotified())
-					{
-						server.sendConverted(i);
-						cout << "Sent converted";
-					}
+
+				}
+				if (allFollowers[i]->getClientNotified())
+				{
+					server.sendConverted(i);
+					allFollowers[i]->clientIsNotified();
 				}
 
 			}
 
+			if (thisProphet->getIfAbilityIsActive())
+			{
+				
+				thisProphet->timerForAbility();
+				
+			}
+			else
+			{
+				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+				{
+					thisProphet->endingReinforcementAbility();
+				
+				}
+				abilityplaced = false;
 
+
+			}
 			//Check conversion and start if key is pressed
 			if (converting)
 			{
@@ -176,7 +229,6 @@ State GameHost::update()
 
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
-				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth());
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
@@ -190,14 +242,6 @@ State GameHost::update()
 
 
 
-		/*for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
-		{
-			if (thisProphet->getASingleFollower(i).getHealth() <= 0)
-			{
-				cout << "DIE FOLLOWER DIE" << endl;
-
-			}
-		}*/
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			netWorkThread.join();
@@ -224,7 +268,7 @@ void GameHost::render()
 		window.draw(thisProphet->getConvertCirc());
 
 	}
-	if (abilityplaced)
+	if (thisProphet->getIfAbilityIsActive())
 	{
 		window.draw(*this->thisProphet->getCurAbil());
 	}

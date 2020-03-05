@@ -9,6 +9,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	windowHeight = 0;
 	windowWidth = 0;
 	damage = 20;
+	startDamage = 20;
 	soulValue = 40;
 	attackRange = 5.f;
 	alive = true;
@@ -17,7 +18,6 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
-
 }
 
 Follower::~Follower()
@@ -27,6 +27,13 @@ Follower::~Follower()
 void Follower::increaseDamageDone(int increase)
 {
 	damage += increase;
+	cout << damage << endl;
+}
+
+void Follower::returnDamage()
+{
+	damage = startDamage;
+	cout << damage << endl;
 }
 
 void Follower::checkCivMove()
@@ -43,6 +50,7 @@ void Follower::checkCivMove()
 			maxTime = rand() % 6000 + 2000;
 
 		}
+
 		move();
 		if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
 		{
@@ -69,33 +77,43 @@ void Follower::placeFollower(int width, int height)
 	windowWidth = width;
 }
 
-void Follower::convert(bool force)
+void Follower::convert()
 {
 	if (!converted)
 	{
 
-		if (!force)
-		{
 
-			if (convertedAmount >= 100)
-			{
-				converted = true;
-				clientNotified = true;
-				switchTexture("Follower.png");
-
-			}
-			else
-			{
-				convertedAmount += 30;
-			}
-		}
-		else
+		if (convertedAmount >= 100)
 		{
 			converted = true;
+			clientNotified = true;
 			switchTexture("Follower.png");
 
 		}
+		else
+		{
+			convertedAmount += 30;
+		}
 	}
+
+
+}
+
+void Follower::otherConvert()
+{
+	converted = true;
+	switchTexture("Follower.png");
+
+}
+
+void Follower::clientIsNotified()
+{
+	clientNotified = false;
+}
+
+bool Follower::getClientNotified() const
+{
+	return clientNotified;
 }
 
 
@@ -105,17 +123,42 @@ bool Follower::getConverted() const
 	return converted;
 }
 
-bool Follower::getClientNotified()
-{
-	bool whatToReturn = clientNotified;
-	if (clientNotified)
-	{
-		clientNotified = false;
-	}
-	return whatToReturn;
-}
-
 int Follower::getConvertedAmount() const
 {
 	return convertedAmount;
+}
+
+void Follower::Collided(GameEntity* other)
+{
+
+ 
+	if (!converted)
+	{
+
+
+		if (this->getMovingSpeedY() == 0 && this->getMovingSpeedX() == 0)
+		{
+			setPosition(getPosition().x, getPosition().y);
+		}
+		else if (this->getMovingSpeedX() == 0 && this->getMovingSpeedY() != 0)
+		{
+			setPosition(getPosition().x, getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
+		}
+		else if (this->getMovingSpeedY() == 0)
+		{
+			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y);
+		}
+
+		if (this->getMovingSpeedY() != 0 && this->getMovingSpeedX() != 0)
+		{
+			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
+		}
+
+
+
+		setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+
+	}
+
+
 }

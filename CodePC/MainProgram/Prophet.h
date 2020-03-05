@@ -33,6 +33,7 @@ private:
 	sf::Clock clock;
 	group group[GROUPNR];
 	Prophet* otherProphet;
+
 	AbilityManager abilityMan;
 	CommandManager commandMan;
 	sf::Mouse abilityMouse;
@@ -50,12 +51,13 @@ public:
 	bool checkCollision(sf::FloatRect otherBoundingBox);
 	void moveProphet();
 	int getNrOfFollowers();
-	void addFollower();
+	int getAllNrOfFollowers(int thisGroup);
 	void collectSouls();
 	void placeAbil(sf::Vector2f position);
 	int getSouls();
 	Follower* getFollowers();
 	Follower& getASingleFollower(int whichOne);
+	Follower* getAllFollowers(int thisGroup);
 	void recieveEnemyProphet(Prophet* other);
 	int getCurrentAbility();
 	void changeAbility();
@@ -67,6 +69,11 @@ public:
 	void drawAbil(sf::RenderWindow* window);
 	void aFollowerGotKilled(int whichFollower);
 	void changeCurrentCommand();
+	bool getIfAbilityIsActive();
+	void timerForAbility();
+	void endingReinforcementAbility();
+	bool returnReinforceBool();
+
 	// Inherited via GameEntity
 	virtual void die() override;
 

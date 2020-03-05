@@ -5,6 +5,8 @@ class Regen :
 	public Ability
 {
 private:
+	int health;
+
 public:
 	Regen();
 	virtual ~Regen();

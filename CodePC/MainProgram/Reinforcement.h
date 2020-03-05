@@ -5,6 +5,7 @@ class Reinforcement :
 	public Ability
 {
 private:
+	int damageIncrease;
 public:
 	Reinforcement();
 	virtual ~Reinforcement();
