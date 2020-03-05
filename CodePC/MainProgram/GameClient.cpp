@@ -17,8 +17,8 @@ GameClient::GameClient()
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
-	thisProphet->recieveEnemyProphet(otherProphet,thisProphet);
-	otherProphet->recieveEnemyProphet(thisProphet,otherProphet);
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
 	converting = false;
 	abilityplaced = false;
 }
