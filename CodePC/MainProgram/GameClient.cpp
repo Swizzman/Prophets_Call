@@ -126,12 +126,11 @@ State GameClient::update()
 			}
 			else if (packet.type == 4)
 			{
-				allFollowers[packet.index]->convert(true);
+				allFollowers[packet.index]->otherConvert();
 
 			}
 			client.sendProphetPos(thisProphet->getPosition());
 			
-			std::cout << otherProphet->getPosition().x << ":" << otherProphet->getPosition().y << std::endl;
 			//Move the playerProphet
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
@@ -140,6 +139,11 @@ State GameClient::update()
 				if (packet.type == 2)
 				{
 					allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+				}
+				else if (packet.type == 4)
+				{
+					allFollowers[packet.index]->otherConvert();
+
 				}
 			}
 

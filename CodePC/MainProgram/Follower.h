@@ -10,7 +10,7 @@ private:
 	float attackRange;
 	bool alive;
 	bool converted;
-	bool clientNotified;
+	bool otherNotified;
 	bool collided;
 	int maxTime;
 	int windowWidth;
