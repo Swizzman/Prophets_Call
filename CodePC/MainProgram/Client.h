@@ -21,6 +21,8 @@ public:
 	virtual ~Client();
 	Packet recieveAPacket();
 	void sendProphetPos(sf::Vector2f pos);
+	void sendConverted(int index);
+
 	bool getConnected() const;
 };
 

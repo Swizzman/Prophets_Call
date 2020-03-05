@@ -3,7 +3,7 @@
 GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet = new Prophet();
+	otherProphet = nullptr;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -17,8 +17,8 @@ GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
+	//thisProphet->recieveEnemyProphet(otherProphet);
+	//otherProphet->recieveEnemyProphet(thisProphet);
 	converting = false;
 	abilityplaced = false;
 }
@@ -36,6 +36,10 @@ GameClient::~GameClient()
 
 void GameClient::netWorking()
 {
+	client.run();
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
 	Packet packet;
 	while (client.getConnected())
 	{
@@ -47,11 +51,19 @@ void GameClient::netWorking()
 		}
 		else if (packet.type == 2)
 		{
-			allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+			if (allFollowers[packet.index] != nullptr)
+			{
+
+				allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+			}
 		}
 		else if (packet.type == 4)
 		{
-			allFollowers[packet.index]->otherConvert();
+			if (allFollowers[packet.index] != nullptr)
+			{
+				allFollowers[packet.index]->otherConvert();
+			}
+
 
 		}
 	}
@@ -134,11 +146,11 @@ State GameClient::update()
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
+			//Move the playerProphet
 			thisProphet->moveProphet();
 			thisProphet->convertsFollow();
 
 			client.sendProphetPos(thisProphet->getPosition());
-			//Move the playerProphet
 			//Check All the civilians for movement
 
 			//Check conversion and start if key is pressed
@@ -153,6 +165,12 @@ State GameClient::update()
 			}
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
+				if (allFollowers[i]->getOtherNotified())
+				{
+					std::cout << "Sent converted!\n";
+					client.sendConverted(i);
+					allFollowers[i]->otherIsNotified();
+				}
 
 			}
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
@@ -181,7 +199,11 @@ void GameClient::render()
 	window.clear();
 
 	window.draw(*thisProphet);
-	window.draw(*otherProphet);
+	if (otherProphet != nullptr)
+	{
+
+		window.draw(*otherProphet);
+	}
 	if (converting)
 	{
 		window.draw(thisProphet->getConvertCirc());

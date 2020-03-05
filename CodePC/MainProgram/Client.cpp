@@ -54,6 +54,13 @@ void Client::sendProphetPos(sf::Vector2f pos)
 
 }
 
+void Client::sendConverted(int index)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 4 << (sf::Uint16) index;
+	connectionSocket.send(packet);
+}
+
 bool Client::getConnected() const
 {
 	return connected;
