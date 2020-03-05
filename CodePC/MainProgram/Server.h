@@ -9,6 +9,7 @@ private:
 	sf::TcpSocket tcpSocket;
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
+	sf::IpAddress iP;
 	bool isRunning;
 	bool clientConnected;
 	Client* client;

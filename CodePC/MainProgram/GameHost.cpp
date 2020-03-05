@@ -32,7 +32,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 void GameHost::networking()
 {
 
-	//server.run();
+	server.run();
 
 
 
@@ -121,7 +121,7 @@ void GameHost::handleEvents()
 			{
 			case sf::Mouse::Right:
 			
-				thisProphet->placeAbil(tempVec);
+				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
 				abilityplaced = true;
 				break;
 			default:
@@ -149,6 +149,8 @@ State GameHost::update()
 				{
 					otherProphet = new Prophet();
 					activeClient = true;
+					thisProphet->recieveEnemyProphet(otherProphet);
+					otherProphet->recieveEnemyProphet(thisProphet);
 				}
 			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;

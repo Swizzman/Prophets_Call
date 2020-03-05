@@ -18,7 +18,7 @@ GameClient::GameClient()
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
 	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
+	otherProphet->recieveEnemyProphet(thisProphet	);
 	converting = false;
 	abilityplaced = false;
 }
