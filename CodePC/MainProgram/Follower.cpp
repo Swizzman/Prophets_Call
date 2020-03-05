@@ -69,7 +69,7 @@ void Follower::placeFollower(int width, int height)
 	windowWidth = width;
 }
 
-void Follower::convert(bool force = false)
+void Follower::convert(bool force)
 {
 	if (!converted)
 	{

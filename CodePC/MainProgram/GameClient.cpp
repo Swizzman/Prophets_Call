@@ -124,6 +124,10 @@ State GameClient::update()
 				otherProphet->setPosition(packet.posX, packet.posY);
 
 			}
+			else if (packet.type == 4)
+			{
+				allFollowers[packet.index]->convert(true);
+			}
 
 
 			
