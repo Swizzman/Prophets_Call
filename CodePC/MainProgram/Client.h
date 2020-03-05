@@ -17,6 +17,7 @@ private:
 	sf::Uint16 iD;
 public:
 	Client();
+	void run();
 	virtual ~Client();
 	Packet recieveAPacket();
 };
