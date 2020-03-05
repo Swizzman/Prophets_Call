@@ -36,5 +36,9 @@ Packet Client::recieveAPacket()
 	{
 		packet >> recieved.posX >> recieved.posY >> recieved.index;
 	}
+	else if (recieved.type == 4)
+	{
+		packet >> recieved.index;
+	}
 	return recieved;
 }
