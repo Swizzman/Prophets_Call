@@ -25,10 +25,10 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	otherProphet = new Prophet();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
-	activeClient = true;
+	//otherProphet = new Prophet();
+	//thisProphet->recieveEnemyProphet(otherProphet);
+	//otherProphet->recieveEnemyProphet(thisProphet);
+	//activeClient = true;
 }
 
 void GameHost::networking()
