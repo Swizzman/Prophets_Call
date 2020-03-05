@@ -10,6 +10,7 @@ private:
 	float attackRange;
 	bool alive;
 	bool converted;
+	bool convertedByOther;
 	bool otherNotified;
 	bool collided;
 	int maxTime;
@@ -40,6 +41,7 @@ public:
 	void convert();
 	void otherConvert();
 	bool getConverted() const;
+	bool getConvertedByOther() const;
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);
 	float getFollowerRange();

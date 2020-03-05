@@ -9,9 +9,7 @@ private:
 	sf::TcpSocket tcpSocket;
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
-	bool isRunning;
 	bool clientConnected;
-	Client* client;
 	std::unique_ptr<sf::TcpSocket> clientSock;
 public:
 	Server();
