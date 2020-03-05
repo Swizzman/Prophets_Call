@@ -7,17 +7,19 @@ struct Packet
 	sf::Uint32 posX;
 	sf::Uint32 posY;
 	sf::Uint16 index;
-
 };
 class Client
 {
 private:
 	sf::TcpSocket connectionSocket;
 	sf::Packet recievePacket;
+	bool connected;
+
 public:
 	Client();
 	virtual ~Client();
 	Packet recieveAPacket();
 	void sendProphetPos(sf::Vector2f pos);
+	bool getConnected() const;
 };
 
