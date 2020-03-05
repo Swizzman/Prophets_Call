@@ -7,7 +7,7 @@ sf::Vector2f Prophet::getCircCenter() const
 }
 
 Prophet::Prophet() :
-	GameEntity("Prophet.png", 0, 0, 100)
+	GameEntity("Prophet.png", 0, 0, 1000)
 {
 
 	//this->group1 = new group();

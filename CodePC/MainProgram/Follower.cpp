@@ -18,6 +18,10 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
+	test = 0;
+	this->canAttack = true;
+	followerRange = 100;
+	attackCooldownTime = 2;
 }
 
 Follower::~Follower()
@@ -75,6 +79,42 @@ void Follower::placeFollower(int width, int height)
 	setPosition(rand() % width, rand() % height);
 	windowHeight = height;
 	windowWidth = width;
+}
+
+int Follower::inflictDamage()
+{
+	canAttack = false;
+//	cout << "ouch" << endl;
+	return damage;
+}
+
+void Follower::attackCooldown()
+{
+
+	attackTime += attackClock.restart();
+
+	if (attackTime.asSeconds() > attackCooldownTime)
+	{
+
+		//cout << "Timer restart " << endl;
+		attackTime = sf::Time::Zero;
+		canAttack = true;
+		
+
+	}
+
+
+
+}
+
+bool Follower::getAttackCooldown()
+{
+	return canAttack;
+}
+
+void Follower::resetAttackClock()
+{
+	attackClock.restart();
 }
 
 void Follower::convert()
@@ -160,6 +200,11 @@ void Follower::Collided(GameEntity* other)
 		setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
 
 	}
+	
 
+}
 
+float Follower::getFollowerRange()
+{
+	return followerRange;
 }

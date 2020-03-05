@@ -13,7 +13,7 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	abilityHasTakenAffect = false;
 	
 
-	range = 80;
+	range = 100;
 
 	randomPos = sf::Vector2f(rand() % 300 -150, rand() % 300-150);
 	maxTime = rand() % 6000 + 2000;
@@ -38,7 +38,8 @@ void GameEntity::takeDamage(int damage)
 	{
 		this->health = 0;
 	}
-	std::cout << health << std::endl;
+	//if(health > 0)
+//	std::cout << health << std::endl;
 }
 
 sf::Vector2f GameEntity::getPos()
@@ -81,11 +82,11 @@ void GameEntity::gainHealth(int health)
 }
 
 
-void GameEntity::attackCooldown()
-{
-
-	canAttack = true;
-}
+//void GameEntity::attackCooldown()
+//{
+//
+//	canAttack = true;
+//}
 
 bool GameEntity::getAttackBool()
 {
@@ -94,20 +95,20 @@ bool GameEntity::getAttackBool()
 
 void GameEntity::attack(GameEntity* enemy, int damage)
 {
-	if (sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) <= range &&
-		sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) >= -range)))
-	{
-		if (canAttack == true)
-		{
-			enemy->takeDamage(damage);
+	//if (sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) <= range &&
+	//	sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) >= -range)))
+	//{
+	//	if (canAttack == true)
+	//	{
+	//		enemy->takeDamage(damage);
 
-			//attack enemy object
-			canAttack = false;
-		}
-		
-		
+	//		//attack enemy object
+	//		canAttack = false;
+	//	}
+	//	
+	//	
 
-	}
+	//}
 
 
 }
@@ -196,7 +197,8 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 	}
 	else
 	{
-		randomPosRange = range*2;
+		randomPosRange = range;
+		randomPosRange *= 2;
 	}
 	if (reset)
 	{
@@ -268,6 +270,12 @@ bool GameEntity::getIfIsInRangeOfAbility(bool IsInRange)
 	else
 		isInRangeOfAbility = false;
 	return	isInRangeOfAbility;
+}
+
+float GameEntity::getRange()
+{
+
+	return range;
 }
 
 

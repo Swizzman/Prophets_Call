@@ -18,6 +18,12 @@ private:
 	int convertedAmount;
 	sf::Time moveTimer;
 	sf::Clock clock;
+	sf::Clock attackClock;
+	sf::Time attackTime;
+	bool canAttack;
+	float attackCooldownTime;
+	float followerRange = 100;
+	int test;
 public:
 	Follower();
 	virtual ~Follower();
@@ -25,13 +31,18 @@ public:
 	void returnDamage();
 	void checkCivMove();
 	void placeFollower(int width, int height);
-	void convert();
-	void otherConvert();
+	int inflictDamage();
+	void attackCooldown();
+	bool getAttackCooldown();
+	void resetAttackClock();
 	void clientIsNotified();
 	bool getClientNotified() const;
+	void convert();
+	void otherConvert();
 	bool getConverted() const;
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);
+	float getFollowerRange();
 	// Inherited via GameEntity
 	virtual void die() override;
 };
