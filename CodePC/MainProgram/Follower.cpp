@@ -83,7 +83,7 @@ void Follower::placeFollower(int width, int height)
 int Follower::inflictDamage()
 {
 	canAttack = false;
-	cout << "ouch" << endl;
+//	cout << "ouch" << endl;
 	return damage;
 }
 

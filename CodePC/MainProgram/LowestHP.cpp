@@ -1,6 +1,6 @@
 #include "LowestHP.h"
 #include "Prophet.h"
-
+#include "Follower.h"
 LowestHP::LowestHP()
 {
 	std::cout << "1" << std::endl;
@@ -15,12 +15,15 @@ LowestHP::~LowestHP()
 //	return nullptr;
 //}
 
-sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, GameEntity* object)
+sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object)
 {
 	sf::Vector2f temp(0, 0);
 	float magniTemp = 100000;
 	float health = 100000;
+	attackProphetBool = true;
 	sf::Vector2f thisEnemy(0,0);
+	int whichGroup;
+	int whichFollower;
 	for (int a = 0; a < 3; a++)
 	{
 
@@ -35,6 +38,9 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 					temp = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition() - object->getPosition();
 					magniTemp = sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().y - object->getPosition().y, 2));
 					health = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getHealth();
+					attackProphetBool = false;
+					whichFollower = i;
+					whichGroup = a;
 				}
 			}
 
@@ -51,7 +57,7 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 			temp = (enemyObject)->getPosition() - object->getPosition();
 			magniTemp = sqrt(pow((enemyObject)->getPosition().x - object->getPosition().x, 2) + pow((enemyObject)->getPosition().y - object->getPosition().y, 2));
 			health = dynamic_cast<Prophet*>(enemyObject)->getHealth();
-
+			attackProphetBool = true;
 		}
 
 	}
@@ -68,7 +74,18 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 	sf::Vector2f dist = temp;
 	float magni = magniTemp;
 	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);
+	if (object->getAttackCooldown() && object->getFollowerRange() > magni)
+	{
+		if (attackProphetBool == true)
+		{
+			enemyObject->takeDamage(object->inflictDamage());
+		}
+		else
+		{
+			dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(whichGroup)[whichFollower].takeDamage(object->inflictDamage());
+		}
 
+	}
 	//cout << dist.x << " : " << dist.y << endl;
 
 	return dir;

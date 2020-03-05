@@ -1,6 +1,6 @@
 #include "Closest.h"
 #include "Prophet.h"
-
+#include "Follower.h"
 
 Closest::Closest()
 {
@@ -12,12 +12,14 @@ Closest::~Closest()
 
 }
 
-sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, GameEntity* object)
+sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object)
 {
 
 	sf::Vector2f temp(0, 0);
 	float magniTemp = 100000;
-	
+	int whichGroup;
+	int whichFollower;
+	attackProphetBool = true;
 	for (int a = 0; a < 3; a++)
 	{
 		for (int i = 0; i <  dynamic_cast<Prophet*>(enemyObject)->getAllNrOfFollowers(a); i++)
@@ -29,7 +31,9 @@ sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyOb
 				magniTemp = sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().y - object->getPosition().y, 2));
 
 			
-
+				attackProphetBool = false;
+				whichFollower = i;
+				whichGroup = a;
 
 			}
 
@@ -44,7 +48,7 @@ sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyOb
 		{
 			temp = (enemyObject)->getPosition() - object->getPosition();
 			magniTemp = sqrt(pow((enemyObject)->getPosition().x - object->getPosition().x, 2) + pow((enemyObject)->getPosition().y - object->getPosition().y, 2));
-
+			attackProphetBool = true;
 
 		}
 
@@ -61,6 +65,18 @@ sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyOb
 	float magni = magniTemp;
 	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);
 
+	if (object->getAttackCooldown() && object->getFollowerRange() > magni)
+	{
+		if (attackProphetBool == true)
+		{
+			enemyObject->takeDamage(object->inflictDamage());
+		}
+		else
+		{
+			dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(whichGroup)[whichFollower].takeDamage(object->inflictDamage());
+		}
+
+	}
 	//cout << dist.x << " : " << dist.y << endl;
 
 	return dir;

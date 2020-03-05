@@ -38,7 +38,8 @@ void GameEntity::takeDamage(int damage)
 	{
 		this->health = 0;
 	}
-	std::cout << health << std::endl;
+	//if(health > 0)
+//	std::cout << health << std::endl;
 }
 
 sf::Vector2f GameEntity::getPos()

@@ -5,7 +5,7 @@
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet = nullptr;
+	otherProphet = new Prophet();
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -15,8 +15,8 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	/*thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);*/
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -26,7 +26,8 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	converting = false;
 	abilityplaced = false;
 	activeClient = false;
-
+	sf::Color::Magenta;
+	//cout << (int)sf::Color::Magenta.r << " : " << (int)sf::Color::Magenta.b << " : " << (int)sf::Color::Magenta.g << endl;
 }
 
 void GameHost::networking()
@@ -149,8 +150,11 @@ State GameHost::update()
 				{
 					otherProphet = new Prophet();
 					activeClient = true;
+					thisProphet->recieveEnemyProphet(otherProphet);
+					otherProphet->recieveEnemyProphet(thisProphet);
 				}
 			}
+			
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
 			if (otherProphet != nullptr)

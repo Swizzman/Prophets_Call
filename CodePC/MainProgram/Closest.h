@@ -7,14 +7,14 @@ class Closest :
 {
 	// Inherited via Commands
 private:
-
+	bool attackProphetBool;
 
 public:
 	Closest();
 	virtual ~Closest();
 
 	// Inherited via Commands
-	virtual sf::Vector2f calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, GameEntity* object) override;
+	virtual sf::Vector2f calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object) override;
 	//virtual GameEntity* calculateRoute(GameEntity* thisObject, GameEntity** object) override;
 };
 

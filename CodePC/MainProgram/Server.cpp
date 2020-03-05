@@ -58,7 +58,7 @@ void Server::sendProphetPos(sf::Vector2f pos)
 	sf::Packet packet;
 	packet << (sf::Uint16) 1 << (sf::Uint32) pos.x << (sf::Uint32) pos.y;
 	clientSock->send(packet);
-	std::cout << "Sent this prophets Position\n";
+//	std::cout << "Sent this prophets Position\n";
 }
 
 void Server::sendFollowerPos(sf::Vector2f pos, int index)
