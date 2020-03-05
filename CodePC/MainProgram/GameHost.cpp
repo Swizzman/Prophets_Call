@@ -32,7 +32,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 
 
 

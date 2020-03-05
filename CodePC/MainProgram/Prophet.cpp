@@ -82,7 +82,7 @@ void Prophet::convert(Follower** follArr, int nrOf)
 								follArr[i]->convert();
 								if (follArr[i]->getConverted())
 								{
-									follArr[i].
+									
 									group[a].followers[group[a].nrOfFollowers++] = follArr[i];
 									//std::cout << group[a].nrOfFollowers << std::endl;
 
