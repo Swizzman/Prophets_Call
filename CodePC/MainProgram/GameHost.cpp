@@ -5,7 +5,7 @@
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet = new Prophet();
+	otherProphet = nullptr;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -15,8 +15,6 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -27,15 +25,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	activeClient = true;
 }
 
 void GameHost::networking()
 {
 
 	server.run();
-
-
-
 
 }
 
@@ -66,8 +65,11 @@ void GameHost::handleEvents()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::Space:
+				if (activeClient)
+				{
 
-				converting = true;
+					converting = true;
+				}
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
@@ -79,12 +81,16 @@ void GameHost::handleEvents()
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-				
-				
-					break;
+
+
+				break;
 			case sf::Keyboard::Tab:
-				uiManager.changeCS();
-				thisProphet->changeCurrentCommandGroup();
+				if (activeClient)
+				{
+
+					uiManager.changeCS();
+					thisProphet->changeCurrentCommandGroup();
+				}
 
 				break;
 			case sf::Keyboard::LShift:
@@ -120,7 +126,7 @@ void GameHost::handleEvents()
 			switch (event.mouseButton.button)
 			{
 			case sf::Mouse::Right:
-			
+
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
 				abilityplaced = true;
 				break;
@@ -139,7 +145,7 @@ State GameHost::update()
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
 	{
-		
+
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
@@ -154,7 +160,11 @@ State GameHost::update()
 					otherProphet->recieveEnemyProphet(thisProphet);
 				}
 			}
-			thisProphet->moveProphet();
+			if (activeClient)
+			{
+
+				thisProphet->moveProphet();
+			}
 			if (otherProphet != nullptr && activeClient)
 			{
 				server.sendProphetPos(thisProphet->getPosition());
@@ -173,7 +183,7 @@ State GameHost::update()
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
-				
+
 				for (int a = 0; a < nrOfTotalFollowers; a++)
 				{
 					//allFollowers[i]->Collided(allFollowers[a]);
@@ -181,8 +191,8 @@ State GameHost::update()
 					{
 						allFollowers[i]->Collided(allFollowers[a]);
 					}
-				
-					
+
+
 				}
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
@@ -201,16 +211,16 @@ State GameHost::update()
 
 			if (thisProphet->getIfAbilityIsActive())
 			{
-				
+
 				thisProphet->timerForAbility();
-				
+
 			}
 			else
 			{
 				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
 				{
 					thisProphet->endingReinforcementAbility();
-				
+
 				}
 				abilityplaced = false;
 
