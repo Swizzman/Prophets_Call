@@ -200,11 +200,11 @@ State GameHost::update()
 					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
 
 				}
-				if (allFollowers[i]->getClientNotified())
+				if (allFollowers[i]->getOtherNotified())
 				{
 					std::cout << "Sent converted!\n";
 					server.sendConverted(i);
-					allFollowers[i]->clientIsNotified();
+					allFollowers[i]->otherIsNotified();
 				}
 
 			}

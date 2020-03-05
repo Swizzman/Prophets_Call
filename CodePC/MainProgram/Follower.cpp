@@ -147,12 +147,12 @@ void Follower::otherConvert()
 
 }
 
-void Follower::clientIsNotified()
+void Follower::otherIsNotified()
 {
 	otherNotified = false;
 }
 
-bool Follower::getClientNotified() const
+bool Follower::getOtherNotified() const
 {
 	return otherNotified;
 }
