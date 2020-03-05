@@ -178,11 +178,7 @@ State GameHost::update()
 				if (otherProphet != nullptr)
 				{
 					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
-					if (allFollowers[i]->getClientNotified())
-					{
-						server.sendConverted(i);
-						cout << "Sent converted";
-					}
+
 				}
 
 			}

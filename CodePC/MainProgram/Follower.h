@@ -26,7 +26,6 @@ public:
 	void placeFollower(int width, int height);
 	void convert(bool force = false);
 	bool getConverted() const;
-	bool getClientNotified();
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);
 	// Inherited via GameEntity

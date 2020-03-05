@@ -49,7 +49,7 @@ Prophet::~Prophet()
 		//{
 		//	delete group[i].followers[y];
 		//}
-	
+
 		delete[] group[i].followers;
 	}
 
@@ -104,16 +104,10 @@ void Prophet::convert(Follower** follArr, int nrOf)
 
 void Prophet::convertsFollow()
 {
-	
-			
-				//group[a].followers[i]->moveTowardsDest(getPosition());
-					commandMan.useCommand();
 
-				
-			
-		
-	
-	
+	//group[a].followers[i]->moveTowardsDest(getPosition());
+	commandMan.useCommand();
+
 }
 
 void Prophet::resetClock()
@@ -200,19 +194,19 @@ int Prophet::getNrOfFollowers()
 			return group[i].nrOfFollowers;
 		}
 	}
-	
+
 }
 
 int Prophet::getAllNrOfFollowers(int thisGroup)
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
-		if (i ==  thisGroup)
+		if (i == thisGroup)
 		{
 			return group[i].nrOfFollowers;
 
 		}
-		
+
 	}
 }
 
@@ -257,7 +251,7 @@ Follower& Prophet::getASingleFollower(int whichOne)
 			return *group[i].followers[whichOne];
 		}
 	}
-	
+
 }
 
 Follower* Prophet::getAllFollowers(int thisGroup)
@@ -268,7 +262,7 @@ Follower* Prophet::getAllFollowers(int thisGroup)
 		{
 
 			return *group[i].followers;
-		
+
 		}
 
 	}
@@ -332,7 +326,7 @@ int Prophet::getcurrentGroupCommand()
 
 		if (currentCommandGroup == i)
 		{
-		//	this->group[i].currentCommand++;
+			//	this->group[i].currentCommand++;
 			if (this->group[i].currentCommand > 3)
 			{
 				this->group[i].currentCommand = 0;
@@ -368,13 +362,13 @@ void Prophet::changeCurrentCommand()
 
 bool Prophet::getIfAbilityIsActive()
 {
-	
+
 	return abilityMan.getAbilityActive();
 }
 
 void Prophet::timerForAbility()
 {
-	
+
 	abilityMan.stopAbility();
 	abilityMan.whileAbilityIsActive();
 
