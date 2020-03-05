@@ -121,7 +121,7 @@ void GameHost::handleEvents()
 			{
 			case sf::Mouse::Right:
 			
-				thisProphet->placeAbil(tempVec);
+				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
 				abilityplaced = true;
 				break;
 			default:
