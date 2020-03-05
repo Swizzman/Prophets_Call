@@ -17,8 +17,8 @@ GameClient::GameClient()
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
-	thisProphet->recieveEnemyProphet(otherProphet,thisProphet);
-	otherProphet->recieveEnemyProphet(thisProphet,otherProphet);
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
 	converting = false;
 	abilityplaced = false;
 }
@@ -32,6 +32,10 @@ GameClient::~GameClient()
 		delete allFollowers[i];
 	}
 	delete[] allFollowers;
+}
+
+void GameClient::netWorking()
+{
 }
 
 void GameClient::handleEvents()
@@ -106,17 +110,38 @@ State GameClient::update()
 	State state = State::NO_CHANGE;
 	while (window.isOpen())
 	{
+
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
-			thisProphet->moveProphet();
+			//thisProphet->moveProphet();
 			thisProphet->convertsFollow();
+			Packet packet;
+			packet = client.recieveAPacket();
+			if (packet.type == 1)
+			{
+				otherProphet->setPosition(packet.posX, packet.posY);
+
+			}
+			else if (packet.type == 4)
+			{
+				allFollowers[packet.index]->convert(true);
+			}
+
+
+			
+			std::cout << otherProphet->getPosition().x << ":" << otherProphet->getPosition().y << std::endl;
 			//Move the playerProphet
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
-				allFollowers[i]->checkCivMove();
+				//allFollowers[i]->checkCivMove();
+				packet = client.recieveAPacket();
+				if (packet.type == 2)
+				{
+					allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+				}
 			}
 
 

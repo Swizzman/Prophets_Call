@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GameState.h"
 #include "GameHost.h"
+#include "GameClient.h"
 #include "Menu.h"
 
 #ifdef _DEBUG
@@ -37,9 +38,13 @@ int main()
 		currentState = current->update();
 		switch (currentState)
 		{
-		case State::PLAY:
+		case State::HOST:
 			delete current;
 			current = new GameHost();
+			break;
+		case State::CONNECT:
+			delete current;
+			current = new GameClient();
 			break;
 		case State::MENU:
 			delete current;

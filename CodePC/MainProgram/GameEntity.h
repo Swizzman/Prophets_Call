@@ -46,6 +46,7 @@ public:
 	int getMovingSpeedX();
 	int getMovingSpeedY();
 	void setPosition(float xPos, float yPos);
+	void setPosition(sf::Vector2f position);
 	string getTextureName();
 	sf::Vector2f getPosition();
 	sf::Vector2f getOrigin();

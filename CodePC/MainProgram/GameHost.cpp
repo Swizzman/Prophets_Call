@@ -5,7 +5,7 @@
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet = new Prophet();
+	otherProphet = nullptr;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -15,8 +15,8 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 		nrOfTotalFollowers++;
 	}
-	thisProphet->recieveEnemyProphet(otherProphet, thisProphet);
-	otherProphet->recieveEnemyProphet(thisProphet,otherProphet);
+	/*thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);*/
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -25,15 +25,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	uiManager.setUpFps(nrOfTotalFollowers);
 	converting = false;
 	abilityplaced = false;
+	activeClient = false;
 
 }
 
 void GameHost::networking()
 {
 
-//	server.run();
+	//server.run();
 
-	
+
 
 
 }
@@ -142,9 +143,21 @@ State GameHost::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
-			tempVec = static_cast<sf::Vector2f>(mouse.getPosition(window));
+			if (!activeClient)
+			{
+				if (server.getClientConnected())
+				{
+					otherProphet = new Prophet();
+					activeClient = true;
+				}
+			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
+			if (otherProphet != nullptr)
+			{
+				server.sendProphetPos(thisProphet->getPosition());
+
+			}
 			thisProphet->convertsFollow();
 			//Move the playerProphet
 			//Check All the civilians for movement
@@ -162,6 +175,12 @@ State GameHost::update()
 					
 				}
 				allFollowers[i]->checkCivMove();
+				if (otherProphet != nullptr)
+				{
+					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+
+				}
+
 			}
 
 			if (thisProphet->getIfAbilityIsActive())
@@ -234,7 +253,11 @@ void GameHost::render()
 	window.clear();
 
 	window.draw(*thisProphet);
-	window.draw(*otherProphet);
+	if (otherProphet != nullptr)
+	{
+		window.draw(*otherProphet);
+
+	}
 	if (converting)
 	{
 		window.draw(thisProphet->getConvertCirc());

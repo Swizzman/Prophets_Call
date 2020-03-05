@@ -52,14 +52,13 @@ public:
 	void moveProphet();
 	int getNrOfFollowers();
 	int getAllNrOfFollowers(int thisGroup);
-	void addFollower();
 	void collectSouls();
 	void placeAbil(sf::Vector2f position);
 	int getSouls();
 	Follower* getFollowers();
 	Follower& getASingleFollower(int whichOne);
 	Follower* getAllFollowers(int thisGroup);
-	void recieveEnemyProphet(Prophet* other, Prophet* thisOther);
+	void recieveEnemyProphet(Prophet* other);
 	int getCurrentAbility();
 	void changeAbility();
 	void checkAbility();

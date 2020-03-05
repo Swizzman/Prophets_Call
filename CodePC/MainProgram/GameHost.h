@@ -26,6 +26,7 @@ private:
 	sf::Time elapsedTimeSinceLastUpdate;
 	bool converting;
 	bool abilityplaced;
+	bool activeClient;
 	Server server;
 	sf::Mouse mouse;
 	std::thread netWorkThread;

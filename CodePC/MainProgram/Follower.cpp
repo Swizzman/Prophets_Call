@@ -118,15 +118,29 @@ void Follower::resetAttackClock()
 
 void Follower::convert()
 {
-	if (convertedAmount >= 100)
+	if (!converted)
 	{
-		converted = true;
-		switchTexture("Follower.png");
 
-	}
-	else
-	{
-		convertedAmount += 30;
+		if (!force)
+		{
+
+			if (convertedAmount >= 100)
+			{
+				converted = true;
+				switchTexture("Follower.png");
+
+			}
+			else
+			{
+				convertedAmount += 30;
+			}
+		}
+		else
+		{
+			converted = true;
+			switchTexture("Follower.png");
+
+		}
 	}
 }
 

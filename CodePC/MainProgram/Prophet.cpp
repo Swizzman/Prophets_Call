@@ -2,7 +2,8 @@
 
 sf::Vector2f Prophet::getCircCenter() const
 {
-	return sf::Vector2f(convertCirc.getGlobalBounds().left + convertCirc.getGlobalBounds().width / 2, convertCirc.getGlobalBounds().top + convertCirc.getGlobalBounds().height / 2);
+	return sf::Vector2f(convertCirc.getGlobalBounds().left + convertCirc.getGlobalBounds().width / 2,
+		convertCirc.getGlobalBounds().top + convertCirc.getGlobalBounds().height / 2);
 }
 
 Prophet::Prophet() :
@@ -19,7 +20,7 @@ Prophet::Prophet() :
 		this->group[i].currentCommand = 0;
 		this->group[i].followers = new Follower * [this->group[i].capacity]{ nullptr };
 
-		
+
 	}
 	this->xSpeed = 5;
 	this->ySpeed = 5;
@@ -36,8 +37,8 @@ Prophet::Prophet() :
 	this->convertCirc.setOutlineThickness(5.f);
 	this->convertCirc.setOrigin(getOrigin());
 	currentCommandGroup = 0;
-	
-	
+
+
 }
 
 Prophet::~Prophet()
@@ -48,7 +49,7 @@ Prophet::~Prophet()
 		//{
 		//	delete group[i].followers[y];
 		//}
-	
+
 		delete[] group[i].followers;
 	}
 
@@ -59,61 +60,61 @@ Prophet::~Prophet()
 void Prophet::convert(Follower** follArr, int nrOf)
 {
 	convertingTime += clock.restart();
-	
 
-
-	if (convertingTime.asMilliseconds() > convertingTimeMax)
+	if (otherProphet != nullptr)
 	{
-		for (int a = 0; a < GROUPNR; a++)
+
+
+		if (convertingTime.asMilliseconds() > convertingTimeMax)
 		{
-			if (currentCommandGroup == a)
+			for (int a = 0; a < GROUPNR; a++)
 			{
-
-				
-				for (int i = 0; i < nrOf && group[a].nrOfFollowers < group[a].capacity; i++)
+				if (currentCommandGroup == a)
 				{
-					if (!follArr[i]->getConverted())
-					{
 
-						if (group[a].nrOfFollowers < group[a].capacity)
+
+					for (int i = 0; i < nrOf && group[a].nrOfFollowers < group[a].capacity; i++)
+					{
+						if (!follArr[i]->getConverted())
 						{
-							if (checkCollision(follArr[i]->getBounds()))
+
+							if (group[a].nrOfFollowers < group[a].capacity)
 							{
-								
-								follArr[i]->convert();
-								if (follArr[i]->getConverted())
+								if (checkCollision(follArr[i]->getBounds()))
 								{
-									
-									group[a].followers[group[a].nrOfFollowers++] = follArr[i];
-									//std::cout << group[a].nrOfFollowers << std::endl;
+
+									follArr[i]->convert();
+									if (follArr[i]->getConverted())
+									{
+										group[a].followers[group[a].nrOfFollowers++] = follArr[i];
+										//std::cout << group[a].nrOfFollowers << std::endl;
+
+									}
 
 								}
-								
-							}
 
-							//std::cout << isConverting[i] << std::endl;
+								//std::cout << isConverting[i] << std::endl;
+							}
 						}
 					}
 				}
 			}
+			convertingTime = sf::Time::Zero;
 		}
-		convertingTime = sf::Time::Zero;
 	}
 
 }
 
 void Prophet::convertsFollow()
 {
-	
-			
-				//group[a].followers[i]->moveTowardsDest(getPosition());
-					commandMan.useCommand();
 
-				
-			
-		
-	
-	
+	//group[a].followers[i]->moveTowardsDest(getPosition());
+	if (otherProphet != nullptr)
+	{
+
+		commandMan.useCommand();
+	}
+
 }
 
 void Prophet::resetClock()
@@ -200,25 +201,22 @@ int Prophet::getNrOfFollowers()
 			return group[i].nrOfFollowers;
 		}
 	}
-	
+
 }
 
 int Prophet::getAllNrOfFollowers(int thisGroup)
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
-		if (i ==  thisGroup)
+		if (i == thisGroup)
 		{
 			return group[i].nrOfFollowers;
 
 		}
-		
+
 	}
 }
 
-void Prophet::addFollower()
-{
-}
 
 void Prophet::collectSouls()
 {
@@ -226,7 +224,11 @@ void Prophet::collectSouls()
 
 void Prophet::placeAbil(sf::Vector2f position)
 {
-	abilityMan.placeCurrentAbility(position);
+	if (otherProphet)
+	{
+
+		abilityMan.placeCurrentAbility(position);
+	}
 }
 
 int Prophet::getSouls()
@@ -243,7 +245,7 @@ Follower* Prophet::getFollowers()
 			return *group[i].followers;
 		}
 	}
-	
+
 }
 
 Follower& Prophet::getASingleFollower(int whichOne)
@@ -253,11 +255,11 @@ Follower& Prophet::getASingleFollower(int whichOne)
 
 		if (currentCommandGroup == i)
 		{
-			
+
 			return *group[i].followers[whichOne];
 		}
 	}
-	
+
 }
 
 Follower* Prophet::getAllFollowers(int thisGroup)
@@ -268,17 +270,21 @@ Follower* Prophet::getAllFollowers(int thisGroup)
 		{
 
 			return *group[i].followers;
-		
+
 		}
 
 	}
 }
 
-void Prophet::recieveEnemyProphet(Prophet* other, Prophet* thisOther)
+void Prophet::recieveEnemyProphet(Prophet* other)
 {
-	otherProphet = other;
-	abilityMan.recievePtr(other, &group[currentCommandGroup]);
-	commandMan.recievePtr(other, &group[currentCommandGroup], thisOther);
+	if (other != nullptr)
+	{
+
+		otherProphet = other;
+		abilityMan.recievePtr(other, &group[currentCommandGroup]);
+		commandMan.recievePtr(other, &group[currentCommandGroup], this);
+	}
 }
 
 int Prophet::getCurrentAbility()
@@ -290,21 +296,28 @@ int Prophet::getCurrentAbility()
 
 void Prophet::changeAbility()
 {
-	chosenAbility++;
-	if (chosenAbility > 2)
+	if (otherProphet != nullptr)
 	{
-		chosenAbility = 0;
+
+		chosenAbility++;
+		if (chosenAbility > 2)
+		{
+			chosenAbility = 0;
+		}
+		abilityMan.switchAbility();
 	}
-	abilityMan.switchAbility();
-	//std::cout << chosenAbility << std::endl;
 }
 
 void Prophet::checkAbility()
 {
-	if ((abilityActive = abilityMan.getAbilityActive()) == true)
+	if (otherProphet != nullptr)
 	{
 
-		//abilityMan.placeCurrentAbility((sf::Vector2f)abilityMouse.getPosition());
+		if ((abilityActive = abilityMan.getAbilityActive()) == true)
+		{
+
+			//abilityMan.placeCurrentAbility((sf::Vector2f)abilityMouse.getPosition());
+		}
 	}
 }
 
@@ -316,12 +329,12 @@ sf::CircleShape Prophet::getConvertCirc() const
 void Prophet::changeCurrentCommandGroup()
 {
 	currentCommandGroup++;
-	
+
 	if (currentCommandGroup > GROUPNR - 1)
 	{
 		currentCommandGroup = 0;
 	}
-	
+
 }
 
 int Prophet::getcurrentGroupCommand()
@@ -332,7 +345,7 @@ int Prophet::getcurrentGroupCommand()
 
 		if (currentCommandGroup == i)
 		{
-		//	this->group[i].currentCommand++;
+			//	this->group[i].currentCommand++;
 			if (this->group[i].currentCommand > 3)
 			{
 				this->group[i].currentCommand = 0;
@@ -341,53 +354,83 @@ int Prophet::getcurrentGroupCommand()
 			return this->group[i].currentCommand;
 		}
 	}
-	
 
-	
+
+
 }
 
 Ability* Prophet::getCurAbil() const
 {
-	return abilityMan.getCurrentAbility();
+	if (otherProphet != nullptr)
+	{
+
+		return abilityMan.getCurrentAbility();
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 
 
 void Prophet::aFollowerGotKilled(int whichFollower)
 {
-	
+
 
 
 }
 
 void Prophet::changeCurrentCommand()
 {
-	commandMan.switchCommand(currentCommandGroup);
+	if (otherProphet != nullptr)
+	{
+
+		commandMan.switchCommand(currentCommandGroup);
+	}
 
 }
 
 bool Prophet::getIfAbilityIsActive()
 {
-	
-	return abilityMan.getAbilityActive();
+	if (otherProphet != nullptr)
+	{
+
+		return abilityMan.getAbilityActive();
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Prophet::timerForAbility()
 {
-	
-	abilityMan.stopAbility();
-	abilityMan.whileAbilityIsActive();
+	if (otherProphet != nullptr)
+	{
+
+		abilityMan.stopAbility();
+		abilityMan.whileAbilityIsActive();
+	}
 
 }
 
 void Prophet::endingReinforcementAbility()
 {
-	abilityMan.stopReinforceAbility();
+	if (otherProphet != nullptr)
+	{
+
+		abilityMan.stopReinforceAbility();
+	}
 }
 
 bool Prophet::returnReinforceBool()
 {
-	return abilityMan.returnReinforcementBool();
+	if (otherProphet != nullptr)
+	{
+		return abilityMan.returnReinforcementBool();
+	}
+
 }
 
 
