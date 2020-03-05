@@ -35,7 +35,25 @@ void GameHost::networking()
 {
 
 	server.run();
+	Packet packet;
 
+	while (server.getClientConnected())
+	{
+		packet = server.recieveAPacket();
+		if (packet.type == 1)
+		{
+			otherProphet->setPosition(packet.posX, packet.posY);
+
+		}
+		if (packet.type == 2)
+		{
+			allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+		}
+		else if (packet.type == 4)
+		{
+			allFollowers[packet.index]->otherConvert();
+		}
+	}
 }
 
 GameHost::~GameHost()
@@ -170,13 +188,7 @@ State GameHost::update()
 				server.sendProphetPos(thisProphet->getPosition());
 
 			}
-			Packet packet;
-			packet = server.recieveAPacket();
-			if (packet.type == 1)
-			{
-				otherProphet->setPosition(packet.posX, packet.posY);
 
-			}
 
 			thisProphet->convertsFollow();
 			//Move the playerProphet
@@ -197,7 +209,11 @@ State GameHost::update()
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
 				{
-					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					if (allFollowers[i]->getConvertedByOther() == false)
+					{
+
+						server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					}
 
 				}
 				if (allFollowers[i]->getOtherNotified())

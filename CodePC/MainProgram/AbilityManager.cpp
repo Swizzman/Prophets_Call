@@ -13,7 +13,6 @@ AbilityManager::AbilityManager()
 	this->chosenAbility = 0;
 	this->abilityActive = false;
 	reinforcementIsOn = false;
-	std::cout << "Exit from this hellhole\n";
 }
 
 AbilityManager::~AbilityManager()

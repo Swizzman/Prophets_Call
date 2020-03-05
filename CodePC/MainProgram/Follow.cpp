@@ -3,7 +3,6 @@
 #include "Prophet.h"
 Follow::Follow()
 {
-	std::cout << "0" << std::endl;
 
 }
 

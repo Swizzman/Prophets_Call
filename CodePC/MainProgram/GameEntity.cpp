@@ -76,8 +76,7 @@ void GameEntity::gainHealth(int health)
 	{
 		this->health = maxHealth;
 	}
-	//cout << this->maxHealth << endl;
-	cout << this->health << endl;
+
 
 }
 

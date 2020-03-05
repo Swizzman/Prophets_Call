@@ -14,6 +14,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	attackRange = 5.f;
 	alive = true;
 	converted = false;
+	convertedByOther = false;
 	otherNotified = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
@@ -143,6 +144,7 @@ void Follower::otherConvert()
 {
 	convertedAmount = 200;
 	converted = true;
+	convertedByOther = true;
 	switchTexture("Follower.png");
 
 }
@@ -162,6 +164,11 @@ bool Follower::getOtherNotified() const
 bool Follower::getConverted() const
 {
 	return converted;
+}
+
+bool Follower::getConvertedByOther() const
+{
+	return convertedByOther;
 }
 
 int Follower::getConvertedAmount() const
