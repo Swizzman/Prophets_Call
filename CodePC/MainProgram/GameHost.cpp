@@ -222,7 +222,11 @@ State GameHost::update()
 					server.sendConverted(i);
 					allFollowers[i]->otherIsNotified();
 				}
-
+				if (allFollowers[i]->getAttackNotify())
+				{
+					std::cout << "Sent damage\n";
+					allFollowers[i]->otherAttackNotified();
+				}
 			}
 
 			if (thisProphet->getIfAbilityIsActive())
@@ -265,7 +269,7 @@ State GameHost::update()
 		{
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
-		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
+		 
 
 
 
