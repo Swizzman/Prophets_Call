@@ -67,7 +67,7 @@ void Server::sendConverted(int index)
 {
 	sf::Packet packet;
 	packet << (sf::Uint16) 4 << (sf::Uint16) index;
-	tcpSocket.send(packet);
+	clientSock->send(packet);
 }
 
 Packet Server::recieveAPacket()

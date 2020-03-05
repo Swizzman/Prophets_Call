@@ -192,6 +192,7 @@ State GameHost::update()
 				}
 				if (allFollowers[i]->getClientNotified())
 				{
+					std::cout << "Sent converted!\n";
 					server.sendConverted(i);
 					allFollowers[i]->clientIsNotified();
 				}
