@@ -24,7 +24,7 @@ UIManager::UIManager()
 
 
 	chosenAbility = 0;
-	numberOfFollowers = 0;
+	//numberOfFollowers = 0;
 
 
 	//followerPortraitStruct *fps;
@@ -67,17 +67,18 @@ UIManager::UIManager()
 
 UIManager::~UIManager()
 {
-	std::cout << numberOfFollowers << std::endl;
-	for (int i = 0; i < GROUPCAP; i++)
-	{
-		delete cs[i];
-	}
-	delete[] cs;
+	//std::cout << numberOfFollowers << std::endl;
+	
 	for (int i = 0; i < numberOfFollowers; i++)
 	{
 		delete fps[i];
 	}
 	delete[] fps;
+	for (int i = 0; i < GROUPCAP; i++)
+	{
+		delete cs[i];
+	}
+	delete[] cs;
 }
 
 void UIManager::setUpCS()
@@ -254,7 +255,7 @@ void UIManager::updateCS(int currentCommand)
 	{
 		if (currentCommandControll == i)
 		{
-			std::cout << currentCommand << std::endl;
+		//	std::cout << currentCommand << std::endl;
 			for (int a = 0; a < 4; a++)
 			{
 				if (currentCommand == a)
@@ -290,10 +291,16 @@ void UIManager::updateFps(int health, int whichFollower)
 			//std::cout << health << ":"<< whichFollower << std::endl;s
 			if (health < 0)
 				health = 0;
-			if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1)
+			
+			if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1 && fps[whichFollower]->followerMaxHealth >= health)
 			{
 				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
 
+
+			}
+			if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1 && fps[whichFollower]->followerMaxHealth <= health)
+			{
+				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (fps[whichFollower]->followerMaxHealth / this->fps[whichFollower]->followerMaxHealth)), 15));
 
 			}
 
@@ -316,9 +323,10 @@ void UIManager::addFps(std::string textureName, int maxHealth)
 
 		if (currentCommandControll == i)
 		{
-
+			delete fps[cs[i]->nummberOfFollowersInGroup];
 			this->fps[cs[i]->nummberOfFollowersInGroup] = new followerPortraitStruct();
 			numberOfFollowers++;
+			std::cout << numberOfFollowers << std::endl;
 			this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthText.setFont(font);
 			this->fps[cs[i]->nummberOfFollowersInGroup]->followerMaxHealth = maxHealth;
 
@@ -439,7 +447,7 @@ void UIManager::addFps(std::string textureName, int maxHealth)
 
 			}
 
-
+			
 
 		}
 
