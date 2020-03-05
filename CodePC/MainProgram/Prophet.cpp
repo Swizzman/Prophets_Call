@@ -110,7 +110,6 @@ void Prophet::convertsFollow()
 	//group[a].followers[i]->moveTowardsDest(getPosition());
 	if (otherProphet != nullptr)
 	{
-
 		commandMan.useCommand();
 	}
 

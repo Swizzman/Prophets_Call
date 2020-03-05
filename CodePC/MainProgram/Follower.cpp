@@ -145,7 +145,7 @@ void Follower::otherConvert()
 	convertedAmount = 200;
 	converted = true;
 	convertedByOther = true;
-	switchTexture("Follower.png");
+	switchTexture("EnemyFollower.png");
 
 }
 
