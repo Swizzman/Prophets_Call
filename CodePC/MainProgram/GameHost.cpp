@@ -26,13 +26,13 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	converting = false;
 	abilityplaced = false;
 	activeClient = false;
-
+	thisProphet->setPosition(500, 500);
 }
 
 void GameHost::networking()
 {
 
-	//server.run();
+	server.run();
 
 
 
@@ -143,21 +143,31 @@ State GameHost::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
+			elapsedTimeSinceLastUpdate -= timePerFrame;
 			if (!activeClient)
 			{
 				if (server.getClientConnected())
 				{
 					otherProphet = new Prophet();
 					activeClient = true;
+					thisProphet->recieveEnemyProphet(otherProphet);
+					otherProphet->recieveEnemyProphet(thisProphet);
 				}
 			}
-			elapsedTimeSinceLastUpdate -= timePerFrame;
 			thisProphet->moveProphet();
-			if (otherProphet != nullptr)
+			if (otherProphet != nullptr && activeClient)
 			{
 				server.sendProphetPos(thisProphet->getPosition());
 
 			}
+			Packet packet;
+			packet = server.recieveAPacket();
+			if (packet.type == 1)
+			{
+				otherProphet->setPosition(packet.posX, packet.posY);
+
+			}
+
 			thisProphet->convertsFollow();
 			//Move the playerProphet
 			//Check All the civilians for movement
@@ -180,6 +190,11 @@ State GameHost::update()
 					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
 
 				}
+				if (allFollowers[i]->getClientNotified())
+				{
+					server.sendConverted(i);
+					allFollowers[i]->clientIsNotified();
+				}
 
 			}
 
@@ -191,7 +206,6 @@ State GameHost::update()
 			}
 			else
 			{
-				//cout << "asd" << endl;	
 				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
 				{
 					thisProphet->endingReinforcementAbility();
@@ -215,7 +229,6 @@ State GameHost::update()
 
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
-				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth());
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
@@ -229,14 +242,6 @@ State GameHost::update()
 
 
 
-		/*for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
-		{
-			if (thisProphet->getASingleFollower(i).getHealth() <= 0)
-			{
-				cout << "DIE FOLLOWER DIE" << endl;
-
-			}
-		}*/
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			netWorkThread.join();

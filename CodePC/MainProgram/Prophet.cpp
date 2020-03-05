@@ -93,7 +93,6 @@ void Prophet::convert(Follower** follArr, int nrOf)
 
 								}
 
-								//std::cout << isConverting[i] << std::endl;
 							}
 						}
 					}

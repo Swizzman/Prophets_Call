@@ -10,6 +10,7 @@ private:
 	float attackRange;
 	bool alive;
 	bool converted;
+	bool clientNotified;
 	bool collided;
 	int maxTime;
 	int windowWidth;
@@ -24,7 +25,10 @@ public:
 	void returnDamage();
 	void checkCivMove();
 	void placeFollower(int width, int height);
-	void convert(bool force = false);
+	void convert();
+	void otherConvert();
+	void clientIsNotified();
+	bool getClientNotified() const;
 	bool getConverted() const;
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);

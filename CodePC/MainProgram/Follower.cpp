@@ -14,6 +14,7 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	attackRange = 5.f;
 	alive = true;
 	converted = false;
+	clientNotified = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
@@ -49,7 +50,7 @@ void Follower::checkCivMove()
 			maxTime = rand() % 6000 + 2000;
 
 		}
-		
+
 		move();
 		if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
 		{
@@ -76,32 +77,43 @@ void Follower::placeFollower(int width, int height)
 	windowWidth = width;
 }
 
-void Follower::convert(bool force)
+void Follower::convert()
 {
 	if (!converted)
 	{
 
-		if (!force)
-		{
 
-			if (convertedAmount >= 100)
-			{
-				converted = true;
-				switchTexture("Follower.png");
-
-			}
-			else
-			{
-				convertedAmount += 30;
-			}
-		}
-		else
+		if (convertedAmount >= 100)
 		{
 			converted = true;
+			clientNotified = true;
 			switchTexture("Follower.png");
 
 		}
+		else
+		{
+			convertedAmount += 30;
+		}
 	}
+
+
+}
+
+void Follower::otherConvert()
+{
+	converted = true;
+	switchTexture("Follower.png");
+
+}
+
+void Follower::clientIsNotified()
+{
+	clientNotified = false;
+}
+
+bool Follower::getClientNotified() const
+{
+	return clientNotified;
 }
 
 
@@ -118,12 +130,8 @@ int Follower::getConvertedAmount() const
 
 void Follower::Collided(GameEntity* other)
 {
-	
-	//moveTimer = sf::milliseconds(maxTime);
-	/*if (getMovingSpeedX() == 0 && getMovingSpeedY == 0)
-	{
-		getmov
-	}*/
+
+ 
 	if (!converted)
 	{
 
@@ -146,11 +154,11 @@ void Follower::Collided(GameEntity* other)
 			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
 		}
 
-		
 
-			setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
-		
+
+		setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+
 	}
-	
+
 
 }
