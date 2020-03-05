@@ -14,10 +14,10 @@ class Client
 private:
 	sf::TcpSocket connectionSocket;
 	sf::Packet recievePacket;
-	sf::Uint16 iD;
 public:
 	Client();
 	virtual ~Client();
 	Packet recieveAPacket();
+	void sendProphetPos(sf::Vector2f pos);
 };
 

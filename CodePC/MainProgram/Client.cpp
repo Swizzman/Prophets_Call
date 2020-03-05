@@ -2,7 +2,6 @@
 
 Client::Client()
 {
-	iD = 0;
 	if (connectionSocket.connect(sf::IpAddress::LocalHost, 55000) != sf::Socket::Done)
 	{
 		std::cout << "Error connecting \n";
@@ -10,9 +9,7 @@ Client::Client()
 	else
 	{
 		std::cout << "Connected to Server\n";
-		connectionSocket.receive(this->recievePacket);
-		this->recievePacket >> iD;
-		std::cout << iD << std::endl;
+
 		
 	}
 }
@@ -41,4 +38,12 @@ Packet Client::recieveAPacket()
 		packet >> recieved.index;
 	}
 	return recieved;
+}
+
+void Client::sendProphetPos(sf::Vector2f pos)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 1 << (sf::Uint32) pos.x << (sf::Uint32) pos.y;
+	connectionSocket.send(packet);
+
 }
