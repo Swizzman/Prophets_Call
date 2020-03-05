@@ -127,7 +127,7 @@ State GameClient::update()
 			}
 			else if (packet.type == 4)
 			{
-				allFollowers[packet.index]->convert(true);
+				allFollowers[packet.index]->convert();
 			}
 
 

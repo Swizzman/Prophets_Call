@@ -121,8 +121,6 @@ void Follower::convert()
 	if (!converted)
 	{
 
-		if (!force)
-		{
 
 			if (convertedAmount >= 100)
 			{
@@ -134,13 +132,7 @@ void Follower::convert()
 			{
 				convertedAmount += 30;
 			}
-		}
-		else
-		{
-			converted = true;
-			switchTexture("Follower.png");
 
-		}
 	}
 }
 
