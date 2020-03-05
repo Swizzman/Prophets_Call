@@ -1,6 +1,6 @@
 #include "GameClient.h"
 
-GameClient::GameClient()
+GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 {
 	thisProphet = new Prophet();
 	otherProphet = new Prophet();
@@ -36,6 +36,7 @@ GameClient::~GameClient()
 
 void GameClient::netWorking()
 {
+	client.run();
 }
 
 void GameClient::handleEvents()

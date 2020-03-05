@@ -3,6 +3,11 @@
 Client::Client()
 {
 	iD = 0;
+
+}
+
+void Client::run()
+{
 	if (connectionSocket.connect(sf::IpAddress::LocalHost, 55000) != sf::Socket::Done)
 	{
 		std::cout << "Error connecting \n";
@@ -13,7 +18,7 @@ Client::Client()
 		connectionSocket.receive(this->recievePacket);
 		this->recievePacket >> iD;
 		std::cout << iD << std::endl;
-		
+
 	}
 }
 
