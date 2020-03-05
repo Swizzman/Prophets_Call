@@ -15,6 +15,7 @@ private:
 	sf::TcpSocket connectionSocket;
 	sf::Packet recievePacket;
 	sf::Uint16 iD;
+	sf::IpAddress iP;
 public:
 	Client();
 	void run();

@@ -3,12 +3,12 @@
 Client::Client()
 {
 	iD = 0;
-
+	iP = ("25.74.9.3");
 }
 
 void Client::run()
 {
-	if (connectionSocket.connect(sf::IpAddress::LocalHost, 55000) != sf::Socket::Done)
+	if (connectionSocket.connect(iP, 55000) != sf::Socket::Done)
 	{
 		std::cout << "Error connecting \n";
 	}

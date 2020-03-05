@@ -4,7 +4,7 @@
 Server::Server()
 {
 	port = 55000;
-	listener.listen(port, sf::IpAddress::LocalHost);
+	listener.listen(port, sf::IpAddress::getLocalAddress());
 	std::cout << "Server started on: " << sf::IpAddress::LocalHost << ":"<<port<< std::endl;
 	isRunning = true;
 	clientConnected = false;
