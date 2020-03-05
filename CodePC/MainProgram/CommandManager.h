@@ -27,6 +27,7 @@ public:
 	void useCommand();
 	int getCurrentCommand();
 	void recievePtr(Prophet* enemyPro, group *folGroup , Prophet* thisProhet);//not done
+	void attackEnemy(int thisFollowerGroup,int thisFollowerInt);
 	bool checkDistance();
 
 };

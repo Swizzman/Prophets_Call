@@ -93,7 +93,7 @@ void AbilityManager::stopAbility()
 		currentAbility->resetClock();
 	//	currentAbility->setPosition(sf::Vector2f(100000,100000));
 		abilityActive = currentAbility->abilityLifeTime();
-		if (chosenAbility == 0)
+		if (chosenAbility == 0 )
 		{
 			
 			

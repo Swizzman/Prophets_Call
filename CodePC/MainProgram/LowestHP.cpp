@@ -21,24 +21,27 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 	float magniTemp = 100000;
 	float health = 100000;
 	sf::Vector2f thisEnemy(0,0);
-
-	for (int i = 0; i < dynamic_cast<Prophet*>(enemyObject)->getNrOfFollowers(); i++)
+	for (int a = 0; a < 3; a++)
 	{
-		thisEnemy = dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition() - object->getPosition();
-		if (range > sqrt(pow(thisEnemy.x - object->getPosition().x, 2) + pow(thisEnemy.y - object->getPosition().y, 2)))
+
+		for (int i = 0; i < dynamic_cast<Prophet*>(enemyObject)->getAllNrOfFollowers(a); i++)
 		{
-
-			if (health > dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getHealth())
+			thisEnemy = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition() - object->getPosition();
+			if (range > sqrt(pow(thisEnemy.x - object->getPosition().x, 2) + pow(thisEnemy.y - object->getPosition().y, 2)))
 			{
-				temp = dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition() - object->getPosition();
-				magniTemp = sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition().y - object->getPosition().y, 2));
-				health = dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getHealth();
+
+				if (health > dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getHealth())
+				{
+					temp = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition() - object->getPosition();
+					magniTemp = sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().y - object->getPosition().y, 2));
+					health = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getHealth();
+				}
 			}
+
+
+
+
 		}
-
-
-
-
 	}
 	thisEnemy = (enemyObject)->getPosition() - object->getPosition();
 	if (range > sqrt(pow(thisEnemy.x - object->getPosition().x, 2) + pow(thisEnemy.y - object->getPosition().y, 2)))

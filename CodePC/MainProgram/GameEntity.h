@@ -37,7 +37,7 @@ public:
 	void switchTexture(std::string newTexture);
 	int getHealth();
 	void gainHealth(int health);
-	void attackCooldown();
+	//void attackCooldown();
 	bool getAttackBool();
 	void attack(GameEntity *enemy, int damage);
 	void move();
@@ -57,6 +57,7 @@ public:
 	void touchedByAbility(bool abilityIsActive);
 	bool CheckIfEntityCanBeAffectedByAbility();
 	bool getIfIsInRangeOfAbility(bool IsInRange);
+	float getRange();
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

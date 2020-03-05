@@ -18,13 +18,15 @@ sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyOb
 	sf::Vector2f temp(0, 0);
 	float magniTemp = 100000;
 	
-		for (int i = 0; i <  dynamic_cast<Prophet*>(enemyObject)->getNrOfFollowers(); i++)
+	for (int a = 0; a < 3; a++)
+	{
+		for (int i = 0; i <  dynamic_cast<Prophet*>(enemyObject)->getAllNrOfFollowers(a); i++)
 		{
-			if (magniTemp > sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition().x - object->getPosition().x, 2) +
-				pow(dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition().y - object->getPosition().y, 2)))
+			if (magniTemp > sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().x - object->getPosition().x, 2) +
+				pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().y - object->getPosition().y, 2)))
 			{
-				temp = dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition() - object->getPosition();
-				magniTemp = sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getASingleFollower(i).getPosition().y - object->getPosition().y, 2));
+				temp = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition() - object->getPosition();
+				magniTemp = sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().y - object->getPosition().y, 2));
 
 			
 
@@ -35,6 +37,8 @@ sf::Vector2f Closest::calculateRoute(GameEntity* thisObject, GameEntity* enemyOb
 
 		
 		}
+
+	}
 		if (magniTemp > sqrt(pow((enemyObject)->getPosition().x - object->getPosition().x, 2) +
 			pow((enemyObject)->getPosition().y - object->getPosition().y, 2)))
 		{
