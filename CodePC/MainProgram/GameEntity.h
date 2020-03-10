@@ -36,6 +36,7 @@ public:
 	sf::FloatRect getBounds();
 	void switchTexture(std::string newTexture);
 	int getHealth();
+	void setHealth(int health);
 	void gainHealth(int health);
 	//void attackCooldown();
 	bool getAttackBool();

@@ -1,12 +1,14 @@
 #pragma once
 #include <iostream>
 #include <SFML/Network.hpp> 
-struct Packet 
+struct Packet
+ 
 {
 	sf::Uint16 type;
 	sf::Uint32 posX;
 	sf::Uint32 posY;
 	sf::Uint16 index;
+	sf::Uint32 health;
 };
 class Client
 {

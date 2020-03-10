@@ -62,9 +62,20 @@ void GameClient::netWorking()
 			if (allFollowers[packet.index] != nullptr)
 			{
 				allFollowers[packet.index]->otherConvert();
+				otherProphet->addFollower(allFollowers[packet.index]);
 			}
-
-
+		}
+		else if (packet.type == 5)
+		{
+			if (allFollowers[packet.index] != nullptr)
+			{
+				allFollowers[packet.index]->setHealth(packet.health);
+			}
+		}
+		else if (packet.type == 6)
+		{
+			thisProphet->setHealth(packet.health);
+			std::cout << thisProphet->getHealth() << std::endl;
 		}
 	}
 }
@@ -193,7 +204,23 @@ State GameClient::update()
 
 
 			}
+			if (thisProphet->getIfAbilityIsActive())
+			{
 
+				thisProphet->timerForAbility();
+
+			}
+			else
+			{
+				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+				{
+					thisProphet->endingReinforcementAbility();
+
+				}
+				abilityplaced = false;
+
+
+			}
 		}
 		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
 		{

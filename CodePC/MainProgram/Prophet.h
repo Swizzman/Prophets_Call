@@ -66,14 +66,13 @@ public:
 	void changeCurrentCommandGroup();
 	int getcurrentGroupCommand();
 	Ability* getCurAbil() const;
-	void drawAbil(sf::RenderWindow* window);
 	void aFollowerGotKilled(int whichFollower);
 	void changeCurrentCommand();
 	bool getIfAbilityIsActive();
 	void timerForAbility();
 	void endingReinforcementAbility();
 	bool returnReinforceBool();
-
+	void addFollower(Follower* follower);
 	// Inherited via GameEntity
 	virtual void die() override;
 

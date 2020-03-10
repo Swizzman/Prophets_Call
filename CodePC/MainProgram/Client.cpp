@@ -41,8 +41,15 @@ Packet Client::recieveAPacket()
 	}
 	else if (recieved.type == 4)
 	{
-		std::cout << "It's a conversion!\n";
 		packet >> recieved.index;
+	}
+	else if (recieved.type == 5)
+	{
+		packet >> recieved.index >> recieved.health;
+	}
+	else if (recieved.type == 6)
+	{
+		packet >> recieved.health;
 	}
 	return recieved;
 }

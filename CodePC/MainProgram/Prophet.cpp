@@ -431,6 +431,20 @@ bool Prophet::returnReinforceBool()
 
 }
 
+void Prophet::addFollower(Follower* follower)
+{
+	bool added = false;
+	for (int i = 0; i < GROUPNR && !added; i++)
+	{
+		if (group[i].nrOfFollowers < group[i].capacity)
+		{
+			group[i].followers[group[i].nrOfFollowers] = follower;
+			added = true;
+			group[i].nrOfFollowers++;
+		}
+	}
+}
+
 
 void Prophet::die()
 {

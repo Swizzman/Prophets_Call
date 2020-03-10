@@ -65,6 +65,11 @@ int GameEntity::getHealth()
 	return health;
 }
 
+void GameEntity::setHealth(int health)
+{
+	this->health = health;
+}
+
 void GameEntity::gainHealth(int health)
 {
 	if (this->health < maxHealth)
