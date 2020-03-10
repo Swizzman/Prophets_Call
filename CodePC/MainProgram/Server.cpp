@@ -68,6 +68,21 @@ void Server::sendConverted(int index)
 	clientSock->send(packet);
 }
 
+void Server::sendFollowerDamage(int index, int newHealth)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 5 << (sf::Uint16) index << (sf::Uint32) newHealth;
+	clientSock->send(packet);
+}
+
+void Server::sendProphetDamage(int newHealth)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 6 << (sf::Uint32) newHealth;
+	std::cout << "Prophet Damage sent!\n";
+	clientSock->send(packet);
+}
+
 Packet Server::recieveAPacket()
 {
 
