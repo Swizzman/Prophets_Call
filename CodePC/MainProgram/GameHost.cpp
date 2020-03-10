@@ -222,10 +222,22 @@ State GameHost::update()
 					server.sendConverted(i);
 					allFollowers[i]->otherIsNotified();
 				}
-				if (allFollowers[i]->getAttackNotify())
+				if (activeClient)
 				{
-					std::cout << "Sent damage\n";
-					allFollowers[i]->otherAttackNotified();
+
+					if (allFollowers[i]->getAttackNotify())
+					{
+						std::cout << "Sent damage\n";
+						allFollowers[i]->otherAttackNotified();
+						server.sendFollowerDamage(i, allFollowers[i]->getHealth());
+
+					}
+					if (otherProphet->getAttackNotify())
+					{
+						otherProphet->otherAttackNotified();
+						std::cout << otherProphet->getHealth()<<std::endl;
+						server.sendProphetDamage(otherProphet->getHealth());
+					}
 				}
 			}
 
@@ -269,7 +281,7 @@ State GameHost::update()
 		{
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
-		 
+
 
 
 
