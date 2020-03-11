@@ -21,12 +21,11 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	lastXDest = 0;
 	lastYDest = 0;
 	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
-		//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
-		textureRect = sf::IntRect(0, 0, 64, 64);
-		this->sprite.setTextureRect(textureRect);
-	
-	//	cout << sprite.getGlobalBounds().width << " : " << sprite.getGlobalBounds().height << endl;
-		attackNotify = false;
+	//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
+	textureRect = sf::IntRect(0, 0, 64, 64);
+	this->sprite.setTextureRect(textureRect);
+
+	attackNotify = false;
 	range = 100;
 
 	randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
@@ -56,13 +55,19 @@ GameEntity::~GameEntity()
 
 void GameEntity::takeDamage(int damage)
 {
+
 	if (isAlive())
 	{
+
+
 		this->health -= damage;
 		if (this->health < 0)
 		{
-
 			this->health = 0;
+		}
+		if (this->health > maxHealth)
+		{
+			this->health = maxHealth;
 		}
 		attackNotify = true;
 	}
@@ -121,7 +126,7 @@ bool GameEntity::getAttackBool()
 
 bool GameEntity::getAttackNotify() const
 {
-		return attackNotify;
+	return attackNotify;
 }
 
 void GameEntity::otherAttackNotified()
@@ -210,6 +215,7 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 
 
 		}
+	}
 
 
 
@@ -332,21 +338,6 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 
 	}
 }
-//
-//void GameEntity::Collided(GameEntity* other)
-//{
-//	if (other != this)
-//	{
-//		if (this->getBounds().intersects(other->getBounds()))
-//		{
-//
-//		this->setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
-//		//other->setMovingSpeed(-other->getMovingSpeedX(), -other->getMovingSpeedY());
-//		this->move();
-//		//other->move();
-//		}
-//	}
-//}
 
 bool GameEntity::getCollidedBool()
 {
@@ -429,32 +420,16 @@ void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBef
 
 void GameEntity::updateAnimation()
 {
-	//cout << priority << endl;
-	//if (priority > this->currentPriority ||( currentPriority == 0 && priority == -1))
-	//{
-
-	//	if (currentRow != nrOfRows)
-	//	{
-	//		this->textureRect.left = 0;
-	//		this->sprite.setTextureRect(textureRect);
-	//	}
-	//	currentRow = nrOfRows;
-	//	this->textureRect.top = this->textureRect.height * nrOfRows;
-
 
 		//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
 	if (alive == true)
 	{
 
-
-		this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
-		//cout << animationTimer << endl;
-		if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
-		{
-			currentColummn++;
-			//	cout << this->textureRect.width <<" before: " << textureRect.left << endl;
-			this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
-			//cout << "after: " << textureRect.left << endl;
+	this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
+	if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
+	{
+		currentColummn++;
+		this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
 
 		}
 		if (currentColummn >= nrOfColumms)
@@ -471,6 +446,13 @@ void GameEntity::updateAnimation()
 int GameEntity::getCurrentPriority()
 {
 	return currentPriority;
+}
+
+void GameEntity::setAnimation(int column, int row)
+{
+	textureRect.left = column * 64;
+	textureRect.top = row * 64;
+	sprite.setTextureRect(textureRect);
 }
 
 int GameEntity::getCurrentRow()

@@ -13,7 +13,7 @@ void Follower::die()
 
 }
 
-Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 60, false) 
+Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 100, false) 
 {
 	windowHeight = 0;
 	windowWidth = 0;

@@ -37,53 +37,69 @@ GameClient::~GameClient()
 void GameClient::netWorking()
 {
 	client.run();
-	otherProphet = new Prophet();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
-	Packet packet;
-	while (client.getConnected())
+	if (client.getConnected())
 	{
-		packet = client.recieveAPacket();
-		if (packet.type == 1)
-		{
-			otherProphet->setPosition(packet.posX, packet.posY);
 
-		}
-		else if (packet.type == 2)
+		otherProphet = new Prophet();
+		thisProphet->recieveEnemyProphet(otherProphet);
+		otherProphet->recieveEnemyProphet(thisProphet);
+		Packet packet;
+		while (client.getConnected() && nrOfTotalFollowers <=followerCap)
 		{
-			if (allFollowers[packet.index] != nullptr)
+			packet = client.recieveAPacket();
+			if (packet.type == 1)
 			{
+				otherProphet->setPosition(packet.posX, packet.posY);
 
-				allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
 			}
-		}
-		else if (packet.type == 4)
-		{
-			if (allFollowers[packet.index] != nullptr)
+			else if (packet.type == 2)
 			{
-				allFollowers[packet.index]->otherConvert();
-				otherProphet->addFollower(allFollowers[packet.index]);
+				if (allFollowers[packet.index] != nullptr)
+				{
+
+					allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+				}
 			}
-		}
-		else if (packet.type == 5)
-		{
-			if (allFollowers[packet.index] != nullptr)
+			else if (packet.type == 4)
 			{
-				std::cout << "Follower Took damage\n";
-				allFollowers[packet.index]->setHealth(packet.health);
+				if (allFollowers[packet.index] != nullptr)
+				{
+					allFollowers[packet.index]->otherConvert();
+					otherProphet->addFollower(allFollowers[packet.index]);
+				}
 			}
-		}
-		else if (packet.type == 6)
-		{
-			thisProphet->setHealth(packet.health);
-			std::cout << thisProphet->getHealth() << std::endl;
-		}
-		else if (packet.type == 7)
-		{
-			sf::Vector2f pos;
-			pos.x = packet.posX;
-			pos.y = packet.posY;
-			otherProphet->placeAbil(pos, packet.abilType);
+			else if (packet.type == 5)
+			{
+				if (allFollowers[packet.index] != nullptr)
+				{
+					std::cout << "Follower Took damage\n";
+					allFollowers[packet.index]->setHealth(packet.health);
+				}
+			}
+			else if (packet.type == 6)
+			{
+				thisProphet->setHealth(packet.health);
+				std::cout << thisProphet->getHealth() << std::endl;
+			}
+			else if (packet.type == 7)
+			{
+				sf::Vector2f pos;
+				pos.x = packet.posX;
+				pos.y = packet.posY;
+				otherProphet->placeAbil(pos, packet.abilType);
+			}
+			else if (packet.type == 8)
+			{
+				if (allFollowers[packet.index] != nullptr)
+				{
+
+					allFollowers[packet.index]->setAnimation(packet.column, packet.row);
+				}
+			}
+			else if (packet.type == 9)
+			{
+				otherProphet->setAnimation(packet.column, packet.row);
+			}
 		}
 	}
 }
@@ -188,6 +204,7 @@ State GameClient::update()
 			thisProphet->convertsFollow();
 
 			client.sendProphetPos(thisProphet->getPosition());
+			client.sendProphetAnim(thisProphet->getCurrentColummn(), thisProphet->getCurrentRow());
 			//Check All the civilians for movement
 
 
@@ -205,10 +222,10 @@ State GameClient::update()
 				if (!allFollowers[i]->getConvertedByOther() && allFollowers[i]->getConverted())
 				{
 					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
 				}
 				if (allFollowers[i]->getAttackNotify())
 				{
-					std::cout << "Sent damage\n";
 					allFollowers[i]->otherAttackNotified();
 					client.sendFollowerDamage(i, allFollowers[i]->getHealth());
 

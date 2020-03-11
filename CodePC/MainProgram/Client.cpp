@@ -2,7 +2,8 @@
 
 Client::Client()
 {
-	iP = ("25.74.9.3");
+	//iP = ("25.74.9.3");
+	iP = sf::IpAddress::LocalHost;
 	connected = false;
 }
 
@@ -16,7 +17,7 @@ void Client::run()
 	{
 		std::cout << "Connected to Server\n";
 		connected = true;
-		
+
 	}
 }
 
@@ -54,6 +55,14 @@ Packet Client::recieveAPacket()
 	else if (recieved.type == 7)
 	{
 		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
+	}
+	else if (recieved.type == 8)
+	{
+		packet >> recieved.index >> recieved.column >> recieved.row;
+	}
+	else if (recieved.type == 9)
+	{
+		packet >> recieved.column >> recieved.row;
 	}
 	return recieved;
 }
@@ -99,6 +108,20 @@ void Client::sendAbilPlace(sf::Vector2f pos, int type)
 {
 	sf::Packet packet;
 	packet << (sf::Uint16) 7 << (sf::Uint32) pos.x << (sf::Uint32) pos.y << (sf::Uint16) type;
+	connectionSocket.send(packet);
+}
+
+void Client::sendFollowerAnim(int index, int column, int row)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 8 << (sf::Uint16) index << (sf::Uint16) column << (sf::Uint16) row;
+	connectionSocket.send(packet);
+}
+
+void Client::sendProphetAnim(int column, int row)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 9 << (sf::Uint16) column << (sf::Uint16) row;
 	connectionSocket.send(packet);
 }
 

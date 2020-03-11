@@ -10,6 +10,8 @@ struct Packet
 	sf::Uint16 index;
 	sf::Uint32 health;
 	sf::Uint16 abilType;
+	sf::Uint16 column;
+	sf::Uint16 row;
 };
 class Client
 {
@@ -29,6 +31,8 @@ public:
 	void sendFollowerDamage(int index, int newHealth);
 	void sendProphetDamage(int newHealth);
 	void sendAbilPlace(sf::Vector2f pos, int type);
+	void sendFollowerAnim(int index, int column, int row);
+	void sendProphetAnim(int column, int row);
 
 	bool getConnected() const;
 };

@@ -88,6 +88,7 @@ public:
 	void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
 	void updateAnimation();
 	int getCurrentPriority();
+	void setAnimation(int column, int row);
 	bool hasAAnimation();
 	int getCurrentRow();
 	int getCurrentColummn();

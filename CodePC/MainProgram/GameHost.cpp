@@ -77,6 +77,14 @@ void GameHost::networking()
 
 			}
 		}
+		else if (packet.type == 8)
+		{
+			allFollowers[packet.index]->setAnimation(packet.column, packet.row);
+		}
+		else if (packet.type == 9)
+		{
+			otherProphet->setAnimation(packet.column, packet.row);
+		}
 	}
 }
 
@@ -213,7 +221,7 @@ State GameHost::update()
 			if (otherProphet != nullptr && activeClient)
 			{
 				server.sendProphetPos(thisProphet->getPosition());
-
+				server.sendProphetAnim(thisProphet->getCurrentColummn(), thisProphet->getCurrentRow());
 			}
 
 
@@ -251,6 +259,7 @@ State GameHost::update()
 					{
 
 						server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+						server.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
 					}
 
 				}
@@ -376,12 +385,16 @@ void GameHost::render()
 	}
 	if (activeClient)
 	{
-		if (otherProphet->getCurAbil() != nullptr)
+		if (otherProphet != nullptr)
 		{
 
-			if (otherProphet->getIfAbilityIsActive())
+			if (otherProphet->getCurAbil() != nullptr)
 			{
-				window.draw(*this->otherProphet->getCurAbil());
+
+				if (otherProphet->getIfAbilityIsActive())
+				{
+					window.draw(*this->otherProphet->getCurAbil());
+				}
 			}
 		}
 	}
