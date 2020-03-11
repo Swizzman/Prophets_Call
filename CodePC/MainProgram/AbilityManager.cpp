@@ -59,97 +59,87 @@ bool AbilityManager::getAbilityActive() const
 void AbilityManager::startAbility()
 {
 	abilityActive = true;
-	//currentAbility->turnBoolTrue();
-//	currentAbility->abilityActive();
 
-	//cout << currentAbility << endl;
 }
 
 void AbilityManager::stopAbility()
 {
-	//currentAbility->turnBoolTrue();
 	abilityActive = currentAbility->abilityLifeTime();
-	//currentAbility->abilityLifeTime();
 	if (abilityActive == false)
 	{
-		//abilityActive = currentAbility->abilityLifeTime();
 		currentAbility->resetClock();
-		//	currentAbility->setPosition(sf::Vector2f(100000,100000));
-		if (chosenAbility == 0)
+		if (!currentAbility->getDummy())
 		{
+			if (chosenAbility == 0)
+			{
+
+
+
+				for (int a = 0; a < 3; a++)
+				{
+
+					for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
+					{
+						//currentAbility->getPosition() - followerGroup->followers[i]->getPosition()
+						sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
+						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
+
+						if (abs(magni) < currentAbility->getRadius())
+						{
+							followerGroup[a].followers[i]->takeDamage(currentAbility->getSpecificVar());
+							//followerGroup->followers[i]->touchedByAbility(true);
+						}
+
+					}
+
+
+					for (int i = 0; i < enemyProphet->getAllNrOfFollowers(a); i++)
+					{
+
+
+						sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[i]->getPosition();
+						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
+
+						if (abs(magni) < currentAbility->getRadius())
+						{
+							enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
+							cout << "enemy Follower takes damage" << endl;
+
+							//enemyProphet->getASingleFollower(i).touchedByAbility(true);
+
+						}
+					}
+
+					sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getPosition();
+					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
+					if (abs(magni) < currentAbility->getRadius())
+					{
+						enemyProphet->takeDamage(currentAbility->getSpecificVar());
+						cout << "enemy Prophet takes damage" << endl;
+						//enemyProphet->touchedByAbility(true);
+					}
+				}
+			}
+
+
 
 
 			for (int a = 0; a < 3; a++)
 			{
 
+
+
 				for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 				{
-					//currentAbility->getPosition() - followerGroup->followers[i]->getPosition()
-					sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
-					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
-					if (abs(magni) < currentAbility->getRadius())
-					{
-						followerGroup[a].followers[i]->takeDamage(currentAbility->getSpecificVar());
-						//followerGroup->followers[i]->touchedByAbility(true);
-					}
-
+					if (chosenAbility == 1)
+						followerGroup[a].followers[i]->touchedByAbility(false);
 				}
 
-
-				for (int i = 0; i < enemyProphet->getAllNrOfFollowers(a); i++)
-				{
-
-
-					sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[i]->getPosition();
-					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
-
-					if (abs(magni) < currentAbility->getRadius())
-					{
-						enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
-						cout << "enemy Follower takes damage" << endl;
-
-						//enemyProphet->getASingleFollower(i).touchedByAbility(true);
-
-					}
-				}
 			}
-			sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getPosition();
-			float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
-			if (abs(magni) < currentAbility->getRadius())
-			{
-				enemyProphet->takeDamage(currentAbility->getSpecificVar());
-				cout << "enemy Prophet takes damage" << endl;
-				//enemyProphet->touchedByAbility(true);
-			}
-
+			enemyProphet->touchedByAbility(false);
 
 		}
-
-
-
-		for (int a = 0; a < 3; a++)
-		{
-
-
-
-			for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
-			{
-
-				if (chosenAbility == 1)
-					followerGroup[a].followers[i]->touchedByAbility(false);
-			}
-
-
-			/*for (int i = 0; i < enemyProphet->getAllNrOfFollowers(a); i++)
-			{
-
-					enemyProphet->getAllFollowers(a)[i].touchedByAbility(false);
-
-			}	*/
-		}
-		enemyProphet->touchedByAbility(false);
-
 		if (chosenAbility != 2)
 		{
 			delete currentAbility;
@@ -166,26 +156,29 @@ void AbilityManager::stopReinforceAbility()
 		if (currentAbility->abilityEffectPulse())
 		{
 
-
-			for (int a = 0; a < 3; a++)
+			if (!currentAbility->getDummy())
 			{
 
-
-
-				for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
+				for (int a = 0; a < 3; a++)
 				{
-					cout << "turn down damage" << endl;
 
-					if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true)
+
+
+					for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 					{
+						cout << "turn down damage" << endl;
+
+						if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true)
+						{
 
 
-						followerGroup[a].followers[i]->touchedByAbility(false);
-						followerGroup[a].followers[i]->returnDamage();
+							followerGroup[a].followers[i]->touchedByAbility(false);
+							followerGroup[a].followers[i]->returnDamage();
 
+
+						}
 
 					}
-
 				}
 			}
 			delete currentAbility;
@@ -221,13 +214,13 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		{
 
 		case 0:
-			currentAbility = new Bomb();
+			currentAbility = new Bomb(false);
 			break;
 		case 1:
-			currentAbility = new Regen();
+			currentAbility = new Regen(false);
 			break;
 		case 2:
-			currentAbility = new Reinforcement();
+			currentAbility = new Reinforcement(false);
 			break;
 		default:
 			break;
@@ -238,13 +231,13 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		switch (force)
 		{
 		case 0:
-			currentAbility = new Bomb();
+			currentAbility = new Bomb(true);
 			break;
 		case 1:
-			currentAbility = new Regen();
+			currentAbility = new Regen(true);
 			break;
 		case 2:
-			currentAbility = new Reinforcement();
+			currentAbility = new Reinforcement(true);
 			break;
 		default:
 			break;
@@ -270,64 +263,70 @@ void AbilityManager::whileAbilityIsActive()
 
 	if (chosenAbility != 0)
 	{
-
-		for (int a = 0; a < 3; a++)
+		if (!currentAbility->getDummy())
 		{
 
-			for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
+			for (int a = 0; a < 3; a++)
 			{
 
-				//currentAbility->getPosition() - followerGroup->followers[i]->getPosition()
-				sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
-				float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
-
-				if (abs(magni) < currentAbility->getRadius())
+				for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 				{
 
-					if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == false)
-					{
-						reinforcementIsOn = true;
-						followerGroup[a].followers[i]->increaseDamageDone(15);
-					}
-					followerGroup[a].followers[i]->touchedByAbility(true);
+					//currentAbility->getPosition() - followerGroup->followers[i]->getPosition()
+					sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
+					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
-					//followerGroup[a].followers[i]->touchedByAbility(true);
-
-
-
-				//followerGroup->followers[i]->touchedByAbility(true);
-				}
-				else if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true && abs(magni) > currentAbility->getRadius())
-				{
-					cout << "should not start" << endl;
-					if (currentAbility->abilityEffectPulse())
+					if (abs(magni) < currentAbility->getRadius())
 					{
 
+						if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == false)
+						{
+							reinforcementIsOn = true;
+							followerGroup[a].followers[i]->increaseDamageDone(15);
+						}
+						followerGroup[a].followers[i]->touchedByAbility(true);
 
-						followerGroup[a].followers[i]->touchedByAbility(false);
-						followerGroup[a].followers[i]->returnDamage();
+						//followerGroup[a].followers[i]->touchedByAbility(true);
+
+
+
+					//followerGroup->followers[i]->touchedByAbility(true);
+					}
+					else if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true && abs(magni) > currentAbility->getRadius())
+					{
+						cout << "should not start" << endl;
+						if (currentAbility->abilityEffectPulse())
+						{
+
+
+							followerGroup[a].followers[i]->touchedByAbility(false);
+							followerGroup[a].followers[i]->returnDamage();
+						}
+
 					}
 
+
+
 				}
-
-
-
 			}
 		}
 		if (chosenAbility == 1)
 		{
-
-			if (currentAbility->abilityEffectPulse())
+			if (!currentAbility->getDummy())
 			{
-				for (int a = 0; a < 3; a++)
+
+				if (currentAbility->abilityEffectPulse())
 				{
-
-					for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
+					for (int a = 0; a < 3; a++)
 					{
-						if (followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility())
-						{
 
-							followerGroup[a].followers[i]->gainHealth(currentAbility->getSpecificVar());
+						for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
+						{
+							if (followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility())
+							{
+
+								followerGroup[a].followers[i]->gainHealth(currentAbility->getSpecificVar());
+							}
 						}
 					}
 				}

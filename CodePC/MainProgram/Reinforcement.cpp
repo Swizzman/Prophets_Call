@@ -1,6 +1,6 @@
 #include "Reinforcement.h"
 
-Reinforcement::Reinforcement() : Ability("reinforcement.png", 100,5,5.f)
+Reinforcement::Reinforcement(bool dummy) : Ability("reinforcement.png", 100,5,5.f, dummy)
 {
 	damageIncrease = 10;
 }

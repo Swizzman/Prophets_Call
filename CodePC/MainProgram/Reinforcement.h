@@ -7,7 +7,7 @@ class Reinforcement :
 private:
 	int damageIncrease;
 public:
-	Reinforcement();
+	Reinforcement(bool dummy);
 	virtual ~Reinforcement();
 
 	// Inherited via Ability

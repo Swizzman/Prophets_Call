@@ -8,7 +8,7 @@ private:
 	int health;
 
 public:
-	Regen();
+	Regen(bool dummy);
 	virtual ~Regen();
 	// Inherited via Ability
 	virtual void abilityActive() override;

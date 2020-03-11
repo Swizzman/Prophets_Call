@@ -4,6 +4,7 @@
 Server::Server()
 {
 	iP = ("25.74.9.3");
+	iP = sf::IpAddress::LocalHost;
 	port = 55000;
 	listener.listen(port, iP);
 	std::cout << "Server started on: " << iP << ":" << port << std::endl;
@@ -100,6 +101,13 @@ void Server::sendFollowerAnim(int index, int column, int row)
 
 }
 
+void Server::sendProphetAnim(int column, int row)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 9 << (sf::Uint16) column << (sf::Uint16) row;
+	clientSock->send(packet);
+}
+
 Packet Server::recieveAPacket()
 {
 
@@ -132,6 +140,14 @@ Packet Server::recieveAPacket()
 	else if (recieved.type == 7)
 	{
 		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
+	}
+	else if (recieved.type == 8)
+	{
+		packet >> recieved.index >> recieved.column >> recieved.row;
+	}
+	else if (recieved.type == 9)
+	{
+		packet >> recieved.column >> recieved.row;
 	}
 	return recieved;
 

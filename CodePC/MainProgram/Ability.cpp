@@ -1,7 +1,7 @@
 
 #include "Ability.h"
 
-Ability::Ability(std::string texture, int radius, float activeTimer ,float pulseTime)
+Ability::Ability(std::string texture, int radius, float activeTimer ,float pulseTime, bool fake)
 {
 	this->texture.loadFromFile("../images/" + texture);
 	this->sprite.setTexture(this->texture);
@@ -72,7 +72,7 @@ bool Ability::abilityEffectPulse()
 {
 	
 	TimeBetweenAbilityPulse += abilityClock.restart();
-	cout << "timer : " << TimeBetweenAbilityPulse.asSeconds() << " : " << pulseTimer << endl;
+
 	if (TimeBetweenAbilityPulse.asSeconds() > pulseTimer)
 	{
 	
@@ -102,6 +102,11 @@ void Ability::resetClock()
 void Ability::changeCircleColor(sf::Color color)
 {
 	circle.setOutlineColor(color);
+}
+
+bool Ability::getDummy() const
+{
+	return isDummy;
 }
 
 void Ability::draw(sf::RenderTarget& target, sf::RenderStates states) const

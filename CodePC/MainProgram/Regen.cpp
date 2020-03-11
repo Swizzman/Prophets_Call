@@ -1,6 +1,6 @@
 #include "Regen.h"
 
-Regen::Regen() :Ability("Regen.png", 100,1, 0.2f)
+Regen::Regen(bool dummy) :Ability("Regen.png", 100,1, 0.2f, dummy)
 {
 	this->health = 10;
 

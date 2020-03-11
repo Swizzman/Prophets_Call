@@ -19,11 +19,11 @@ private:
 	float activeTime;
 	bool isActive;
 	float pulseTimer;
-	
+	bool isDummy;
 
 public:
 
-	Ability(std::string texture, int radius, float activeTimer, float pulseTime);
+	Ability(std::string texture, int radius, float activeTimer, float pulseTime, bool fake);
 	virtual ~Ability();
 	int getRadius();
 	sf::Vector2f getPosition();
@@ -37,7 +37,7 @@ public:
 	virtual void abilityActive() = 0;
 	virtual int getSpecificVar() = 0;
 	virtual void placeAbility(sf::Vector2f position) = 0;
-
+	bool getDummy() const;
 
 
 
