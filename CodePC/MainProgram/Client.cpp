@@ -95,6 +95,13 @@ void Client::sendProphetDamage(int newHealth)
 	connectionSocket.send(packet);
 }
 
+void Client::sendAbilPlace(sf::Vector2f pos, int type)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 7 << (sf::Uint32) pos.x << (sf::Uint32) pos.y << (sf::Uint16) type;
+	connectionSocket.send(packet);
+}
+
 bool Client::getConnected() const
 {
 	return connected;
