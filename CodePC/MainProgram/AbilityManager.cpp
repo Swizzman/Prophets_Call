@@ -29,31 +29,13 @@ AbilityManager::~AbilityManager()
 
 int AbilityManager::switchAbility()
 {
-	//	delete currentAbility;
 	chosenAbility++;
 	//cout << chosenAbility << endl;
 	if (chosenAbility > 2)
 	{
 		chosenAbility = 0;
 	}
-	//chosenAbility = 0;
-/*	switch (chosenAbility)
-	{
-	case 0:
-		cout << "Bomb" << endl;
-		currentAbility = new Bomb();
-		break;
-	case 1:
-		cout << "Regen" << endl;
-		currentAbility = new Regen();
-		break;
-	case 2:
-		currentAbility = new Reinforcement();
-		cout << "Reinforce" << endl;
-		break;
-	default:
-		break;
-	}*/
+
 
 	return chosenAbility;
 
