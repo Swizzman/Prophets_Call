@@ -58,11 +58,11 @@ public:
 	int getNrOfFollowers();
 	int getAllNrOfFollowers(int thisGroup);
 	void collectSouls();
-	void placeAbil(sf::Vector2f position);
+	void placeAbil(sf::Vector2f position,int force = -1);
 	int getSouls();
-	Follower* getFollowers();
+	Follower** getFollowers();
 	Follower& getASingleFollower(int whichOne);
-	Follower* getAllFollowers(int thisGroup);
+	Follower** getAllFollowers(int thisGroup);
 	void recieveEnemyProphet(Prophet* other);
 	int getCurrentAbility();
 	void changeAbility();
@@ -71,7 +71,6 @@ public:
 	void changeCurrentCommandGroup();
 	int getcurrentGroupCommand();
 	Ability* getCurAbil() const;
-	void drawAbil(sf::RenderWindow* window);
 	void aFollowerGotKilled(int whichFollower);
 	void changeCurrentCommand();
 	bool getIfAbilityIsActive();
@@ -81,6 +80,7 @@ public:
 	int getWalkingDirection();
 
 
+	void addFollower(Follower* follower);
 	// Inherited via GameEntity
 	virtual void die() override;
 

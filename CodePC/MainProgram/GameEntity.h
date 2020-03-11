@@ -13,7 +13,8 @@ private:
 	int movingSpeedX;
 	int movingSpeedY;
 	int health;
-	bool canAttack = true;
+	bool canAttack;
+	bool attackNotify;
 	string textureName;
 	sf::Vector2f randomPos;
 	sf::Time moveTimer;
@@ -36,9 +37,12 @@ public:
 	sf::FloatRect getBounds();
 	void switchTexture(std::string newTexture);
 	int getHealth();
+	void setHealth(int health);
 	void gainHealth(int health);
 	//void attackCooldown();
 	bool getAttackBool();
+	bool getAttackNotify() const;
+	void otherAttackNotified();
 	void attack(GameEntity *enemy, int damage);
 	void move();
 	void moveTowardsDest(sf::Vector2f dest, int currentCommand);

@@ -26,10 +26,10 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 		this->sprite.setTextureRect(textureRect);
 	
 		cout << sprite.getGlobalBounds().width << " : " << sprite.getGlobalBounds().height << endl;
-	
+		attackNotify = false;
 	range = 100;
 
-	randomPos = sf::Vector2f(rand() % 300 -150, rand() % 300-150);
+	randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
 	maxTime = rand() % 6000 + 2000;
 }
 
@@ -37,7 +37,16 @@ GameEntity::GameEntity()
 {
 	texture.loadFromFile("???");
 	this->sprite.setTexture(texture);
+	this->movingSpeedX = 0;
+	this->movingSpeedY = 0;
+	this->health = 0;
+	this->maxHealth = 0;
+	collided = false;
+	abilityHasTakenAffect = false;
+	range = 100;
 
+	randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
+	maxTime = rand() % 6000 + 2000;
 }
 
 GameEntity::~GameEntity()
@@ -48,12 +57,12 @@ GameEntity::~GameEntity()
 void GameEntity::takeDamage(int damage)
 {
 	this->health -= damage;
-	if (this->health < 0 )
+	if (this->health < 0)
 	{
 		this->health = 0;
 	}
-	//if(health > 0)
-//	std::cout << health << std::endl;
+	attackNotify = true;
+
 }
 
 sf::Vector2f GameEntity::getPos()
@@ -75,8 +84,13 @@ void GameEntity::switchTexture(std::string newTexture)
 
 int GameEntity::getHealth()
 {
-	
+
 	return health;
+}
+
+void GameEntity::setHealth(int health)
+{
+	this->health = health;
 }
 
 void GameEntity::gainHealth(int health)
@@ -86,25 +100,27 @@ void GameEntity::gainHealth(int health)
 		this->health += health;
 	}
 
-	if(this->health >= maxHealth)
+	if (this->health >= maxHealth)
 	{
 		this->health = maxHealth;
 	}
-	//cout << this->maxHealth << endl;
-	cout << this->health << endl;
+
 
 }
-
-
-//void GameEntity::attackCooldown()
-//{
-//
-//	canAttack = true;
-//}
 
 bool GameEntity::getAttackBool()
 {
 	return canAttack;
+}
+
+bool GameEntity::getAttackNotify() const
+{
+	return attackNotify;
+}
+
+void GameEntity::otherAttackNotified()
+{
+	attackNotify = false;
 }
 
 void GameEntity::attack(GameEntity* enemy, int damage)
@@ -260,9 +276,9 @@ sf::Vector2f GameEntity::getRandomPos()
 
 void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 {
-		
+
 	moveTimer += clock.restart();
-	int randomPosRange=0;
+	int randomPosRange = 0;
 
 	if (currentCommand == 0)
 	{
@@ -274,7 +290,7 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 	}
 	else if (currentCommand == 2)
 	{
-		randomPosRange = 0 ;
+		randomPosRange = 0;
 	}
 	else
 	{
@@ -288,19 +304,19 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 		moveTimer = sf::Time::Zero;
 		maxTime = rand() % 5000 + 2000;
 		reset = false;
-		
+
 	}
-	if (moveTimer.asMilliseconds() > maxTime && randomPosRange != 0)
+	if (moveTimer.asMilliseconds() > maxTime&& randomPosRange != 0)
 	{
 		//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
-		randomPos = sf::Vector2f(rand() % randomPosRange- randomPosRange/2, rand() % randomPosRange - randomPosRange/2);
+		randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
 		moveTimer = sf::Time::Zero;
 		maxTime = rand() % 5000 + 2000;
-		
-		
+
+
 	}
-	
-	
+
+
 }
 //
 //void GameEntity::Collided(GameEntity* other)
@@ -328,7 +344,7 @@ void GameEntity::touchedByAbility(bool abilityIsActive)
 	if (abilityIsActive == true)
 	{
 
-	abilityHasTakenAffect = true;
+		abilityHasTakenAffect = true;
 	}
 	else
 	{

@@ -6,11 +6,9 @@ Server::Server()
 	port = 55000;
 	listener.listen(port, sf::IpAddress::LocalHost);
 	std::cout << "Server started on: " << sf::IpAddress::LocalHost << ":" << port << std::endl;
-	isRunning = true;
 	clientConnected = false;
 	selector.add(listener);
 	std::cout << "Listening...\n";
-	client = nullptr;
 	clientSock = std::make_unique<sf::TcpSocket>();
 }
 
@@ -70,6 +68,28 @@ void Server::sendConverted(int index)
 	clientSock->send(packet);
 }
 
+void Server::sendFollowerDamage(int index, int newHealth)
+{
+	sf::Packet packet;
+	std::cout << "Follower Damage sent!\n";
+	packet << (sf::Uint16) 5 << (sf::Uint16) index << (sf::Uint32) newHealth;
+	clientSock->send(packet);
+}
+
+void Server::sendProphetDamage(int newHealth)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 6 << (sf::Uint32) newHealth;
+	clientSock->send(packet);
+}
+
+void Server::sendAbilPlace(sf::Vector2f pos, int type)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 7 << (sf::Uint32) pos.x << (sf::Uint32) pos.y << (sf::Uint16) type;
+	clientSock->send(packet);
+}
+
 Packet Server::recieveAPacket()
 {
 
@@ -90,6 +110,14 @@ Packet Server::recieveAPacket()
 	else if (recieved.type == 4)
 	{
 		packet >> recieved.index;
+	}
+	else if (recieved.type == 5)
+	{
+		packet >> recieved.index >> recieved.health;
+	}
+	else if (recieved.type == 6)
+	{
+		packet >> recieved.health;
 	}
 	return recieved;
 

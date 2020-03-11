@@ -12,6 +12,7 @@ Ability::Ability(std::string texture, int radius, float activeTimer ,float pulse
 	this->circle.setOutlineThickness(5.f);
 	this->activeTime = activeTimer;
 	this->pulseTimer = pulseTime;
+	this->isActive = false;
 	changeCircleColor(sf::Color::Magenta);
 	//TimeBetweenAbilityPulse = sf::Time::Zero;
 }

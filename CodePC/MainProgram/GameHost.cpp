@@ -25,17 +25,48 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	otherProphet = new Prophet();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
-	activeClient = true;
+	//otherProphet = new Prophet();
+	//thisProphet->recieveEnemyProphet(otherProphet);
+	//otherProphet->recieveEnemyProphet(thisProphet);
+	//activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	//server.run();
+	server.run();
+	Packet packet;
 
+	while (server.getClientConnected())
+	{
+		packet = server.recieveAPacket();
+		if (packet.type == 1)
+		{
+			otherProphet->setPosition(packet.posX, packet.posY);
+
+		}
+		if (packet.type == 2)
+		{
+			allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+		}
+		else if (packet.type == 4)
+		{
+			allFollowers[packet.index]->otherConvert();
+			otherProphet->addFollower(allFollowers[packet.index]);
+		}
+		else if (packet.type == 5)
+		{
+			if (allFollowers[packet.index] != nullptr)
+			{
+				allFollowers[packet.index]->setHealth(packet.health);
+			}
+		}
+		else if (packet.type == 6)
+		{
+			thisProphet->setHealth(packet.health);
+			std::cout << thisProphet->getHealth() << std::endl;
+		}
+	}
 }
 
 GameHost::~GameHost()
@@ -73,15 +104,15 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
-				if (thisProphet->getNrOfFollowers() > 0)
-					thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
-				thisProphet->takeDamage(rand() % 20);
-
+				//if (thisProphet->getNrOfFollowers() > 0)
+				//	thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
+				//thisProphet->takeDamage(rand() % 20);
+			
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-
+				server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
 
 				break;
 			case sf::Keyboard::Tab:
@@ -171,13 +202,7 @@ State GameHost::update()
 				server.sendProphetPos(thisProphet->getPosition());
 
 			}
-			Packet packet;
-			packet = server.recieveAPacket();
-			if (packet.type == 1)
-			{
-				otherProphet->setPosition(packet.posX, packet.posY);
 
-			}
 
 			thisProphet->convertsFollow();
 			//Move the playerProphet
@@ -198,16 +223,35 @@ State GameHost::update()
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
 				{
-					server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					if ((allFollowers[i]->getConvertedByOther() == false && allFollowers[i]->getConverted()) || !allFollowers[i]->getConverted())
+					{
+
+						server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					}
 
 				}
-				if (allFollowers[i]->getClientNotified())
+				if (allFollowers[i]->getOtherNotified())
 				{
-					std::cout << "Sent converted!\n";
 					server.sendConverted(i);
-					allFollowers[i]->clientIsNotified();
+					allFollowers[i]->otherIsNotified();
 				}
+				if (activeClient)
+				{
 
+					if (allFollowers[i]->getAttackNotify())
+					{
+						std::cout << "Sent damage\n";
+						allFollowers[i]->otherAttackNotified();
+						server.sendFollowerDamage(i, allFollowers[i]->getHealth());
+
+					}
+					if (otherProphet->getAttackNotify())
+					{
+						otherProphet->otherAttackNotified();
+						std::cout << otherProphet->getHealth() << std::endl;
+						server.sendProphetDamage(otherProphet->getHealth());
+					}
+				}
 			}
 
 			if (thisProphet->getIfAbilityIsActive())
@@ -254,9 +298,6 @@ State GameHost::update()
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
-
-
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			netWorkThread.join();

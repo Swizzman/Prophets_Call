@@ -2,7 +2,6 @@
 #include "Follower.h"
 AttackProphet::AttackProphet()
 {
-	std::cout << "3" <<std::endl;
 }
 
 AttackProphet::~AttackProphet()

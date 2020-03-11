@@ -43,16 +43,16 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 
 		for (int i = 0; i < dynamic_cast<Prophet*>(enemyObject)->getAllNrOfFollowers(a); i++)
 		{
-			thisEnemy = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition()- object->getPosition();
+			thisEnemy = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition() - object->getPosition();
 			if (range > sqrt(pow(thisEnemy.x - object->getPosition().x, 2) + pow(thisEnemy.y - object->getPosition().y, 2)))
 			{
 
-				if (health > dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getHealth())
+				if (health > dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getHealth())
 				{
-					temp = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition()- object->getPosition();
+					temp = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition() - object->getPosition();
 					magniTemp = sqrt(pow(temp.x, 2) + pow(temp.y, 2));
-						//sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getPosition().y - object->getPosition().y, 2));
-					health = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i].getHealth();
+						//sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition().y - object->getPosition().y, 2));
+					health = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getHealth();
 					attackProphetBool = false;
 					whichFollower = i;
 					whichGroup = a;
@@ -123,7 +123,7 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 		}
 		else
 		{
-			dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(whichGroup)[whichFollower].takeDamage(object->inflictDamage());
+			dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(whichGroup)[whichFollower]->takeDamage(object->inflictDamage());
 			if (abs(dist.x) > abs(dist.y))
 			{
 				if (dist.x > 0)

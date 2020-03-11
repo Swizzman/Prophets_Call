@@ -11,6 +11,7 @@ private:
 	float attackRange;
 	bool alive;
 	bool converted;
+	bool convertedByOther;
 	bool otherNotified;
 	bool collided;
 	int maxTime;
@@ -39,11 +40,12 @@ public:
 	void attackCooldown();
 	bool getAttackCooldown();
 	void resetAttackClock();
-	void clientIsNotified();
-	bool getClientNotified() const;
+	void otherIsNotified();
+	bool getOtherNotified() const;
 	void convert();
 	void otherConvert();
 	bool getConverted() const;
+	bool getConvertedByOther() const;
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);
 	float getFollowerRange();

@@ -14,6 +14,7 @@ Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 60, false)
 	attackRange = 5.f;
 	alive = true;
 	converted = false;
+	convertedByOther = false;
 	otherNotified = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
@@ -190,15 +191,17 @@ void Follower::otherConvert()
 	convertedAmount = 200;
 	converted = true;
 	switchTexture("EnemySpriteSheet.png");
+	convertedByOther = true;
+
 
 }
 
-void Follower::clientIsNotified()
+void Follower::otherIsNotified()
 {
 	otherNotified = false;
 }
 
-bool Follower::getClientNotified() const
+bool Follower::getOtherNotified() const
 {
 	return otherNotified;
 }
@@ -208,6 +211,11 @@ bool Follower::getClientNotified() const
 bool Follower::getConverted() const
 {
 	return converted;
+}
+
+bool Follower::getConvertedByOther() const
+{
+	return convertedByOther;
 }
 
 int Follower::getConvertedAmount() const
