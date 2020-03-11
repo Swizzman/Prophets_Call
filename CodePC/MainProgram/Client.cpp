@@ -8,7 +8,7 @@ Client::Client()
 
 void Client::run()
 {
-	if (connectionSocket.connect(sf::IpAddress::LocalHost, 55000) != sf::Socket::Done)
+	if (connectionSocket.connect(iP, 55000) != sf::Socket::Done)
 	{
 		std::cout << "Error connecting \n";
 	}
@@ -16,7 +16,7 @@ void Client::run()
 	{
 		std::cout << "Connected to Server\n";
 		connected = true;
-		
+
 	}
 }
 
@@ -54,6 +54,10 @@ Packet Client::recieveAPacket()
 	else if (recieved.type == 7)
 	{
 		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
+	}
+	else if (recieved.type == 8)
+	{
+		packet >> recieved.index >> recieved.column >> recieved.row;
 	}
 	return recieved;
 }

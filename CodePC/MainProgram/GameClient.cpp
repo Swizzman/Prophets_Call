@@ -85,6 +85,10 @@ void GameClient::netWorking()
 			pos.y = packet.posY;
 			otherProphet->placeAbil(pos, packet.abilType);
 		}
+		else if (packet.type == 8)
+		{
+			//allFollowers[packet.index
+		}
 	}
 }
 
@@ -147,6 +151,21 @@ void GameClient::handleEvents()
 			{
 			case sf::Keyboard::Space:
 				converting = false;
+				break;
+			default:
+				break;
+			}
+		}
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			switch (event.mouseButton.button)
+			{
+			case sf::Mouse::Right:
+
+				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
+				thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+				abilityplaced = true;
+				client.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
 				break;
 			default:
 				break;

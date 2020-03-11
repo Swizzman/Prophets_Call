@@ -77,7 +77,8 @@ bool AbilityManager::getAbilityActive() const
 void AbilityManager::startAbility()
 {
 	abilityActive = true;
-	//currentAbility->abilityActive();
+	//currentAbility->turnBoolTrue();
+//	currentAbility->abilityActive();
 
 	//cout << currentAbility << endl;
 }
