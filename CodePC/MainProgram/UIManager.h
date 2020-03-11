@@ -12,6 +12,7 @@ private:
 		sf::RectangleShape followerHealthBar;
 		sf::RectangleShape followerRedHealth;
 		sf::Sprite followerImage;
+		sf::IntRect textRect = sf::IntRect(0, 128, 64, 64);
 		float followerMaxHealth;
 
 

@@ -67,12 +67,8 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="GameClient.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h">
@@ -144,12 +140,10 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="GameClient.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="ANIMATIONSPRITEROW.h" />
+    <ClInclude Include="FOLLOWERSPRITEROW.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

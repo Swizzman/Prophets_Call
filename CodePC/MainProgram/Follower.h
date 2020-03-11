@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEntity.h"
+#include "FOLLOWERSPRITEROW.h"
 class Follower :
 	public GameEntity
 {
@@ -24,6 +25,9 @@ private:
 	float attackCooldownTime;
 	float followerRange = 100;
 	int test;
+
+	int lastWalkingDirection;
+//	sf::IntRect textureRect;
 public:
 	Follower();
 	virtual ~Follower();
@@ -43,6 +47,8 @@ public:
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);
 	float getFollowerRange();
+
+
 	// Inherited via GameEntity
 	virtual void die() override;
 };
