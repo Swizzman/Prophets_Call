@@ -210,6 +210,17 @@ State GameClient::update()
 
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
+				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
+				{
+
+					allFollowers[i]->die();
+					thisProphet->removeFollower(allFollowers[i]);
+					otherProphet->removeFollower(allFollowers[i]);
+					for (int i = 0; i < 3; i++)
+					{
+						uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+					}
+				}
 				if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
 				{
 					allFollowers[i]->checkCivMove();
