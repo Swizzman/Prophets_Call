@@ -453,6 +453,13 @@ int GameEntity::getCurrentPriority()
 	return currentPriority;
 }
 
+void GameEntity::setAnimation(int column, int row)
+{
+	textureRect.left = column;
+	textureRect.top = row;
+	sprite.setTextureRect(textureRect);
+}
+
 int GameEntity::getCurrentRow()
 {
 	return currentRow;

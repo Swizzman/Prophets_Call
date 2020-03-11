@@ -91,6 +91,15 @@ void Server::sendAbilPlace(sf::Vector2f pos, int type)
 	clientSock->send(packet);
 }
 
+void Server::sendFollowerAnim(int index, int column, int row)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 8 << (sf::Uint16) index <<(sf::Uint16) column << (sf::Uint16) row;
+	clientSock->send(packet);
+
+
+}
+
 Packet Server::recieveAPacket()
 {
 
