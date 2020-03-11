@@ -190,7 +190,7 @@ void Follower::otherConvert()
 {
 	convertedAmount = 200;
 	converted = true;
-	switchTexture("EnemySpriteSheet.png");
+	switchTexture("EnemyFollowerSpriteSheet.png");
 	convertedByOther = true;
 
 

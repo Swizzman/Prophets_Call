@@ -6,6 +6,7 @@ class Server
 {
 private:
 	int port;
+	sf::IpAddress iP;
 	sf::TcpSocket tcpSocket;
 	sf::TcpListener listener;
 	sf::SocketSelector selector;

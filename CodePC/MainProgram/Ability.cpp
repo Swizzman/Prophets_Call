@@ -61,7 +61,7 @@ bool Ability::abilityLifeTime()
 	}
 	else
 	{
-		//isActive = true;
+		isActive = true;
 		
 	}
 	return isActive;
