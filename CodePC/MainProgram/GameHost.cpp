@@ -34,7 +34,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 
 }
 
@@ -128,6 +128,7 @@ void GameHost::handleEvents()
 			case sf::Mouse::Right:
 
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
+			thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
 				abilityplaced = true;
 				break;
 			default:
@@ -243,6 +244,9 @@ State GameHost::update()
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth());
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
+
+
+			//thisProphet->updateAnimation((int)ANIMATIONSPRITEROW::DIE, 2, 60);
 
 		}
 		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)

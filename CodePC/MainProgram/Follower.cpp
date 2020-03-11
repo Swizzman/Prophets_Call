@@ -4,7 +4,7 @@ void Follower::die()
 {
 }
 
-Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
+Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 60, false) 
 {
 	windowHeight = 0;
 	windowWidth = 0;
@@ -17,11 +17,14 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	otherNotified = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
+	//textureRect = sf::IntRect(0, 0, 64, 64);
+	
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
 	test = 0;
 	this->canAttack = true;
 	followerRange = 100;
 	attackCooldownTime = 2;
+	lastWalkingDirection = 5;
 }
 
 Follower::~Follower()
@@ -54,6 +57,7 @@ void Follower::checkCivMove()
 			maxTime = rand() % 6000 + 2000;
 
 		}
+		
 
 		move();
 		if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
@@ -66,6 +70,48 @@ void Follower::checkCivMove()
 			setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
 
 		}
+
+		if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() > 0)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
+			//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY())<< endl;
+		}
+		else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
+		}
+		else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() > 0)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+		}
+		else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() < 0)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+		}
+
+		if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() < 0 )
+		{
+		//	cout << "same walking speed " << endl;
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+		}
+		else if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() > 0)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+		}
+		else if (getMovingSpeedX() == 0 && getMovingSpeedY() == 0)
+		{
+			startAnimation(lastWalkingDirection, 1, 15, -1);
+
+		}
+		
+
+		updateAnimation();
 	}
 	else
 	{
@@ -127,7 +173,7 @@ void Follower::convert()
 		{
 			converted = true;
 			otherNotified = true;
-			switchTexture("Follower.png");
+			switchTexture("FollowerSpriteSheet.png");
 
 		}
 		else
@@ -143,7 +189,7 @@ void Follower::otherConvert()
 {
 	convertedAmount = 200;
 	converted = true;
-	switchTexture("Follower.png");
+	switchTexture("EnemySpriteSheet.png");
 
 }
 
@@ -171,33 +217,58 @@ int Follower::getConvertedAmount() const
 
 void Follower::Collided(GameEntity* other)
 {
-
  
 	if (!converted)
 	{
 
-
-		if (this->getMovingSpeedY() == 0 && this->getMovingSpeedX() == 0)
-		{
-			setPosition(getPosition().x, getPosition().y);
-		}
-		else if (this->getMovingSpeedX() == 0 && this->getMovingSpeedY() != 0)
-		{
-			setPosition(getPosition().x, getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
-		}
-		else if (this->getMovingSpeedY() == 0)
-		{
-			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y);
-		}
-
-		if (this->getMovingSpeedY() != 0 && this->getMovingSpeedX() != 0)
-		{
-			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
-		}
+		
 
 
+		//if (this->getMovingSpeedY() == 0 && this->getMovingSpeedX() == 0)
+		//{
+		//	setPosition(getPosition().x, getPosition().y);
+		////	startAnimation(lastWalkingDirection,1,15,-1);
+		//	
+		//}
+		//else if (this->getMovingSpeedX() == 0 && this->getMovingSpeedY() != 0)
+		//{
+		//	setPosition(getPosition().x, getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
+		//}
+		//else if (this->getMovingSpeedY() == 0)
+		//{
+		//	setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y);
+		//}
 
-		setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+		//if (this->getMovingSpeedY() != 0 && this->getMovingSpeedX() != 0)
+		//{
+		//	setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
+		//}
+		//setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+		//if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() > 0)
+		//{
+		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
+		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
+		//}
+		//else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
+		//{
+		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
+		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
+		//}
+		//else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() > 0)
+		//{
+		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+		//}
+		//else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() < 0)
+		//{
+		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+		//}
+		//if (getMovingSpeedX() == 0 && getMovingSpeedY() == 0)
+		//{
+		//	startAnimation(lastWalkingDirection, 1, 15, -1);
+		//}
+		//updateAnimation();
 
 	}
 	
