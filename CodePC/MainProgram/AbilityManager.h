@@ -33,7 +33,7 @@ public:
 	void stopReinforceAbility();
 	bool returnReinforcementBool();
 	void updateAbility(sf::Vector2f placement);
-	void placeCurrentAbility(sf::Vector2f position);
+	void placeCurrentAbility(sf::Vector2f position, int force = -1);
 	void recievePtr(Prophet* enemyPro, group* followerGroup);
 	void whileAbilityIsActive();
 	Ability* getCurrentAbility() const;

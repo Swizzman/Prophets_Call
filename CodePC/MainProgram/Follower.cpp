@@ -14,6 +14,8 @@ Follower::Follower() : GameEntity("Civilian.png", 1, 1, 60)
 	attackRange = 5.f;
 	alive = true;
 	converted = false;
+	convertedByOther = false;
+	otherNotified = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
@@ -53,7 +55,7 @@ void Follower::checkCivMove()
 			maxTime = rand() % 6000 + 2000;
 
 		}
-		
+
 		move();
 		if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
 		{
@@ -83,7 +85,7 @@ void Follower::placeFollower(int width, int height)
 int Follower::inflictDamage()
 {
 	canAttack = false;
-	cout << "ouch" << endl;
+//	cout << "ouch" << endl;
 	return damage;
 }
 
@@ -122,18 +124,39 @@ void Follower::convert()
 	{
 
 
-			if (convertedAmount >= 100)
-			{
-				converted = true;
-				switchTexture("Follower.png");
+		if (convertedAmount >= 100)
+		{
+			converted = true;
+			otherNotified = true;
+			switchTexture("Follower.png");
 
-			}
-			else
-			{
-				convertedAmount += 30;
-			}
-
+		}
+		else
+		{
+			convertedAmount += 30;
+		}
 	}
+
+
+}
+
+void Follower::otherConvert()
+{
+	convertedAmount = 200;
+	converted = true;
+	convertedByOther = true;
+	switchTexture("EnemyFollower.png");
+
+}
+
+void Follower::otherIsNotified()
+{
+	otherNotified = false;
+}
+
+bool Follower::getOtherNotified() const
+{
+	return otherNotified;
 }
 
 
@@ -143,6 +166,11 @@ bool Follower::getConverted() const
 	return converted;
 }
 
+bool Follower::getConvertedByOther() const
+{
+	return convertedByOther;
+}
+
 int Follower::getConvertedAmount() const
 {
 	return convertedAmount;
@@ -150,12 +178,8 @@ int Follower::getConvertedAmount() const
 
 void Follower::Collided(GameEntity* other)
 {
-	
-	//moveTimer = sf::milliseconds(maxTime);
-	/*if (getMovingSpeedX() == 0 && getMovingSpeedY == 0)
-	{
-		getmov
-	}*/
+
+ 
 	if (!converted)
 	{
 
@@ -178,10 +202,10 @@ void Follower::Collided(GameEntity* other)
 			setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
 		}
 
-		
 
-			setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
-		
+
+		setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+
 	}
 	
 

@@ -3,7 +3,7 @@
 GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 {
 	thisProphet = new Prophet();
-	otherProphet = new Prophet();
+	otherProphet = nullptr;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -17,8 +17,8 @@ GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 	timePerFrame = sf::seconds(1 / 60.f);
 	uiManager.setUpPp(thisProphet->getHealth());
 	uiManager.setUpCS();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
+	//thisProphet->recieveEnemyProphet(otherProphet);
+	//otherProphet->recieveEnemyProphet(thisProphet);
 	converting = false;
 	abilityplaced = false;
 }
@@ -37,6 +37,55 @@ GameClient::~GameClient()
 void GameClient::netWorking()
 {
 	client.run();
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	Packet packet;
+	while (client.getConnected())
+	{
+		packet = client.recieveAPacket();
+		if (packet.type == 1)
+		{
+			otherProphet->setPosition(packet.posX, packet.posY);
+
+		}
+		else if (packet.type == 2)
+		{
+			if (allFollowers[packet.index] != nullptr)
+			{
+
+				allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+			}
+		}
+		else if (packet.type == 4)
+		{
+			if (allFollowers[packet.index] != nullptr)
+			{
+				allFollowers[packet.index]->otherConvert();
+				otherProphet->addFollower(allFollowers[packet.index]);
+			}
+		}
+		else if (packet.type == 5)
+		{
+			if (allFollowers[packet.index] != nullptr)
+			{
+				std::cout << "Follower Took damage\n";
+				allFollowers[packet.index]->setHealth(packet.health);
+			}
+		}
+		else if (packet.type == 6)
+		{
+			thisProphet->setHealth(packet.health);
+			std::cout << thisProphet->getHealth() << std::endl;
+		}
+		else if (packet.type == 7)
+		{
+			sf::Vector2f pos;
+			pos.x = packet.posX;
+			pos.y = packet.posY;
+			otherProphet->placeAbil(pos, packet.abilType);
+		}
+	}
 }
 
 void GameClient::handleEvents()
@@ -74,6 +123,7 @@ void GameClient::handleEvents()
 
 				break;
 			case sf::Keyboard::LShift:
+				thisProphet->changeCurrentCommand();
 				uiManager.updateCS(thisProphet->getcurrentGroupCommand());
 				break;
 			case sf::Keyboard::Enter:
@@ -116,36 +166,79 @@ State GameClient::update()
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
-			//thisProphet->moveProphet();
-			thisProphet->convertsFollow();
-			Packet packet;
-			packet = client.recieveAPacket();
-			if (packet.type == 1)
-			{
-				otherProphet->setPosition(packet.posX, packet.posY);
-
-			}
-			else if (packet.type == 4)
-			{
-				allFollowers[packet.index]->convert();
-			}
-
-
-			
-			std::cout << otherProphet->getPosition().x << ":" << otherProphet->getPosition().y << std::endl;
 			//Move the playerProphet
+			thisProphet->moveProphet();
+
+			thisProphet->convertsFollow();
+
+			client.sendProphetPos(thisProphet->getPosition());
 			//Check All the civilians for movement
+
+
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
-				//allFollowers[i]->checkCivMove();
-				packet = client.recieveAPacket();
-				if (packet.type == 2)
+				if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
 				{
-					allFollowers[packet.index]->setPosition(packet.posX, packet.posY);
+					allFollowers[i]->checkCivMove();
 				}
+				if (allFollowers[i]->getOtherNotified())
+				{
+					client.sendConverted(i);
+					allFollowers[i]->otherIsNotified();
+				}
+				if (!allFollowers[i]->getConvertedByOther() && allFollowers[i]->getConverted())
+				{
+					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+				}
+				if (allFollowers[i]->getAttackNotify())
+				{
+					std::cout << "Sent damage\n";
+					allFollowers[i]->otherAttackNotified();
+					client.sendFollowerDamage(i, allFollowers[i]->getHealth());
+
+				}
+				if (otherProphet->getAttackNotify())
+				{
+					otherProphet->otherAttackNotified();
+					std::cout << otherProphet->getHealth() << std::endl;
+					client.sendProphetDamage(otherProphet->getHealth());
+				}
+
 			}
 
+			if (thisProphet->getIfAbilityIsActive())
+			{
 
+				thisProphet->timerForAbility();
+
+			}
+			else
+			{
+				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+				{
+					thisProphet->endingReinforcementAbility();
+
+				}
+				abilityplaced = false;
+
+
+			}
+			if (otherProphet->getIfAbilityIsActive())
+			{
+
+				otherProphet->timerForAbility();
+
+			}
+			else
+			{
+				if (otherProphet->getCurrentAbility() == 2 && otherProphet->returnReinforceBool())
+				{
+					otherProphet->endingReinforcementAbility();
+
+				}
+
+
+			}
 			//Check conversion and start if key is pressed
 			if (converting)
 			{
@@ -156,7 +249,6 @@ State GameClient::update()
 			{
 				thisProphet->resetClock();
 			}
-
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
@@ -166,7 +258,6 @@ State GameClient::update()
 
 
 			}
-
 		}
 		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
 		{
@@ -183,19 +274,32 @@ void GameClient::render()
 	window.clear();
 
 	window.draw(*thisProphet);
-	window.draw(*otherProphet);
+	if (otherProphet != nullptr)
+	{
+
+		window.draw(*otherProphet);
+	}
 	if (converting)
 	{
 		window.draw(thisProphet->getConvertCirc());
 
 	}
-	if (abilityplaced)
+	if (otherProphet->getIfAbilityIsActive())
+	{
+		window.draw(*this->otherProphet->getCurAbil());
+
+	}
+	if (thisProphet->getIfAbilityIsActive())
 	{
 		window.draw(*this->thisProphet->getCurAbil());
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
-		window.draw(*allFollowers[i]);
+		if (allFollowers[i] != nullptr)
+		{
+
+			window.draw(*allFollowers[i]);
+		}
 	}
 	uiManager.drawUI(window);
 	window.display();

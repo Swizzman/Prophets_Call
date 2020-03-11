@@ -9,9 +9,7 @@ private:
 	sf::TcpSocket tcpSocket;
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
-	bool isRunning;
 	bool clientConnected;
-	Client* client;
 	std::unique_ptr<sf::TcpSocket> clientSock;
 public:
 	Server();
@@ -21,5 +19,9 @@ public:
 	void sendProphetPos(sf::Vector2f pos);
 	void sendFollowerPos(sf::Vector2f pos, int index);
 	void sendConverted(int index);
+	void sendFollowerDamage(int index, int newHealth);
+	void sendProphetDamage(int newHealth);
+	void sendAbilPlace(sf::Vector2f pos, int type);
+	Packet recieveAPacket();
 };
 

@@ -326,7 +326,6 @@ void UIManager::addFps(std::string textureName, int maxHealth)
 			delete fps[cs[i]->nummberOfFollowersInGroup];
 			this->fps[cs[i]->nummberOfFollowersInGroup] = new followerPortraitStruct();
 			numberOfFollowers++;
-			std::cout << numberOfFollowers << std::endl;
 			this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthText.setFont(font);
 			this->fps[cs[i]->nummberOfFollowersInGroup]->followerMaxHealth = maxHealth;
 
@@ -337,7 +336,6 @@ void UIManager::addFps(std::string textureName, int maxHealth)
 				{
 
 
-					std::cout << textureName << std::endl;
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setTexture(followerProfileTexture[b]);
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
 						followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
@@ -400,7 +398,6 @@ void UIManager::addFps(std::string textureName, int maxHealth)
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.getGlobalBounds().height / 2);
 
 
-				std::cout << this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getScale().x << std::endl;
 
 			}
 			else if (cs[i]->nummberOfFollowersInGroup == 10)

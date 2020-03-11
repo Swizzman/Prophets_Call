@@ -1,8 +1,7 @@
 #include "AttackProphet.h"
-
+#include "Follower.h"
 AttackProphet::AttackProphet()
 {
-	std::cout << "3" <<std::endl;
 }
 
 AttackProphet::~AttackProphet()
@@ -14,7 +13,7 @@ AttackProphet::~AttackProphet()
 //	return nullptr;
 //}
 
-sf::Vector2f AttackProphet::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, GameEntity* object)
+sf::Vector2f AttackProphet::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object)
 {
 	if (sqrt(pow((enemyObject->getPosition().x + enemyObject->getBounds().width / 2) - (object->getPosition().x + object->getBounds().width / 2), 2) +
 		pow((enemyObject->getPosition().y + enemyObject->getBounds().height / 2) - (object->getPosition().y + object->getBounds().height / 2), 2)) > object->getRange())
@@ -32,6 +31,10 @@ sf::Vector2f AttackProphet::calculateRoute(GameEntity* thisObject, GameEntity* e
 	sf::Vector2f dist = enemyObject->getPosition() + object->getRandomPos() - object->getPosition();
 	float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);
+	if (object->getAttackCooldown() &&object->getRange() > magni )
+	{
+		enemyObject->takeDamage(object->inflictDamage());
+	}
 	return dir;
 	
 }
