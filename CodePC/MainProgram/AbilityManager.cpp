@@ -29,7 +29,6 @@ AbilityManager::~AbilityManager()
 
 int AbilityManager::switchAbility()
 {
-	//	delete currentAbility;
 	chosenAbility++;
 	//cout << chosenAbility << endl;
 	if (chosenAbility > 2)

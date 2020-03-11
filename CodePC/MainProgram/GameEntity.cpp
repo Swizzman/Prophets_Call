@@ -323,21 +323,6 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 
 
 }
-//
-//void GameEntity::Collided(GameEntity* other)
-//{
-//	if (other != this)
-//	{
-//		if (this->getBounds().intersects(other->getBounds()))
-//		{
-//
-//		this->setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
-//		//other->setMovingSpeed(-other->getMovingSpeedX(), -other->getMovingSpeedY());
-//		this->move();
-//		//other->move();
-//		}
-//	}
-//}
 
 bool GameEntity::getCollidedBool()
 {
@@ -417,20 +402,7 @@ void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBef
 
 void GameEntity::updateAnimation()
 {
-	//cout << priority << endl;
-	//if (priority > this->currentPriority ||( currentPriority == 0 && priority == -1))
-	//{
 
-	//	if (currentRow != nrOfRows)
-	//	{
-	//		this->textureRect.left = 0;
-	//		this->sprite.setTextureRect(textureRect);
-	//	}
-	//	currentRow = nrOfRows;
-	//	this->textureRect.top = this->textureRect.height * nrOfRows;
-
-
-		//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
 
 	this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
 	//cout << animationTimer << endl;
