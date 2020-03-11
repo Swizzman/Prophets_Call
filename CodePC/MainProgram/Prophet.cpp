@@ -22,6 +22,10 @@ Prophet::Prophet() :
 
 
 	}
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		temp = new Follower * [group[0].capacity]{ nullptr };
+	}
 	this->xSpeed = 5;
 	this->ySpeed = 5;
 	this->convertingTimeMax = 500;
@@ -35,6 +39,8 @@ Prophet::Prophet() :
 	this->convertCirc.setOutlineColor(sf::Color::Red);
 	this->convertCirc.setOutlineThickness(5.f);
 	this->convertCirc.setOrigin(getPosition().x + getBounds().width/2 , getPosition().y + getBounds().height/2);
+
+	//temp = new Follower * [group->capacity]{ nullptr };
 
 	currentCommandGroup = 0;
 	setPosition(100, 100);
@@ -52,7 +58,9 @@ Prophet::~Prophet()
 		//}
 
 		delete[] group[i].followers;
+		
 	}
+		delete[] temp;
 
 }
 
@@ -502,6 +510,11 @@ int Prophet::getWalkingDirection()
 	return lastWalkingDirection;
 }
 
+int Prophet::getCurrentGroup()
+{
+	return chosenGroup;
+}
+
 void Prophet::addFollower(Follower* follower)
 {
 	bool added = false;
@@ -518,6 +531,51 @@ void Prophet::addFollower(Follower* follower)
 
 		}
 	}
+}
+
+void Prophet::removeFollower(Follower* follower)
+{
+	//Follower** temp;
+
+	for (int i = 0; i < GROUPNR; i++)
+	{
+		int nrOfFollower = 0;
+		for (int a = 0; a < group[i].nrOfFollowers; a++)
+		{
+
+			if (group[i].followers[a] == follower)
+			{
+				group[i].followers[a] = nullptr;
+				for (int b = a; b < group[i].nrOfFollowers; b++)
+				{
+					group[i].followers[b] = group[i].followers[b + 1];
+				}
+				group[i].followers[group[i].nrOfFollowers] = nullptr;
+				group[i].nrOfFollowers--;
+
+			}
+
+
+		/*	if (group[i].followers[a]->isAlive())
+			{
+				temp[nrOfFollower] = group[i].followers[a]; 
+					nrOfFollower++;
+			}
+			group[i].followers[a] = nullptr;*/
+		}
+		
+	/*	group[i].nrOfFollowers = 0;
+		for (int a = 0; a < nrOfFollower; a++)
+		{
+
+			group[i].followers[group[i].nrOfFollowers++] = temp[a];
+		}*/
+
+	//	delete[] temp;
+
+		cout <<  group[i].nrOfFollowers << endl;
+	}
+
 }
 
 

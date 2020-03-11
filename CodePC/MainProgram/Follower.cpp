@@ -2,6 +2,15 @@
 
 void Follower::die()
 {
+	//die;
+
+	alive = false;
+	switchTexture("soul.png ");
+	followerDied();
+//	cout << "I am dead please tell my wife and children I hate them" << endl;
+	
+
+
 }
 
 Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 60, false) 
@@ -30,93 +39,106 @@ Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 60, false)
 
 Follower::~Follower()
 {
+
+
 }
 
 void Follower::increaseDamageDone(int increase)
 {
-	damage += increase;
-	cout << damage << endl;
+	if (isAlive())
+	{
+		damage += increase;
+		cout << damage << endl;
+	}
 }
 
 void Follower::returnDamage()
 {
-	damage = startDamage;
-	cout << damage << endl;
+	if (isAlive())
+	{
+		damage = startDamage;
+		cout << damage << endl;
+	}
 }
 
 void Follower::checkCivMove()
 {
-	if (!converted)
+	if (isAlive())
 	{
 
-		moveTimer += clock.restart();
-		if (moveTimer.asMilliseconds() > maxTime)
+
+		if (!converted)
+		{
+
+			moveTimer += clock.restart();
+			if (moveTimer.asMilliseconds() > maxTime)
+			{
+				setMovingSpeed(1, 1);
+				setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
+				moveTimer = sf::Time::Zero;
+				maxTime = rand() % 6000 + 2000;
+
+			}
+
+
+			move();
+			if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
+			{
+				setMovingSpeed(-getMovingSpeedX(), getMovingSpeedY());
+			}
+			else if (getPosition().y < 0 || getPosition().y + getBounds().height > windowHeight)
+			{
+
+				setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
+
+			}
+
+			if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() > 0)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
+				//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY())<< endl;
+			}
+			else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
+			}
+			else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() > 0)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+			}
+			else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() < 0)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+			}
+
+			if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() < 0)
+			{
+				//	cout << "same walking speed " << endl;
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+			}
+			else if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() > 0)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+			}
+			else if (getMovingSpeedX() == 0 && getMovingSpeedY() == 0)
+			{
+				startAnimation(lastWalkingDirection, 1, 15, -1);
+
+			}
+
+
+			updateAnimation();
+		}
+		else
 		{
 			setMovingSpeed(1, 1);
-			setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
-			moveTimer = sf::Time::Zero;
-			maxTime = rand() % 6000 + 2000;
-
 		}
-		
-
-		move();
-		if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
-		{
-			setMovingSpeed(-getMovingSpeedX(), getMovingSpeedY());
-		}
-		else if (getPosition().y < 0 || getPosition().y + getBounds().height > windowHeight)
-		{
-
-			setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
-
-		}
-
-		if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() > 0)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
-			//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY())<< endl;
-		}
-		else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
-		}
-		else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() > 0)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
-		}
-		else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() < 0)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
-		}
-
-		if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() < 0 )
-		{
-		//	cout << "same walking speed " << endl;
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
-		}
-		else if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() > 0)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
-		}
-		else if (getMovingSpeedX() == 0 && getMovingSpeedY() == 0)
-		{
-			startAnimation(lastWalkingDirection, 1, 15, -1);
-
-		}
-		
-
-		updateAnimation();
-	}
-	else
-	{
-		setMovingSpeed(1, 1);
 	}
 }
 
@@ -130,27 +152,32 @@ void Follower::placeFollower(int width, int height)
 
 int Follower::inflictDamage()
 {
-	canAttack = false;
-//	cout << "ouch" << endl;
-	return damage;
+	if (isAlive())
+	{
+		canAttack = false;
+		//	cout << "ouch" << endl;
+		return damage;
+	}
 }
 
 void Follower::attackCooldown()
 {
-
-	attackTime += attackClock.restart();
-
-	if (attackTime.asSeconds() > attackCooldownTime)
+	if (isAlive())
 	{
 
-		//cout << "Timer restart " << endl;
-		attackTime = sf::Time::Zero;
-		canAttack = true;
-		
+		attackTime += attackClock.restart();
+
+		if (attackTime.asSeconds() > attackCooldownTime)
+		{
+
+			//cout << "Timer restart " << endl;
+			attackTime = sf::Time::Zero;
+			canAttack = true;
+
+
+		}
 
 	}
-
-
 
 }
 
@@ -166,39 +193,46 @@ void Follower::resetAttackClock()
 
 void Follower::convert()
 {
-	if (!converted)
+	if (isAlive())
 	{
-
-
-		if (convertedAmount >= 100)
+		if (!converted)
 		{
-			converted = true;
-			otherNotified = true;
-			switchTexture("FollowerSpriteSheet.png");
 
-		}
-		else
-		{
-			convertedAmount += 30;
+
+			if (convertedAmount >= 100)
+			{
+				converted = true;
+				otherNotified = true;
+				switchTexture("FollowerSpriteSheet.png");
+
+			}
+			else
+			{
+				convertedAmount += 30;
+			}
 		}
 	}
-
 
 }
 
 void Follower::otherConvert()
 {
-	convertedAmount = 200;
-	converted = true;
-	switchTexture("EnemyFollowerSpriteSheet.png");
-	convertedByOther = true;
+	if (isAlive())
+	{
+		convertedAmount = 200;
+		converted = true;
+		switchTexture("EnemyFollowerSpriteSheet.png");
+		convertedByOther = true;
 
-
+	}
 }
 
 void Follower::otherIsNotified()
 {
-	otherNotified = false;
+	if (isAlive())
+	{
+		otherNotified = false;
+	}
 }
 
 bool Follower::getOtherNotified() const
@@ -286,4 +320,9 @@ void Follower::Collided(GameEntity* other)
 float Follower::getFollowerRange()
 {
 	return followerRange;
+}
+
+bool Follower::getIfAlive()
+{
+	return alive;
 }

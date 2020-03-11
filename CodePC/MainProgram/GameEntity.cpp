@@ -16,7 +16,7 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	this->haveAnimation = isProphet;
 	this->currentPriority = 0;
 	lastWalkingDirection = 5;
-	
+	alive = true;
 
 	lastXDest = 0;
 	lastYDest = 0;
@@ -25,7 +25,7 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 		textureRect = sf::IntRect(0, 0, 64, 64);
 		this->sprite.setTextureRect(textureRect);
 	
-		cout << sprite.getGlobalBounds().width << " : " << sprite.getGlobalBounds().height << endl;
+	//	cout << sprite.getGlobalBounds().width << " : " << sprite.getGlobalBounds().height << endl;
 		attackNotify = false;
 	range = 100;
 
@@ -56,13 +56,16 @@ GameEntity::~GameEntity()
 
 void GameEntity::takeDamage(int damage)
 {
-	this->health -= damage;
-	if (this->health < 0)
+	if (isAlive())
 	{
-		this->health = 0;
-	}
-	attackNotify = true;
+		this->health -= damage;
+		if (this->health < 0)
+		{
 
+			this->health = 0;
+		}
+		attackNotify = true;
+	}
 }
 
 sf::Vector2f GameEntity::getPos()
@@ -77,6 +80,7 @@ sf::FloatRect GameEntity::getBounds()
 
 void GameEntity::switchTexture(std::string newTexture)
 {
+	//cout << newTexture << endl;
 	texture.loadFromFile("../images/" + newTexture);
 	sprite.setTexture(texture);
 	this->textureName = newTexture;
@@ -95,17 +99,19 @@ void GameEntity::setHealth(int health)
 
 void GameEntity::gainHealth(int health)
 {
-	if (this->health < maxHealth)
+	if (isAlive())
 	{
-		this->health += health;
+		if (this->health < maxHealth)
+		{
+			this->health += health;
+		}
+
+		if (this->health >= maxHealth)
+		{
+			this->health = maxHealth;
+		}
+
 	}
-
-	if (this->health >= maxHealth)
-	{
-		this->health = maxHealth;
-	}
-
-
 }
 
 bool GameEntity::getAttackBool()
@@ -145,80 +151,85 @@ void GameEntity::attack(GameEntity* enemy, int damage)
 
 void GameEntity::move()
 {
-	this->sprite.move(movingSpeedX, movingSpeedY);
+	if (isAlive())
+	{
+		this->sprite.move(movingSpeedX, movingSpeedY);
+	}
 }
 
 void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 {
-	getNewRandomPos(currentCommand, false);
-	/*sf::Vector2f dist = dest- getPosition();
-	float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
-	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);*/
-	if ((lastXDest > 0 && dest.x > 0 ) || (lastXDest < 0 && dest.x < 0))
+	if (isAlive())
 	{
+		getNewRandomPos(currentCommand, false);
+		/*sf::Vector2f dist = dest- getPosition();
+		float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
+		sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);*/
+		if ((lastXDest > 0 && dest.x > 0) || (lastXDest < 0 && dest.x < 0))
+		{
 
 
-		if (abs(dest.x) > abs(dest.y) && dest.x > 0.3)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
-			//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY()) << endl;
+			if (abs(dest.x) > abs(dest.y) && dest.x > 0.3)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
+				//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY()) << endl;
+			}
+			else if (abs(dest.x) > abs(dest.y) && dest.x < -0.5)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
+			}
+			else if (abs(dest.x) < abs(dest.y) && dest.y > 0.5)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+			}
+			else if (abs(dest.x) < abs(dest.y) && dest.y < -0.5)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+			}
+			if (abs(dest.x) == abs(dest.y) && dest.y < -0.5)
+			{
+				//	cout << "same walking speed " << endl;
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+			}
+			else if (abs(dest.x) == abs(dest.y) && dest.y > 0.5)
+			{
+				startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+			}
 		}
-		else if (abs(dest.x) > abs(dest.y) && dest.x < -0.5)
+		else
 		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
-		}
-		else if (abs(dest.x) < abs(dest.y) && dest.y > 0.5)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
-		}
-		else if (abs(dest.x) < abs(dest.y) && dest.y < -0.5)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
-		}
-		if (abs(dest.x) == abs(dest.y) && dest.y < -0.5)
-		{
-			//	cout << "same walking speed " << endl;
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
-		}
-		else if (abs(dest.x) == abs(dest.y) && dest.y > 0.5)
-		{
-			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
-			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
-		}
-	}
-	else
-	{
-		
+
 			startAnimation(lastWalkingDirection, 1, 15, -1);
-		//	cout << "(" << dest.x << lastXDest << ") : (" << dest.y << lastYDest << ")" << endl;
+			//	cout << "(" << dest.x << lastXDest << ") : (" << dest.y << lastYDest << ")" << endl;
 
-		
+
+		}
+
+
+
+		/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
+		{
+			startAnimation(lastWalkingDirection, 1, 15, -1);
+
+		cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
+		}*/
+
+		updateAnimation();
+
+		if (getCurrentPriority() <= 0)
+		{
+			this->sprite.move(dest.x * movingSpeedX, dest.y * movingSpeedY);
+			lastXDest = dest.x;
+			lastYDest = dest.y;
+
+		}
 	}
-	
-	
-
-	/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
-	{
-		startAnimation(lastWalkingDirection, 1, 15, -1);
-
-	cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
-	}*/
-
-	updateAnimation();
-	
-	if (getCurrentPriority() <= 0)
-	{
-		this->sprite.move(dest.x * movingSpeedX, dest.y * movingSpeedY);
-		lastXDest = dest.x;
-		lastYDest = dest.y;
-
-	}
-
 }
 
 void GameEntity::setMovingSpeed(int newSpeedX, int newSpeedY)
@@ -276,47 +287,50 @@ sf::Vector2f GameEntity::getRandomPos()
 
 void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 {
-
-	moveTimer += clock.restart();
-	int randomPosRange = 0;
-
-	if (currentCommand == 0)
+	if (alive)
 	{
-		randomPosRange = 150;
-	}
-	else if (currentCommand == 1)
-	{
-		randomPosRange = 0;
-	}
-	else if (currentCommand == 2)
-	{
-		randomPosRange = 0;
-	}
-	else
-	{
-		randomPosRange = range;
-		randomPosRange *= 2;
-	}
-	if (reset)
-	{
-		//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
-		randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
-		moveTimer = sf::Time::Zero;
-		maxTime = rand() % 5000 + 2000;
-		reset = false;
-
-	}
-	if (moveTimer.asMilliseconds() > maxTime&& randomPosRange != 0)
-	{
-		//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
-		randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
-		moveTimer = sf::Time::Zero;
-		maxTime = rand() % 5000 + 2000;
 
 
+		moveTimer += clock.restart();
+		int randomPosRange = 0;
+
+		if (currentCommand == 0)
+		{
+			randomPosRange = 150;
+		}
+		else if (currentCommand == 1)
+		{
+			randomPosRange = 0;
+		}
+		else if (currentCommand == 2)
+		{
+			randomPosRange = 0;
+		}
+		else
+		{
+			randomPosRange = range;
+			randomPosRange *= 2;
+		}
+		if (reset)
+		{
+			//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
+			randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
+			moveTimer = sf::Time::Zero;
+			maxTime = rand() % 5000 + 2000;
+			reset = false;
+
+		}
+		if (moveTimer.asMilliseconds() > maxTime&& randomPosRange != 0)
+		{
+			//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
+			randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
+			moveTimer = sf::Time::Zero;
+			maxTime = rand() % 5000 + 2000;
+
+
+		}
+
 	}
-
-
 }
 //
 //void GameEntity::Collided(GameEntity* other)
@@ -382,32 +396,35 @@ bool GameEntity::hasAAnimation()
 
 void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority)
 {
-
-	if (priority >= this->currentPriority || (currentPriority == 0 && priority == -1))
+	if (alive == true)
 	{
-		if (currentRow != nrOfRows || (priority == -1 && currentPriority == 0))
+
+
+		if (priority >= this->currentPriority || (currentPriority == 0 && priority == -1))
 		{
-			textureRect.left = 0;
+			if (currentRow != nrOfRows || (priority == -1 && currentPriority == 0))
+			{
+				textureRect.left = 0;
+			}
+
+			currentPriority = priority;
+			currentRow = nrOfRows;
+			frameBeforeNextSpriteFrame = nrOfFramesBeforeNextIntRect;
+			//currentColummn = 0;
+			this->nrOfColumms = nrOfColumms;
+			updateAnimation();
+
+			if (currentRow != nrOfRows)
+			{
+				this->textureRect.left = 0;
+				this->sprite.setTextureRect(textureRect);
+			}
+			currentRow = nrOfRows;
+			this->textureRect.top = this->textureRect.height * nrOfRows;
+
+
 		}
-		
-		currentPriority = priority;
-		currentRow = nrOfRows;
-		frameBeforeNextSpriteFrame = nrOfFramesBeforeNextIntRect;
-		//currentColummn = 0;
-		this->nrOfColumms = nrOfColumms;
-		updateAnimation();
-
-		if (currentRow != nrOfRows)
-		{
-			this->textureRect.left = 0;
-			this->sprite.setTextureRect(textureRect);
-		}
-		currentRow = nrOfRows;
-		this->textureRect.top = this->textureRect.height * nrOfRows;
-
-
 	}
-
 }
 
 void GameEntity::updateAnimation()
@@ -426,10 +443,13 @@ void GameEntity::updateAnimation()
 
 
 		//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
+	if (alive == true)
+	{
+
 
 		this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
 		//cout << animationTimer << endl;
-		if (this->animationTimer == frameBeforeNextSpriteFrame-1)
+		if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
 		{
 			currentColummn++;
 			//	cout << this->textureRect.width <<" before: " << textureRect.left << endl;
@@ -440,12 +460,12 @@ void GameEntity::updateAnimation()
 		if (currentColummn >= nrOfColumms)
 		{
 			currentPriority = 0;
-				
+
 			currentColummn = 0;
 		}
 		this->sprite.setTextureRect(this->textureRect);
-	
 
+	}
 }
 
 int GameEntity::getCurrentPriority()
@@ -465,6 +485,22 @@ int GameEntity::getCurrentColummn()
 
 
 
+
+void GameEntity::followerDied()
+{
+	if (alive == true)
+	{
+		alive = false;
+		textureRect.left = 0;
+		textureRect.top = 0;
+		sprite.setTextureRect(textureRect);
+	}
+}
+
+bool GameEntity::isAlive()
+{
+	return alive;
+}
 
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

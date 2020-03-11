@@ -27,6 +27,7 @@ private:
 	bool abilityHasTakenAffect;
 	int maxHealth;
 	bool isInRangeOfAbility;
+	bool alive;
 
 	int animationTimer;
 	int currentColummn;
@@ -91,6 +92,8 @@ public:
 	int getCurrentRow();
 	int getCurrentColummn();
 	// Inherited via Drawable
+	void followerDied();
+	bool isAlive();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 };

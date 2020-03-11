@@ -25,16 +25,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	//otherProphet = new Prophet();
-	//thisProphet->recieveEnemyProphet(otherProphet);
-	//otherProphet->recieveEnemyProphet(thisProphet);
-	//activeClient = true;
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -223,15 +223,26 @@ State GameHost::update()
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
 
-				for (int a = 0; a < nrOfTotalFollowers; a++)
+				//for (int a = 0; a < nrOfTotalFollowers; a++)
+				//{
+				//	//allFollowers[i]->Collided(allFollowers[a]);
+				//	if (allFollowers[i]->getBounds().intersects(allFollowers[a]->getBounds()) && i != a)
+				//	{
+				//		allFollowers[i]->Collided(allFollowers[a]);
+				//	}
+
+
+				//}
+				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
 				{
-					//allFollowers[i]->Collided(allFollowers[a]);
-					if (allFollowers[i]->getBounds().intersects(allFollowers[a]->getBounds()) && i != a)
+
+					allFollowers[i]->die();
+					thisProphet->removeFollower(allFollowers[i]);
+					otherProphet->removeFollower(allFollowers[i]);
+					for (int i = 0; i < 3; i++)
 					{
-						allFollowers[i]->Collided(allFollowers[a]);
+						uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 					}
-
-
 				}
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
@@ -317,8 +328,11 @@ State GameHost::update()
 
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
-				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth());
-				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth() , thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
+				
+					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+				cout << "working " << endl;
+				
 			}
 
 
@@ -329,7 +343,7 @@ State GameHost::update()
 		{
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
-		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
+			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			netWorkThread.join();

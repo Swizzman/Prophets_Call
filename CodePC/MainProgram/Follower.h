@@ -49,7 +49,7 @@ public:
 	int getConvertedAmount()const;
 	void Collided(GameEntity *other);
 	float getFollowerRange();
-
+	bool getIfAlive();
 
 	// Inherited via GameEntity
 	virtual void die() override;

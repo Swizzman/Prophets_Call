@@ -49,6 +49,7 @@ private:
 
 
 	followerPortraitStruct** fps;
+	followerPortraitStruct** fpsTemp;
 	commandStruct** cs;
 	ProphetProperties pp;
 	int numberOfFollowers;
@@ -67,10 +68,12 @@ public:
 	void setUpPp(int health);
 	void updateCS(int currentCommand);
 	void updateFps(int health, int whichFollower);
-	void addFps(std::string textureName, int maxHealth);
+	void removeFps(int followersInGroup, int whichGroup, int health);
+	void addFps(std::string textureName, int maxHealth, int followersInGroup);
 	void updatePp(int health, int soul, int currentAbility);
 	void changeCS();
 	void updateCSNumber(int nrOfFollowers);
+	void decreaseCsNumber(int nrOfFollowers, int whichGroup);
 	int getNrOfCurrentGroup();
 	void convertingBar(int convertingPercent, sf::FloatRect civPos, int whichCiv);
 	void drawUI(sf::RenderWindow& window);

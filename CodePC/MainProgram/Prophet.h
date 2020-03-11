@@ -35,6 +35,9 @@ private:
 	sf::Clock clock;
 	group group[GROUPNR];
 	Prophet* otherProphet;
+	Follower** temp;
+
+
 
 	AbilityManager abilityMan;
 	CommandManager commandMan;
@@ -78,9 +81,11 @@ public:
 	void endingReinforcementAbility();
 	bool returnReinforceBool();
 	int getWalkingDirection();
+	int getCurrentGroup();
 
 
 	void addFollower(Follower* follower);
+	void removeFollower(Follower* follower);
 	// Inherited via GameEntity
 	virtual void die() override;
 
