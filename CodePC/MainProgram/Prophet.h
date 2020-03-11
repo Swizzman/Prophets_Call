@@ -6,8 +6,6 @@
 #include "Ability.h"
 #include "Commands.h"
 #include "CommandManager.h"
-#include "ANIMATIONSPRITEROW.h"
-#include "FOLLOWERSPRITEROW.h"
 
 struct group
 {
@@ -43,9 +41,6 @@ private:
 	sf::Vector2f getCircCenter() const;
 	int currentCommandGroup;
 	int nrOfCivs;
-
-	bool abilityAnimation;
-	int lastWalkingDirection;
 public:
 	Prophet();
 	virtual ~Prophet();
@@ -77,9 +72,6 @@ public:
 	void timerForAbility();
 	void endingReinforcementAbility();
 	bool returnReinforceBool();
-	int getWalkingDirection();
-
-
 	void addFollower(Follower* follower);
 	// Inherited via GameEntity
 	virtual void die() override;
