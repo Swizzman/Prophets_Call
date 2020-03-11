@@ -116,13 +116,18 @@ void AbilityManager::stopAbility()
 
 				for (int i = 0; i < enemyProphet->getAllNrOfFollowers(a); i++)
 				{
-					sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[i].getPosition();
+					for (int j = i; j < enemyProphet->getAllNrOfFollowers(a); j++)
+					{
+
+					sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[j]->getPosition();
 					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
 					if (abs(magni) < currentAbility->getRadius() )
 					{
-						enemyProphet->getAllFollowers(a)[i].takeDamage(currentAbility->getSpecificVar());
+						enemyProphet->getAllFollowers(a)[j]->takeDamage(currentAbility->getSpecificVar());
+						cout << "enemy Follower takes damage" << endl;
 						//enemyProphet->getASingleFollower(i).touchedByAbility(true);
+					}
 					}
 				}
 			}

@@ -52,6 +52,19 @@ void GameHost::networking()
 		else if (packet.type == 4)
 		{
 			allFollowers[packet.index]->otherConvert();
+			otherProphet->addFollower(allFollowers[packet.index]);
+		}
+		else if (packet.type == 5)
+		{
+			if (allFollowers[packet.index] != nullptr)
+			{
+				allFollowers[packet.index]->setHealth(packet.health);
+			}
+		}
+		else if (packet.type == 6)
+		{
+			thisProphet->setHealth(packet.health);
+			std::cout << thisProphet->getHealth() << std::endl;
 		}
 	}
 }
@@ -91,15 +104,15 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
-				if (thisProphet->getNrOfFollowers() > 0)
-					thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
-				thisProphet->takeDamage(rand() % 20);
-
+				//if (thisProphet->getNrOfFollowers() > 0)
+				//	thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
+				//thisProphet->takeDamage(rand() % 20);
+			
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
-
+				server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
 
 				break;
 			case sf::Keyboard::Tab:
@@ -218,7 +231,6 @@ State GameHost::update()
 				}
 				if (allFollowers[i]->getOtherNotified())
 				{
-					std::cout << "Sent converted!\n";
 					server.sendConverted(i);
 					allFollowers[i]->otherIsNotified();
 				}
@@ -235,7 +247,7 @@ State GameHost::update()
 					if (otherProphet->getAttackNotify())
 					{
 						otherProphet->otherAttackNotified();
-						std::cout << otherProphet->getHealth()<<std::endl;
+						std::cout << otherProphet->getHealth() << std::endl;
 						server.sendProphetDamage(otherProphet->getHealth());
 					}
 				}
@@ -281,10 +293,7 @@ State GameHost::update()
 		{
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
-
-
-
-
+		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			netWorkThread.join();

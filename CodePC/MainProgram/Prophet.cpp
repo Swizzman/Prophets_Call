@@ -234,13 +234,13 @@ int Prophet::getSouls()
 	return collectedSouls;
 }
 
-Follower* Prophet::getFollowers()
+Follower** Prophet::getFollowers()
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
 		if (currentCommandGroup == i)
 		{
-			return *group[i].followers;
+			return group[i].followers;
 		}
 	}
 
@@ -260,14 +260,14 @@ Follower& Prophet::getASingleFollower(int whichOne)
 
 }
 
-Follower* Prophet::getAllFollowers(int thisGroup)
+Follower** Prophet::getAllFollowers(int thisGroup)
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
 		if (i == thisGroup)
 		{
 
-			return *group[i].followers;
+			return group[i].followers;
 
 		}
 
@@ -441,6 +441,8 @@ void Prophet::addFollower(Follower* follower)
 			group[i].followers[group[i].nrOfFollowers] = follower;
 			added = true;
 			group[i].nrOfFollowers++;
+			std::cout << group[i].nrOfFollowers << std::endl;
+
 		}
 	}
 }

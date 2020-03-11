@@ -243,8 +243,8 @@ void CommandManager::attackEnemy(int thisFollowerGroup, int thisFollowerInt)
 			{
 
 					
-						if (magniTemp > sqrt(pow((enemyProphet->getAllFollowers(a)[i].getPosition().x + enemyProphet->getAllFollowers(a)[i].getBounds().width / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().width / 2), 2) +
-							pow((enemyProphet->getAllFollowers(a)[i].getPosition().x + enemyProphet->getAllFollowers(a)[i].getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().height / 2), 2)))
+						if (magniTemp > sqrt(pow((enemyProphet->getAllFollowers(a)[i]->getPosition().x + enemyProphet->getAllFollowers(a)[i]->getBounds().width / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().width / 2), 2) +
+							pow((enemyProphet->getAllFollowers(a)[i]->getPosition().x + enemyProphet->getAllFollowers(a)[i]->getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().height / 2), 2)))
 						{
 
 							cout << "should not check here" << endl;
@@ -252,9 +252,9 @@ void CommandManager::attackEnemy(int thisFollowerGroup, int thisFollowerInt)
 								thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition() +
 								sf::Vector2f(thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().width / 2, thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().height / 2);*/
 
-							magniTemp = sqrt(pow((enemyProphet->getAllFollowers(a)[i].getPosition().x + enemyProphet->getAllFollowers(a)[i].getBounds().width / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().width / 2), 2) +
-								pow((enemyProphet->getAllFollowers(a)[i].getPosition().x + enemyProphet->getAllFollowers(a)[i].getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().height / 2), 2));
-							enemyfol = enemyProphet->getAllFollowers(a)[i];
+							magniTemp = sqrt(pow((enemyProphet->getAllFollowers(a)[i]->getPosition().x + enemyProphet->getAllFollowers(a)[i]->getBounds().width / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().width / 2), 2) +
+								pow((enemyProphet->getAllFollowers(a)[i]->getPosition().x + enemyProphet->getAllFollowers(a)[i]->getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().height / 2), 2));
+							enemyfol = *enemyProphet->getAllFollowers(a)[i];
 
 
 							followerIsClosest = true;
@@ -267,16 +267,16 @@ void CommandManager::attackEnemy(int thisFollowerGroup, int thisFollowerInt)
 			}
 
 		}
-				if (magniTemp > sqrt(pow((enemyProphet->getPosition().x+ enemyProphet->getBounds().width/2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().width/2), 2) +
-					pow((enemyProphet->getPosition().y + enemyProphet->getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().height/2), 2)))
+				if (magniTemp > sqrt(pow((enemyProphet->getPosition().x+ enemyProphet->getBounds().width/2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().width/2), 2) +
+					pow((enemyProphet->getPosition().y + enemyProphet->getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().height/2), 2)))
 				{
 							//cout << "entering function" << endl;
 					/*temp = enemyProphet->getPosition() + sf::Vector2f(enemyProphet->getBounds().width / 2 , enemyProphet->getBounds().height / 2) - 
 						thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition() + 
 						sf::Vector2f(thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().width / 2 , thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().height / 2);*/
 
-					magniTemp = sqrt(pow((enemyProphet->getPosition().x + enemyProphet->getBounds().width / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().width / 2), 2) +
-						pow((enemyProphet->getPosition().y + enemyProphet->getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getBounds().height / 2), 2));
+					magniTemp = sqrt(pow((enemyProphet->getPosition().x + enemyProphet->getBounds().width / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().x + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().width / 2), 2) +
+						pow((enemyProphet->getPosition().y + enemyProphet->getBounds().height / 2) - (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getPosition().y + thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getBounds().height / 2), 2));
 				//	tempEntity = enemyProphet;
 					followerIsClosest = false;
 				}
@@ -286,31 +286,31 @@ void CommandManager::attackEnemy(int thisFollowerGroup, int thisFollowerInt)
 				
 				
 
-				if (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getFollowerRange() > magni && thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getAttackCooldown() && thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getFollowerRange() < 500)
+				if (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getFollowerRange() > magni && thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getAttackCooldown() && thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getFollowerRange() < 500)
 				{
 					
 					//thisFollower.attack(tempEntity->takeDamage(10), 10);
 					if (followerIsClosest)
 					{
-						enemyfol.takeDamage(thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].inflictDamage());
+						enemyfol.takeDamage(thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->inflictDamage());
 						cout << "choosing follower" << endl;
 					}
 					else
 					{
 						cout << "Distance: " << magni << endl;
-						cout << "Range : " << thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getFollowerRange() << endl;
-						enemyProphet->takeDamage(thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].inflictDamage());
+						cout << "Range : " << thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getFollowerRange() << endl;
+						enemyProphet->takeDamage(thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->inflictDamage());
 					cout << "choosing prophet" << endl;
 					}
 				}
-				if (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].getAttackCooldown() == false)
+				if (thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->getAttackCooldown() == false)
 				{
 					
-					thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].attackCooldown();
+					thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->attackCooldown();
 				}
 				else
 				{
-					thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt].resetAttackClock();
+					thisProphet->getAllFollowers(thisFollowerGroup)[thisFollowerInt]->resetAttackClock();
 				}
 
 

@@ -21,6 +21,7 @@ public:
 	void sendConverted(int index);
 	void sendFollowerDamage(int index, int newHealth);
 	void sendProphetDamage(int newHealth);
+	void sendAbilPlace(sf::Vector2f pos, int type);
 	Packet recieveAPacket();
 };
 
