@@ -49,6 +49,7 @@
   <ItemGroup>
     <ClInclude Include="Ability.h" />
     <ClInclude Include="AbilityManager.h" />
+    <ClInclude Include="ANIMATIONSPRITEROW.h" />
     <ClInclude Include="AttackProphet.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Client.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="ControlManager.h" />
     <ClInclude Include="Follow.h" />
     <ClInclude Include="Follower.h" />
+    <ClInclude Include="FOLLOWERSPRITEROW.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="GameHost.h" />
     <ClInclude Include="GameState.h" />

@@ -34,6 +34,31 @@ sf::Vector2f AttackProphet::calculateRoute(GameEntity* thisObject, GameEntity* e
 	if (object->getAttackCooldown() &&object->getRange() > magni )
 	{
 		enemyObject->takeDamage(object->inflictDamage());
+		if (abs(dist.x) > abs(dist.y))
+		{
+			if (dist.x > 0)
+			{
+				object->startAnimation((int)FOLLOWERSPRITEROW::HITRIGHT, 6, 15, 1);
+			}
+			if (dist.x < 0)
+			{
+				object->startAnimation((int)FOLLOWERSPRITEROW::HITLEFT, 6, 15, 1);
+			}
+
+
+		}
+		else
+		{
+			if (dist.y > 0)
+			{
+				object->startAnimation((int)FOLLOWERSPRITEROW::HITDOWN, 6, 15, 1);
+			}
+			if (dist.y < 0)
+			{
+				object->startAnimation((int)FOLLOWERSPRITEROW::HITUP, 6, 15, 1);
+			}
+		}
+	
 	}
 	return dir;
 	

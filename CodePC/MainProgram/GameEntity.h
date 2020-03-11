@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include <ctime>
+#include "ANIMATIONSPRITEROW.h"
+#include "FOLLOWERSPRITEROW.h"
 
 using namespace std;
 class GameEntity : public sf::Drawable
@@ -26,9 +28,28 @@ private:
 	int maxHealth;
 	bool isInRangeOfAbility;
 
+	int animationTimer;
+	int currentColummn;
+	int currentRow;
+	int frameBeforeNextSpriteFrame;
+	bool haveAnimation;
+	int currentPriority;
+	int lastWalkingDirection;
+	float lastYDest;
+	float lastXDest;
+	int nrOfColumms;
+
+	sf::IntRect textureRect;
+	
+
+
+
+	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
+		//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
+
 
 public:
-	GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health);
+	GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health, bool isProphet);
 	GameEntity();
 	virtual  ~GameEntity();
 
@@ -63,7 +84,12 @@ public:
 	bool CheckIfEntityCanBeAffectedByAbility();
 	bool getIfIsInRangeOfAbility(bool IsInRange);
 	float getRange();
-
+	void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
+	void updateAnimation();
+	int getCurrentPriority();
+	bool hasAAnimation();
+	int getCurrentRow();
+	int getCurrentColummn();
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
