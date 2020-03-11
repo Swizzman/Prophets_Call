@@ -6,15 +6,12 @@
 #include "ANIMATIONSPRITEROW.h"
 #include "FOLLOWERSPRITEROW.h"
 
-
-
 using namespace std;
 class GameEntity : public sf::Drawable
 {
 private:
 	sf::Sprite sprite;
 	sf::Texture texture;
-	sf::IntRect textureRect;
 	int movingSpeedX;
 	int movingSpeedY;
 	int health;
@@ -30,20 +27,25 @@ private:
 	bool abilityHasTakenAffect;
 	int maxHealth;
 	bool isInRangeOfAbility;
-	bool haveAnimation;
 
-
-	int currentRow;
-	int currentColummn;
 	int animationTimer;
-	int currentPriority;
+	int currentColummn;
+	int currentRow;
 	int frameBeforeNextSpriteFrame;
+	bool haveAnimation;
+	int currentPriority;
+	int lastWalkingDirection;
+	float lastYDest;
+	float lastXDest;
 	int nrOfColumms;
 
-	int lastWalkingDirection;
-	float lastXDest;
-	float lastYDest;
+	sf::IntRect textureRect;
+	
 
+
+
+	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
+		//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
 
 
 public:
@@ -82,19 +84,12 @@ public:
 	bool CheckIfEntityCanBeAffectedByAbility();
 	bool getIfIsInRangeOfAbility(bool IsInRange);
 	float getRange();
-	bool hasAAnimation();
-
-	void startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
+	void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
 	void updateAnimation();
-
 	int getCurrentPriority();
+	bool hasAAnimation();
 	int getCurrentRow();
 	int getCurrentColummn();
-
-
-
-
-
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
