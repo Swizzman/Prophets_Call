@@ -297,11 +297,9 @@ State GameClient::update()
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
-				for (int i = 0; i < 3; i++)
-				{
-
-					uiManager.updateCSNumber(thisProphet->getAllNrOfFollowers(i));
-				}
+			
+					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+				
 				//uiManager.setUpFps();
 
 
