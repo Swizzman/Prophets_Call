@@ -119,16 +119,16 @@ void AbilityManager::stopAbility()
 					for (int j = i; j < enemyProphet->getAllNrOfFollowers(a); j++)
 					{
 
-					sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[j]->getPosition();
-					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
+						sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[j]->getPosition();
+						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
-					if (abs(magni) < currentAbility->getRadius())
-					{
-						enemyProphet->getAllFollowers(a)[i].takeDamage(currentAbility->getSpecificVar());
-						cout << "enemy Follower takes damage" << endl;
+						if (abs(magni) < currentAbility->getRadius())
+						{
+							enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
+							cout << "enemy Follower takes damage" << endl;
 
-						//enemyProphet->getASingleFollower(i).touchedByAbility(true);
-					}
+							//enemyProphet->getASingleFollower(i).touchedByAbility(true);
+						}
 					}
 				}
 			}
@@ -268,8 +268,12 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 
 		}
 	}
-	startAbility();
-	currentAbility->placeAbility(position);
+	if (currentAbility != nullptr)
+	{
+
+		startAbility();
+		currentAbility->placeAbility(position);
+	}
 }
 
 void AbilityManager::recievePtr(Prophet* enemyPro, group* followerGroup)

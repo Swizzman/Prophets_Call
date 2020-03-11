@@ -66,6 +66,17 @@ void GameHost::networking()
 			thisProphet->setHealth(packet.health);
 			std::cout << thisProphet->getHealth() << std::endl;
 		}
+		else if (packet.type == 7)
+		{
+			sf::Vector2f pos;
+			pos.x = packet.posX;
+			pos.y = packet.posY;
+			if (otherProphet != nullptr)
+			{
+			otherProphet->placeAbil(pos, packet.abilType);
+
+			}
+		}
 	}
 }
 
@@ -107,7 +118,7 @@ void GameHost::handleEvents()
 				//if (thisProphet->getNrOfFollowers() > 0)
 				//	thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
 				//thisProphet->takeDamage(rand() % 20);
-			
+
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
@@ -252,34 +263,37 @@ State GameHost::update()
 					}
 				}
 			}
-
-			if (thisProphet->getIfAbilityIsActive())
+			if (activeClient)
 			{
 
-				thisProphet->timerForAbility();
-
-			}
-			else
-			{
-				if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+				if (thisProphet->getIfAbilityIsActive())
 				{
-					thisProphet->endingReinforcementAbility();
+
+					thisProphet->timerForAbility();
 
 				}
-				abilityplaced = false;
+				else
+				{
+					if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+					{
+						thisProphet->endingReinforcementAbility();
+
+					}
+					abilityplaced = false;
 
 
-			}
-			//Check conversion and start if key is pressed
-			if (converting)
-			{
-				thisProphet->convert(allFollowers, nrOfTotalFollowers);
+				}
+				//Check conversion and start if key is pressed
+				if (converting)
+				{
+					thisProphet->convert(allFollowers, nrOfTotalFollowers);
 
 
-			}
-			else
-			{
-				thisProphet->resetClock();
+				}
+				else
+				{
+					thisProphet->resetClock();
+				}
 			}
 
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
@@ -323,6 +337,14 @@ void GameHost::render()
 	if (thisProphet->getIfAbilityIsActive())
 	{
 		window.draw(*this->thisProphet->getCurAbil());
+	}
+	if (activeClient)
+	{
+
+		if (otherProphet->getIfAbilityIsActive())
+		{
+			window.draw(*this->otherProphet->getCurAbil());
+		}
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
