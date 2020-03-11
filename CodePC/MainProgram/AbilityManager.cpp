@@ -124,7 +124,7 @@ void AbilityManager::stopAbility()
 
 					if (abs(magni) < currentAbility->getRadius())
 					{
-						enemyProphet->getAllFollowers(a)[i].takeDamage(currentAbility->getSpecificVar());
+						enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
 						cout << "enemy Follower takes damage" << endl;
 
 						//enemyProphet->getASingleFollower(i).touchedByAbility(true);
