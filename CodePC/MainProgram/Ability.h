@@ -17,7 +17,7 @@ private:
 	sf::Clock abilityClock;
 	sf::Time TimeBetweenAbilityPulse;
 	float activeTime;
-	bool isActive = false;
+	bool isActive;
 	float pulseTimer;
 	
 

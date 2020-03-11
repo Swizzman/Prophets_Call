@@ -63,8 +63,6 @@ void Prophet::convert(Follower** follArr, int nrOf)
 
 	if (otherProphet != nullptr)
 	{
-
-
 		if (convertingTime.asMilliseconds() > convertingTimeMax)
 		{
 			for (int a = 0; a < GROUPNR; a++)
@@ -220,12 +218,12 @@ void Prophet::collectSouls()
 {
 }
 
-void Prophet::placeAbil(sf::Vector2f position)
+void Prophet::placeAbil(sf::Vector2f position, int force)
 {
-	if (otherProphet)
+	if (otherProphet != nullptr)
 	{
 
-		abilityMan.placeCurrentAbility(position);
+		abilityMan.placeCurrentAbility(position, force);
 	}
 }
 
@@ -436,6 +434,8 @@ void Prophet::addFollower(Follower* follower)
 	bool added = false;
 	for (int i = 0; i < GROUPNR && !added; i++)
 	{
+		std::cout << "Follower Added\n";
+
 		if (group[i].nrOfFollowers < group[i].capacity)
 		{
 			group[i].followers[group[i].nrOfFollowers] = follower;
