@@ -77,8 +77,8 @@ bool AbilityManager::getAbilityActive() const
 void AbilityManager::startAbility()
 {
 	abilityActive = true;
-	currentAbility->turnBoolTrue();
-	currentAbility->abilityActive();
+	//currentAbility->turnBoolTrue();
+//	currentAbility->abilityActive();
 
 	//cout << currentAbility << endl;
 }
@@ -87,11 +87,12 @@ void AbilityManager::stopAbility()
 {
 
 	//currentAbility->abilityLifeTime();
-	if (currentAbility->abilityLifeTime() == false)
+	//currentAbility->abilityLifeTime() == false
+		abilityActive = currentAbility->abilityLifeTime();
+	if (abilityActive == false)
 	{
 		currentAbility->resetClock();
 		//	currentAbility->setPosition(sf::Vector2f(100000,100000));
-		abilityActive = currentAbility->abilityLifeTime();
 		if (chosenAbility == 0)
 		{
 
@@ -116,10 +117,9 @@ void AbilityManager::stopAbility()
 
 				for (int i = 0; i < enemyProphet->getAllNrOfFollowers(a); i++)
 				{
-					for (int j = i; j < enemyProphet->getAllNrOfFollowers(a); j++)
-					{
+					
 
-						sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[j]->getPosition();
+						sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[i]->getPosition();
 						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
 					if (abs(magni) < currentAbility->getRadius())
@@ -128,8 +128,8 @@ void AbilityManager::stopAbility()
 						cout << "enemy Follower takes damage" << endl;
 
 							//enemyProphet->getASingleFollower(i).touchedByAbility(true);
-						}
 					}
+					
 				}
 			}
 			sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getPosition();
@@ -229,6 +229,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 {
 	if (abilityActive)
 	{
+		abilityActive = false;
 		delete currentAbility;
 	}
 	if (force == -1)
