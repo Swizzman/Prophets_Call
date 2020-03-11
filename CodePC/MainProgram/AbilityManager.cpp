@@ -122,10 +122,10 @@ void AbilityManager::stopAbility()
 						sf::Vector2f dist = currentAbility->getPosition() - enemyProphet->getAllFollowers(a)[j]->getPosition();
 						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
-						if (abs(magni) < currentAbility->getRadius())
-						{
-							enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
-							cout << "enemy Follower takes damage" << endl;
+					if (abs(magni) < currentAbility->getRadius())
+					{
+						enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
+						cout << "enemy Follower takes damage" << endl;
 
 							//enemyProphet->getASingleFollower(i).touchedByAbility(true);
 						}

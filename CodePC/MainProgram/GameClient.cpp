@@ -115,6 +115,7 @@ void GameClient::handleEvents()
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
+				client.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
 				abilityplaced = true;
 				break;
 			case sf::Keyboard::Tab:
@@ -283,11 +284,16 @@ void GameClient::render()
 	{
 		window.draw(thisProphet->getConvertCirc());
 
-	}
-	if (otherProphet->getIfAbilityIsActive())
-	{
-		window.draw(*this->otherProphet->getCurAbil());
 
+	}
+	if (otherProphet != nullptr)
+	{
+
+		if (otherProphet->getIfAbilityIsActive())
+		{
+			window.draw(*this->otherProphet->getCurAbil());
+
+		}
 	}
 	if (thisProphet->getIfAbilityIsActive())
 	{

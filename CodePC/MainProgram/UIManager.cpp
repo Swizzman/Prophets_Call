@@ -12,8 +12,8 @@ UIManager::UIManager()
 	{
 		this->abilityNames[i].setFont(font);
 	}
-	followerProfileTexture[0].loadFromFile("../images/Follower.png");
-	followerProfileTextureName[0] = "Follower.png";
+	followerProfileTexture[0].loadFromFile("../images/FollowerSpriteSheet.png");
+	followerProfileTextureName[0] = "FollowerSpriteSheet.png";
 	followerProfileTexture[1].loadFromFile("../images/Civilian.png");
 	followerProfileTextureName[1] = "Civilian.png";
 	followerProfileTexture[2].loadFromFile("../images/Prophet.png");
@@ -335,10 +335,11 @@ void UIManager::addFps(std::string textureName, int maxHealth)
 				if (followerProfileTextureName[b] == textureName)
 				{
 
-
+					//	std::cout << textureName << std::endl;
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setTexture(followerProfileTexture[b]);
+					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setTextureRect(this->fps[cs[i]->nummberOfFollowersInGroup]->textRect);
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
-						followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
+						this->fps[cs[i]->nummberOfFollowersInGroup]->textRect.width, 60.f / this->fps[cs[i]->nummberOfFollowersInGroup]->textRect.height);
 
 
 				}

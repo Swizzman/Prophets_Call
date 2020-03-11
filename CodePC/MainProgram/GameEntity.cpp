@@ -1,6 +1,6 @@
 #include "GameEntity.h"
 class Follower;
-GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health)
+GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health, bool isProphet)
 {
 	this->texture.loadFromFile("../images/" + textureName);
 	this->sprite.setTexture(texture);
@@ -9,10 +9,24 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	this->health = health;
 	this->maxHealth = health;
 	this->textureName = textureName;
+	this->animationTimer = 0;
+	this->currentColummn = 0;
 	collided = false;
 	abilityHasTakenAffect = false;
-	attackNotify = false;
+	this->haveAnimation = isProphet;
+	this->currentPriority = 0;
+	lastWalkingDirection = 5;
+	
 
+	lastXDest = 0;
+	lastYDest = 0;
+	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
+		//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
+		textureRect = sf::IntRect(0, 0, 64, 64);
+		this->sprite.setTextureRect(textureRect);
+	
+		cout << sprite.getGlobalBounds().width << " : " << sprite.getGlobalBounds().height << endl;
+		attackNotify = false;
 	range = 100;
 
 	randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
@@ -140,9 +154,70 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 	/*sf::Vector2f dist = dest- getPosition();
 	float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 	sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);*/
+	if ((lastXDest > 0 && dest.x > 0 ) || (lastXDest < 0 && dest.x < 0))
+	{
 
-	this->sprite.move(dest.x * movingSpeedX, dest.y * movingSpeedY);
 
+		if (abs(dest.x) > abs(dest.y) && dest.x > 0.3)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
+			//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY()) << endl;
+		}
+		else if (abs(dest.x) > abs(dest.y) && dest.x < -0.5)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
+		}
+		else if (abs(dest.x) < abs(dest.y) && dest.y > 0.5)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+		}
+		else if (abs(dest.x) < abs(dest.y) && dest.y < -0.5)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+		}
+		if (abs(dest.x) == abs(dest.y) && dest.y < -0.5)
+		{
+			//	cout << "same walking speed " << endl;
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
+		}
+		else if (abs(dest.x) == abs(dest.y) && dest.y > 0.5)
+		{
+			startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
+			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
+		}
+	}
+	else
+	{
+		
+			startAnimation(lastWalkingDirection, 1, 15, -1);
+		//	cout << "(" << dest.x << lastXDest << ") : (" << dest.y << lastYDest << ")" << endl;
+
+		
+	}
+	
+	
+
+	/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
+	{
+		startAnimation(lastWalkingDirection, 1, 15, -1);
+
+	cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
+	}*/
+
+	updateAnimation();
+	
+	if (getCurrentPriority() <= 0)
+	{
+		this->sprite.move(dest.x * movingSpeedX, dest.y * movingSpeedY);
+		lastXDest = dest.x;
+		lastYDest = dest.y;
+
+	}
 
 }
 
@@ -150,6 +225,12 @@ void GameEntity::setMovingSpeed(int newSpeedX, int newSpeedY)
 {
 	this->movingSpeedX = newSpeedX;
 	this->movingSpeedY = newSpeedY;
+
+	/*if (movingSpeedY > 1)
+	{
+		updateAnimation();
+	}*/
+
 }
 
 int GameEntity::getMovingSpeedX()
@@ -201,7 +282,7 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 
 	if (currentCommand == 0)
 	{
-		randomPosRange = 250;
+		randomPosRange = 150;
 	}
 	else if (currentCommand == 1)
 	{
@@ -292,6 +373,94 @@ float GameEntity::getRange()
 {
 
 	return range;
+}
+
+bool GameEntity::hasAAnimation()
+{
+	return haveAnimation;
+}
+
+void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority)
+{
+
+	if (priority >= this->currentPriority || (currentPriority == 0 && priority == -1))
+	{
+		if (currentRow != nrOfRows || (priority == -1 && currentPriority == 0))
+		{
+			textureRect.left = 0;
+		}
+		
+		currentPriority = priority;
+		currentRow = nrOfRows;
+		frameBeforeNextSpriteFrame = nrOfFramesBeforeNextIntRect;
+		//currentColummn = 0;
+		this->nrOfColumms = nrOfColumms;
+		updateAnimation();
+
+		if (currentRow != nrOfRows)
+		{
+			this->textureRect.left = 0;
+			this->sprite.setTextureRect(textureRect);
+		}
+		currentRow = nrOfRows;
+		this->textureRect.top = this->textureRect.height * nrOfRows;
+
+
+	}
+
+}
+
+void GameEntity::updateAnimation()
+{
+	//cout << priority << endl;
+	//if (priority > this->currentPriority ||( currentPriority == 0 && priority == -1))
+	//{
+
+	//	if (currentRow != nrOfRows)
+	//	{
+	//		this->textureRect.left = 0;
+	//		this->sprite.setTextureRect(textureRect);
+	//	}
+	//	currentRow = nrOfRows;
+	//	this->textureRect.top = this->textureRect.height * nrOfRows;
+
+
+		//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
+
+		this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
+		//cout << animationTimer << endl;
+		if (this->animationTimer == frameBeforeNextSpriteFrame-1)
+		{
+			currentColummn++;
+			//	cout << this->textureRect.width <<" before: " << textureRect.left << endl;
+			this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
+			//cout << "after: " << textureRect.left << endl;
+
+		}
+		if (currentColummn >= nrOfColumms)
+		{
+			currentPriority = 0;
+				
+			currentColummn = 0;
+		}
+		this->sprite.setTextureRect(this->textureRect);
+	
+
+}
+
+int GameEntity::getCurrentPriority()
+{
+	return currentPriority;
+}
+
+int GameEntity::getCurrentRow()
+{
+	return currentRow;
+}
+
+int GameEntity::getCurrentColummn()
+{
+	return currentColummn;
 }
 
 
