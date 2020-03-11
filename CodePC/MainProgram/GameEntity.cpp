@@ -115,7 +115,7 @@ bool GameEntity::getAttackBool()
 
 bool GameEntity::getAttackNotify() const
 {
-	return attackNotify;
+		return attackNotify;
 }
 
 void GameEntity::otherAttackNotified()
