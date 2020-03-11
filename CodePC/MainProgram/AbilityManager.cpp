@@ -326,7 +326,7 @@ void AbilityManager::whileAbilityIsActive()
 							if (followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility())
 							{
 
-								followerGroup[a].followers[i]->gainHealth(currentAbility->getSpecificVar());
+								followerGroup[a].followers[i]->takeDamage(-currentAbility->getSpecificVar());
 							}
 						}
 					}

@@ -13,6 +13,7 @@ Ability::Ability(std::string texture, int radius, float activeTimer ,float pulse
 	this->activeTime = activeTimer;
 	this->pulseTimer = pulseTime;
 	this->isActive = false;
+	this->isDummy = fake;
 	changeCircleColor(sf::Color::Magenta);
 	//TimeBetweenAbilityPulse = sf::Time::Zero;
 }
@@ -48,7 +49,6 @@ void Ability::turnBoolTrue()
 
 bool Ability::abilityLifeTime()
 {
-	// isActive = false;
 	elapsedTimeSinceLastUpdate += clock.restart();
 	if (elapsedTimeSinceLastUpdate.asSeconds() > activeTime)
 	{
