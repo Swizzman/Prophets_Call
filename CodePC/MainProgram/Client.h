@@ -10,6 +10,8 @@ struct Packet
 	sf::Uint16 index;
 	sf::Uint32 health;
 	sf::Uint16 abilType;
+	sf::Uint16 column;
+	sf::Uint16 row;
 };
 class Client
 {

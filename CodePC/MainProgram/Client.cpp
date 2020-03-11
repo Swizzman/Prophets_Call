@@ -16,7 +16,7 @@ void Client::run()
 	{
 		std::cout << "Connected to Server\n";
 		connected = true;
-		
+
 	}
 }
 
@@ -54,6 +54,10 @@ Packet Client::recieveAPacket()
 	else if (recieved.type == 7)
 	{
 		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
+	}
+	else if (recieved.type == 8)
+	{
+		packet >> recieved.index >> recieved.column >> recieved.row;
 	}
 	return recieved;
 }

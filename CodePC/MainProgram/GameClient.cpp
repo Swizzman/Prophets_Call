@@ -85,6 +85,10 @@ void GameClient::netWorking()
 			pos.y = packet.posY;
 			otherProphet->placeAbil(pos, packet.abilType);
 		}
+		else if (packet.type == 8)
+		{
+			//allFollowers[packet.index
+		}
 	}
 }
 
