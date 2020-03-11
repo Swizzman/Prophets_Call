@@ -55,10 +55,16 @@ GameEntity::~GameEntity()
 
 void GameEntity::takeDamage(int damage)
 {
+
+
 	this->health -= damage;
 	if (this->health < 0)
 	{
 		this->health = 0;
+	}
+	if (this->health > maxHealth)
+	{
+		this->health = maxHealth;
 	}
 	attackNotify = true;
 

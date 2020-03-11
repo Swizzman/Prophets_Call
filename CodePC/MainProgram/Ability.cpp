@@ -49,7 +49,6 @@ void Ability::turnBoolTrue()
 
 bool Ability::abilityLifeTime()
 {
-	// isActive = false;
 	elapsedTimeSinceLastUpdate += clock.restart();
 	if (elapsedTimeSinceLastUpdate.asSeconds() > activeTime)
 	{
