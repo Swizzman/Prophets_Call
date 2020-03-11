@@ -73,7 +73,7 @@ void GameHost::networking()
 			pos.y = packet.posY;
 			if (otherProphet != nullptr)
 			{
-			otherProphet->placeAbil(pos, packet.abilType);
+				otherProphet->placeAbil(pos, packet.abilType);
 
 			}
 		}
@@ -170,7 +170,9 @@ void GameHost::handleEvents()
 			case sf::Mouse::Right:
 
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
-			thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+				thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+				server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+
 				abilityplaced = true;
 				break;
 			default:
@@ -284,6 +286,22 @@ State GameHost::update()
 
 
 				}
+				if (otherProphet->getIfAbilityIsActive())
+				{
+
+					otherProphet->timerForAbility();
+
+				}
+				else
+				{
+					if (otherProphet->getCurrentAbility() == 2 && otherProphet->returnReinforceBool())
+					{
+						otherProphet->endingReinforcementAbility();
+
+					}
+
+
+				}
 				//Check conversion and start if key is pressed
 				if (converting)
 				{
@@ -344,10 +362,13 @@ void GameHost::render()
 	}
 	if (activeClient)
 	{
-
-		if (otherProphet->getIfAbilityIsActive())
+		if (otherProphet->getCurAbil() != nullptr)
 		{
-			window.draw(*this->otherProphet->getCurAbil());
+
+			if (otherProphet->getIfAbilityIsActive())
+			{
+				window.draw(*this->otherProphet->getCurAbil());
+			}
 		}
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)

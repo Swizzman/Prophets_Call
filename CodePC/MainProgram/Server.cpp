@@ -3,9 +3,10 @@
 
 Server::Server()
 {
+	iP = ("25.74.9.3");
 	port = 55000;
-	listener.listen(port, sf::IpAddress::LocalHost);
-	std::cout << "Server started on: " << sf::IpAddress::LocalHost << ":" << port << std::endl;
+	listener.listen(port, iP);
+	std::cout << "Server started on: " << iP << ":" << port << std::endl;
 	clientConnected = false;
 	selector.add(listener);
 	std::cout << "Listening...\n";
@@ -118,6 +119,10 @@ Packet Server::recieveAPacket()
 	else if (recieved.type == 6)
 	{
 		packet >> recieved.health;
+	}
+	else if (recieved.type == 7)
+	{
+		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
 	}
 	return recieved;
 
