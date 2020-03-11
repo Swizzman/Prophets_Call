@@ -215,16 +215,6 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 
 
 		}
-	}
-
-
-
-		/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
-		{
-			startAnimation(lastWalkingDirection, 1, 15, -1);
-
-		cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
-		}*/
 
 		updateAnimation();
 
@@ -236,7 +226,18 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 
 		}
 	}
+
+
+
+		/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
+		{
+			startAnimation(lastWalkingDirection, 1, 15, -1);
+
+		cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
+		}*/
+
 }
+
 
 void GameEntity::setMovingSpeed(int newSpeedX, int newSpeedY)
 {
