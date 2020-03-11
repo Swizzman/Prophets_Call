@@ -5,8 +5,9 @@ class Bomb :
 {
 private:
 	int damage;
+	
 public:
-	Bomb();
+	Bomb(bool dummy);
 	virtual ~Bomb();
 	// Inherited via Ability
 	virtual void abilityActive() override;

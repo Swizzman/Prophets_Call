@@ -455,8 +455,8 @@ int GameEntity::getCurrentPriority()
 
 void GameEntity::setAnimation(int column, int row)
 {
-	textureRect.left = column;
-	textureRect.top = row;
+	textureRect.left = column * 64;
+	textureRect.top = row * 64;
 	sprite.setTextureRect(textureRect);
 }
 

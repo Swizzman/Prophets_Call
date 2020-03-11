@@ -24,6 +24,7 @@ public:
 	void sendProphetDamage(int newHealth);
 	void sendAbilPlace(sf::Vector2f pos, int type);
 	void sendFollowerAnim(int index, int column, int row);
+	void sendProphetAnim(int column, int row);
 	Packet recieveAPacket();
 };
 
