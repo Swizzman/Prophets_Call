@@ -51,6 +51,10 @@ Packet Client::recieveAPacket()
 	{
 		packet >> recieved.health;
 	}
+	else if (recieved.type == 7)
+	{
+		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
+	}
 	return recieved;
 }
 
@@ -73,6 +77,21 @@ void Client::sendConverted(int index)
 {
 	sf::Packet packet;
 	packet << (sf::Uint16) 4 << (sf::Uint16) index;
+	connectionSocket.send(packet);
+}
+
+void Client::sendFollowerDamage(int index, int newHealth)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 5 << (sf::Uint16) index << (sf::Uint32) newHealth;
+	connectionSocket.send(packet);
+}
+
+void Client::sendProphetDamage(int newHealth)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 6 << (sf::Uint32) newHealth;
+	std::cout << "Prophet Damage sent!\n";
 	connectionSocket.send(packet);
 }
 

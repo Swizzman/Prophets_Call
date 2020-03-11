@@ -53,7 +53,7 @@ public:
 	int getNrOfFollowers();
 	int getAllNrOfFollowers(int thisGroup);
 	void collectSouls();
-	void placeAbil(sf::Vector2f position);
+	void placeAbil(sf::Vector2f position,int force = -1);
 	int getSouls();
 	Follower** getFollowers();
 	Follower& getASingleFollower(int whichOne);
