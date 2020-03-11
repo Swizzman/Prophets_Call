@@ -25,7 +25,6 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	textureRect = sf::IntRect(0, 0, 64, 64);
 	this->sprite.setTextureRect(textureRect);
 
-	cout << sprite.getGlobalBounds().width << " : " << sprite.getGlobalBounds().height << endl;
 	attackNotify = false;
 	range = 100;
 
@@ -400,13 +399,10 @@ void GameEntity::updateAnimation()
 
 
 	this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
-	//cout << animationTimer << endl;
 	if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
 	{
 		currentColummn++;
-		//	cout << this->textureRect.width <<" before: " << textureRect.left << endl;
 		this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
-		//cout << "after: " << textureRect.left << endl;
 
 	}
 	if (currentColummn >= nrOfColumms)
