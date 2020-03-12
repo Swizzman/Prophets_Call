@@ -493,7 +493,6 @@ void UIManager::updatePp(int health, int soul, int currentAbility)
 {
 	this->chosenAbility = currentAbility;
 
-	//std::cout << healtProc << std::endl;
 	if (health <= 0)
 	{
 		health = 0;

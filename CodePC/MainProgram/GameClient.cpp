@@ -44,7 +44,7 @@ void GameClient::netWorking()
 		thisProphet->recieveEnemyProphet(otherProphet);
 		otherProphet->recieveEnemyProphet(thisProphet);
 		Packet packet;
-		while (client.getConnected() && nrOfTotalFollowers <=followerCap)
+		while (client.getConnected() && nrOfTotalFollowers <= followerCap)
 		{
 			packet = client.recieveAPacket();
 			if (packet.type == 1)
@@ -79,7 +79,6 @@ void GameClient::netWorking()
 			else if (packet.type == 6)
 			{
 				thisProphet->setHealth(packet.health);
-				std::cout << thisProphet->getHealth() << std::endl;
 			}
 			else if (packet.type == 7)
 			{
@@ -212,29 +211,36 @@ State GameClient::update()
 			{
 				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
 				{
-
 					allFollowers[i]->die();
-					thisProphet->removeFollower(allFollowers[i]);
-					otherProphet->removeFollower(allFollowers[i]);
-					for (int i = 0; i < 3; i++)
+					if (allFollowers[i]->getConvertedByOther())
 					{
-						uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+						otherProphet->removeFollower(allFollowers[i]);
+
 					}
+					else
+					{
+						thisProphet->removeFollower(allFollowers[i]);
+						for (int i = 0; i < 3; i++)
+						{
+							uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+						}
+					}
+					//allFollowers[i]->switchTexture("soul.png ");
+					cout << "Follower " << i << " died\n";
+
 				}
 				if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
 				{
 					allFollowers[i]->checkCivMove();
+					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
 				}
 				if (allFollowers[i]->getOtherNotified())
 				{
 					client.sendConverted(i);
 					allFollowers[i]->otherIsNotified();
 				}
-				if (!allFollowers[i]->getConvertedByOther() && allFollowers[i]->getConverted())
-				{
-					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
-					client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
-				}
+
 				if (allFollowers[i]->getAttackNotify())
 				{
 					allFollowers[i]->otherAttackNotified();
@@ -244,7 +250,6 @@ State GameClient::update()
 				if (otherProphet->getAttackNotify())
 				{
 					otherProphet->otherAttackNotified();
-					std::cout << otherProphet->getHealth() << std::endl;
 					client.sendProphetDamage(otherProphet->getHealth());
 				}
 
@@ -297,9 +302,9 @@ State GameClient::update()
 			{
 				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
-			
-					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-				
+
+				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+
 				//uiManager.setUpFps();
 
 
@@ -346,11 +351,10 @@ void GameClient::render()
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
-		if (allFollowers[i] != nullptr)
-		{
 
-			window.draw(*allFollowers[i]);
-		}
+
+		window.draw(*allFollowers[i]);
+
 	}
 	uiManager.drawUI(window);
 	window.display();

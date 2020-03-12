@@ -122,7 +122,6 @@ void Prophet::convertsFollow()
 		{
 			startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
 			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
-			cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY()) << endl;
 		}
 		else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
 		{
@@ -527,7 +526,6 @@ void Prophet::addFollower(Follower* follower)
 			group[i].followers[group[i].nrOfFollowers] = follower;
 			added = true;
 			group[i].nrOfFollowers++;
-			std::cout << group[i].nrOfFollowers << std::endl;
 
 		}
 	}
@@ -545,6 +543,8 @@ void Prophet::removeFollower(Follower* follower)
 
 			if (group[i].followers[a] == follower)
 			{
+				std::cout << "Found the follower\n";
+
 				group[i].followers[a] = nullptr;
 				for (int b = a; b < group[i].nrOfFollowers; b++)
 				{
@@ -573,7 +573,6 @@ void Prophet::removeFollower(Follower* follower)
 
 	//	delete[] temp;
 
-		cout <<  group[i].nrOfFollowers << endl;
 	}
 
 }

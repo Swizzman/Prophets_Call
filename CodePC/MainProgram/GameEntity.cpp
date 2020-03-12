@@ -56,21 +56,21 @@ GameEntity::~GameEntity()
 void GameEntity::takeDamage(int damage)
 {
 
-	if (isAlive())
+	//if (isAlive())
+	//{
+
+
+	this->health -= damage;
+	if (this->health < 0)
 	{
-
-
-		this->health -= damage;
-		if (this->health < 0)
-		{
-			this->health = 0;
-		}
-		if (this->health > maxHealth)
-		{
-			this->health = maxHealth;
-		}
-		attackNotify = true;
+		this->health = 0;
 	}
+	if (this->health > maxHealth)
+	{
+		this->health = maxHealth;
+	}
+	attackNotify = true;
+	//}
 }
 
 sf::Vector2f GameEntity::getPos()
@@ -100,6 +100,10 @@ int GameEntity::getHealth()
 void GameEntity::setHealth(int health)
 {
 	this->health = health;
+	if (this->health < 0)
+	{
+		this->health = 0;
+	}
 }
 
 void GameEntity::gainHealth(int health)
@@ -229,12 +233,12 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 
 
 
-		/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
-		{
-			startAnimation(lastWalkingDirection, 1, 15, -1);
+	/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
+	{
+		startAnimation(lastWalkingDirection, 1, 15, -1);
 
-		cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
-		}*/
+	cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
+	}*/
 
 }
 
@@ -244,10 +248,6 @@ void GameEntity::setMovingSpeed(int newSpeedX, int newSpeedY)
 	this->movingSpeedX = newSpeedX;
 	this->movingSpeedY = newSpeedY;
 
-	/*if (movingSpeedY > 1)
-	{
-		updateAnimation();
-	}*/
 
 }
 
@@ -422,15 +422,15 @@ void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBef
 void GameEntity::updateAnimation()
 {
 
-		//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
+	//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
 	if (alive == true)
 	{
 
-	this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
-	if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
-	{
-		currentColummn++;
-		this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
+		this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
+		if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
+		{
+			currentColummn++;
+			this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
 
 		}
 		if (currentColummn >= nrOfColumms)
@@ -451,9 +451,13 @@ int GameEntity::getCurrentPriority()
 
 void GameEntity::setAnimation(int column, int row)
 {
-	textureRect.left = column * 64;
-	textureRect.top = row * 64;
-	sprite.setTextureRect(textureRect);
+	if (alive)
+	{
+
+		textureRect.left = column * 64;
+		textureRect.top = row * 64;
+		sprite.setTextureRect(textureRect);
+	}
 }
 
 int GameEntity::getCurrentRow()

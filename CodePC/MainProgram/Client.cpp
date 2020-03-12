@@ -2,8 +2,8 @@
 
 Client::Client()
 {
-	iP = sf::IpAddress::LocalHost;
 	iP = ("25.74.9.3");
+	iP = sf::IpAddress::LocalHost;
 	connected = false;
 }
 
