@@ -133,6 +133,16 @@ bool GameEntity::getAttackNotify() const
 	return attackNotify;
 }
 
+bool GameEntity::getDeathNotify() const
+{
+	return deathNotify;
+}
+
+void GameEntity::otherDeathNotify()
+{
+	deathNotify = false;
+}
+
 void GameEntity::otherAttackNotified()
 {
 	attackNotify = false;

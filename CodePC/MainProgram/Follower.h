@@ -14,6 +14,7 @@ private:
 	bool convertedByOther;
 	bool otherNotified;
 	bool collided;
+	bool soulCollected;
 	int maxTime;
 	int windowWidth;
 	int windowHeight;
@@ -25,7 +26,6 @@ private:
 	bool canAttack;
 	float attackCooldownTime;
 	float followerRange = 100;
-	int test;
 
 	int lastWalkingDirection;
 //	sf::IntRect textureRect;
@@ -37,6 +37,9 @@ public:
 	void checkCivMove();
 	void placeFollower(int width, int height);
 	int inflictDamage();
+	int getSoulValue() const;
+	void setSoulCollected();
+	bool getSoulCollected() const;
 	void attackCooldown();
 	bool getAttackCooldown();
 	void resetAttackClock();
@@ -53,5 +56,6 @@ public:
 
 	// Inherited via GameEntity
 	virtual void die() override;
+
 };
 

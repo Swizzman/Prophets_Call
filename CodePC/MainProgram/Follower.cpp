@@ -4,6 +4,7 @@ void Follower::die()
 {
 	//die;
 
+	alive = false;
 	switchTexture("soul.png ");
 	followerDied();
 
@@ -23,12 +24,11 @@ Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 100, false)
 	converted = false;
 	convertedByOther = false;
 	otherNotified = false;
+	soulCollected = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
-	//textureRect = sf::IntRect(0, 0, 64, 64);
-
+	
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
-	test = 0;
 	this->canAttack = true;
 	followerRange = 100;
 	attackCooldownTime = 2;
@@ -156,6 +156,21 @@ int Follower::inflictDamage()
 		//	cout << "ouch" << endl;
 		return damage;
 	}
+}
+
+int Follower::getSoulValue() const
+{
+	return soulValue;
+}
+
+void Follower::setSoulCollected()
+{
+	soulCollected = true;
+}
+
+bool Follower::getSoulCollected() const
+{
+	return soulCollected;
 }
 
 void Follower::attackCooldown()

@@ -22,10 +22,7 @@ Prophet::Prophet() :
 
 
 	}
-	for (int i = 0; i < GROUPNR; i++)
-	{
-		//temp = new Follower * [group[0].capacity]{ nullptr };
-	}
+
 	this->xSpeed = 2;
 	this->ySpeed = 2;
 	this->convertingTimeMax = 500;
@@ -60,7 +57,6 @@ Prophet::~Prophet()
 		delete[] group[i].followers;
 		
 	}
-		
 
 }
 
@@ -283,8 +279,13 @@ int Prophet::getAllNrOfFollowers(int thisGroup)
 }
 
 
-void Prophet::collectSouls()
+void Prophet::collectSouls(Follower* follower)
 {
+	if (checkCollision(follower->getBounds()) && !follower->getSoulCollected())
+	{
+		collectedSouls += follower->getSoulValue();
+		follower->setSoulCollected();
+	}
 }
 
 void Prophet::placeAbil(sf::Vector2f position, int force)
@@ -301,13 +302,13 @@ int Prophet::getSouls()
 	return collectedSouls;
 }
 
-Follower** Prophet::getFollowers()
+Follower* Prophet::getFollowers()
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
 		if (currentCommandGroup == i)
 		{
-			return group[i].followers;
+			return *group[i].followers;
 		}
 	}
 
@@ -533,7 +534,6 @@ void Prophet::addFollower(Follower* follower)
 
 void Prophet::removeFollower(Follower* follower)
 {
-	//Follower** temp;
 
 	for (int i = 0; i < GROUPNR; i++)
 	{
@@ -544,7 +544,6 @@ void Prophet::removeFollower(Follower* follower)
 			if (group[i].followers[a] == follower)
 			{
 				std::cout << "Found the follower\n";
-
 				group[i].followers[a] = nullptr;
 				for (int b = a; b < group[i].nrOfFollowers; b++)
 				{
@@ -554,27 +553,8 @@ void Prophet::removeFollower(Follower* follower)
 				group[i].nrOfFollowers--;
 
 			}
-
-
-		/*	if (group[i].followers[a]->isAlive())
-			{
-				temp[nrOfFollower] = group[i].followers[a]; 
-					nrOfFollower++;
-			}
-			group[i].followers[a] = nullptr;*/
 		}
-		
-	/*	group[i].nrOfFollowers = 0;
-		for (int a = 0; a < nrOfFollower; a++)
-		{
-
-			group[i].followers[group[i].nrOfFollowers++] = temp[a];
-		}*/
-
-	//	delete[] temp;
-
 	}
-
 }
 
 
