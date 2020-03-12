@@ -224,17 +224,15 @@ State GameClient::update()
 				if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
 				{
 					allFollowers[i]->checkCivMove();
+					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+					client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
 				}
 				if (allFollowers[i]->getOtherNotified())
 				{
 					client.sendConverted(i);
 					allFollowers[i]->otherIsNotified();
 				}
-				if (!allFollowers[i]->getConvertedByOther() && allFollowers[i]->getConverted())
-				{
-					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
-					client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
-				}
+
 				if (allFollowers[i]->getAttackNotify())
 				{
 					allFollowers[i]->otherAttackNotified();
@@ -295,7 +293,6 @@ State GameClient::update()
 			}
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
-				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
 			
 					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
