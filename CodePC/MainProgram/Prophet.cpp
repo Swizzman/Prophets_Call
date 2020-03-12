@@ -24,7 +24,7 @@ Prophet::Prophet() :
 	}
 	for (int i = 0; i < GROUPNR; i++)
 	{
-		temp = new Follower * [group[0].capacity]{ nullptr };
+		//temp = new Follower * [group[0].capacity]{ nullptr };
 	}
 	this->xSpeed = 2;
 	this->ySpeed = 2;
@@ -60,7 +60,7 @@ Prophet::~Prophet()
 		delete[] group[i].followers;
 		
 	}
-		delete[] temp;
+		
 
 }
 
@@ -539,7 +539,7 @@ void Prophet::removeFollower(Follower* follower)
 
 	for (int i = 0; i < GROUPNR; i++)
 	{
-		int nrOfFollower = 0;
+		//int nrOfFollower = 0;
 		for (int a = 0; a < group[i].nrOfFollowers; a++)
 		{
 
