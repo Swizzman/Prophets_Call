@@ -6,7 +6,7 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
 	otherProphet = nullptr;
-	followerCap = 30;
+	followerCap = 60;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
 	for (int i = 0; i < followerCap; i++)
@@ -25,16 +25,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	//otherProphet = new Prophet();
-	//thisProphet->recieveEnemyProphet(otherProphet);
-	//otherProphet->recieveEnemyProphet(thisProphet);
-	//activeClient = true;
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 	Packet packet;
 
 	while (server.getClientConnected())

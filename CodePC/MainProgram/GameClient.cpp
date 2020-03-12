@@ -126,7 +126,7 @@ void GameClient::handleEvents()
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
 				thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
-				thisProphet->takeDamage(rand() % 20);
+			//	thisProphet->takeDamage(rand() % 20);
 
 				break;
 			case sf::Keyboard::LControl:
