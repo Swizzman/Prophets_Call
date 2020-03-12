@@ -2,13 +2,28 @@
 
 
 
+void GameHost::expand(Follower** arr, int& cap, int nrOf)
+{
+	cap += 10;
+	Follower** temp = new Follower * [cap] {nullptr};
+	for (int i = 0; i < nrOf; i++)
+	{
+		temp[i] = arr[i];
+	}
+	delete[] arr;
+	arr = temp;
+}
+
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
 	otherProphet = nullptr;
+	nrOfDead = 0;
+	deadCap = 30;
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
+	deadFollowers = new Follower * [deadCap] {nullptr};
 	for (int i = 0; i < followerCap; i++)
 	{
 		allFollowers[i] = new Follower();
@@ -84,6 +99,14 @@ void GameHost::networking()
 		else if (packet.type == 9)
 		{
 			otherProphet->setAnimation(packet.column, packet.row);
+		}
+		else if (packet.type == 10)
+		{
+			//delete allFollowers[packet.index];
+			deadFollowers[nrOfDead] = allFollowers[packet.index];
+			nrOfDead++;
+			allFollowers[packet.index] = new Follower();
+			allFollowers[packet.index]->placeFollower(WIDTH, HEIGHT);
 		}
 	}
 }
@@ -202,6 +225,10 @@ State GameHost::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
+			if (deadCap - nrOfDead < 4)
+			{
+				expand(deadFollowers, deadCap, nrOfDead);
+			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			if (!activeClient)
 			{
@@ -230,62 +257,74 @@ State GameHost::update()
 			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
-
-				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
+				if (allFollowers[i] != nullptr)
 				{
-					allFollowers[i]->die();
-					if (allFollowers[i]->getConvertedByOther())
-					{
-						otherProphet->removeFollower(allFollowers[i]);
 
-					}
-					else
+					if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
 					{
-						thisProphet->removeFollower(allFollowers[i]);
-						for (int i = 0; i < 3; i++)
+						allFollowers[i]->die();
+						if (allFollowers[i]->getConvertedByOther())
 						{
-							uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+							otherProphet->removeFollower(allFollowers[i]);
+
+						}
+						else
+						{
+							thisProphet->removeFollower(allFollowers[i]);
+							for (int i = 0; i < 3; i++)
+							{
+								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+							}
+						}
+					}
+					allFollowers[i]->checkCivMove();
+					if (otherProphet != nullptr)
+					{
+						if ((allFollowers[i]->getConvertedByOther() == false && allFollowers[i]->getConverted()) || !allFollowers[i]->getConverted())
+						{
+							if (allFollowers[i]->isAlive())
+							{
+
+								server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+								server.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
+							}
+						}
+						if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
+						{
+							thisProphet->collectSouls(allFollowers[i]);
+						}
+					}
+					if (allFollowers[i]->getOtherNotified())
+					{
+						server.sendConverted(i);
+						allFollowers[i]->otherIsNotified();
+					}
+					if (activeClient)
+					{
+
+						if (allFollowers[i]->getAttackNotify())
+						{
+							std::cout << "Sent damage\n";
+							allFollowers[i]->otherAttackNotified();
+							server.sendFollowerDamage(i, allFollowers[i]->getHealth());
+
+						}
+						if (otherProphet->getAttackNotify())
+						{
+							otherProphet->otherAttackNotified();
+							std::cout << otherProphet->getHealth() << std::endl;
+							server.sendProphetDamage(otherProphet->getHealth());
 						}
 					}
 				}
-				allFollowers[i]->checkCivMove();
-				if (otherProphet != nullptr)
+				if (allFollowers[i]->getSoulCollected())
 				{
-					if ((allFollowers[i]->getConvertedByOther() == false && allFollowers[i]->getConverted()) || !allFollowers[i]->getConverted())
-					{
-						if (allFollowers[i]->isAlive())
-						{
-
-							server.sendFollowerPos(allFollowers[i]->getPosition(), i);
-							server.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
-						}
-					}
-					if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
-					{
-						thisProphet->collectSouls(allFollowers[i]);
-					}
-				}
-				if (allFollowers[i]->getOtherNotified())
-				{
-					server.sendConverted(i);
-					allFollowers[i]->otherIsNotified();
-				}
-				if (activeClient)
-				{
-
-					if (allFollowers[i]->getAttackNotify())
-					{
-						std::cout << "Sent damage\n";
-						allFollowers[i]->otherAttackNotified();
-						server.sendFollowerDamage(i, allFollowers[i]->getHealth());
-
-					}
-					if (otherProphet->getAttackNotify())
-					{
-						otherProphet->otherAttackNotified();
-						std::cout << otherProphet->getHealth() << std::endl;
-						server.sendProphetDamage(otherProphet->getHealth());
-					}
+					server.sendSoulCollected(i);
+					deadFollowers[nrOfDead] = allFollowers[i];
+					nrOfDead++;
+					//delete allFollowers[i];
+					allFollowers[i] = new Follower();
+					allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 				}
 			}
 			if (activeClient)
