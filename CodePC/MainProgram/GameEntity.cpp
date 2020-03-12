@@ -56,8 +56,8 @@ GameEntity::~GameEntity()
 void GameEntity::takeDamage(int damage)
 {
 
-	if (isAlive())
-	{
+	//if (isAlive())
+	//{
 
 
 		this->health -= damage;
@@ -70,7 +70,7 @@ void GameEntity::takeDamage(int damage)
 			this->health = maxHealth;
 		}
 		attackNotify = true;
-	}
+	//}
 }
 
 sf::Vector2f GameEntity::getPos()
@@ -100,6 +100,10 @@ int GameEntity::getHealth()
 void GameEntity::setHealth(int health)
 {
 	this->health = health;
+	if (this->health < 0)
+	{
+		this->health = 0;
+	}
 }
 
 void GameEntity::gainHealth(int health)
@@ -127,6 +131,16 @@ bool GameEntity::getAttackBool()
 bool GameEntity::getAttackNotify() const
 {
 	return attackNotify;
+}
+
+bool GameEntity::getDeathNotify() const
+{
+	return deathNotify;
+}
+
+void GameEntity::otherDeathNotify()
+{
+	deathNotify = false;
 }
 
 void GameEntity::otherAttackNotified()

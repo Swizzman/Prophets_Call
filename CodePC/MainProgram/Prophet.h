@@ -35,7 +35,6 @@ private:
 	sf::Clock clock;
 	group group[GROUPNR];
 	Prophet* otherProphet;
-	Follower** temp;
 
 
 
@@ -60,10 +59,10 @@ public:
 	void moveProphet();
 	int getNrOfFollowers();
 	int getAllNrOfFollowers(int thisGroup);
-	void collectSouls();
+	void collectSouls(Follower* follower);
 	void placeAbil(sf::Vector2f position,int force = -1);
 	int getSouls();
-	Follower** getFollowers();
+	Follower* getFollowers();
 	Follower& getASingleFollower(int whichOne);
 	Follower** getAllFollowers(int thisGroup);
 	void recieveEnemyProphet(Prophet* other);

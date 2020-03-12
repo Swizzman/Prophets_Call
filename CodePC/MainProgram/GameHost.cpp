@@ -231,25 +231,21 @@ State GameHost::update()
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
 
-				//for (int a = 0; a < nrOfTotalFollowers; a++)
-				//{
-				//	//allFollowers[i]->Collided(allFollowers[a]);
-				//	if (allFollowers[i]->getBounds().intersects(allFollowers[a]->getBounds()) && i != a)
-				//	{
-				//		allFollowers[i]->Collided(allFollowers[a]);
-				//	}
-
-
-				//}
 				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
 				{
-
 					allFollowers[i]->die();
-					thisProphet->removeFollower(allFollowers[i]);
-					otherProphet->removeFollower(allFollowers[i]);
-					for (int i = 0; i < 3; i++)
+					if (allFollowers[i]->getConvertedByOther())
 					{
-						uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+						otherProphet->removeFollower(allFollowers[i]);
+
+					}
+					else
+					{
+						thisProphet->removeFollower(allFollowers[i]);
+						for (int i = 0; i < 3; i++)
+						{
+							uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+						}
 					}
 				}
 				allFollowers[i]->checkCivMove();
@@ -257,11 +253,17 @@ State GameHost::update()
 				{
 					if ((allFollowers[i]->getConvertedByOther() == false && allFollowers[i]->getConverted()) || !allFollowers[i]->getConverted())
 					{
+						if (allFollowers[i]->isAlive())
+						{
 
-						server.sendFollowerPos(allFollowers[i]->getPosition(), i);
-						server.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
+							server.sendFollowerPos(allFollowers[i]->getPosition(), i);
+							server.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
+						}
 					}
-
+					if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
+					{
+						thisProphet->collectSouls(allFollowers[i]);
+					}
 				}
 				if (allFollowers[i]->getOtherNotified())
 				{
@@ -337,11 +339,11 @@ State GameHost::update()
 
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
-				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth() , thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
-				
-					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
+
+				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 				cout << "working " << endl;
-				
+
 			}
 
 
@@ -352,7 +354,7 @@ State GameHost::update()
 		{
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
-			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
+		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			netWorkThread.join();
@@ -400,7 +402,11 @@ void GameHost::render()
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
-		window.draw(*allFollowers[i]);
+		if (!allFollowers[i]->getSoulCollected())
+		{
+
+			window.draw(*allFollowers[i]);
+		}
 	}
 	uiManager.drawUI(window);
 	window.display();
