@@ -19,7 +19,6 @@ private:
 	Follower** allFollowers;
 	UIManager uiManager;
 	int nrOfTotalFollowers;
-	sf::RectangleShape lel;
 	int followerCap;
 	sf::Clock clock;
 	sf::Time timePerFrame;
@@ -30,7 +29,11 @@ private:
 	Server server;
 	sf::Mouse mouse;
 	std::thread netWorkThread;
-	sf::Vector2f tempVec;
+	Follower** deadFollowers;
+	int deadCap;
+	int nrOfDead;
+	
+	void expand(Follower** arr, int &cap, int nrOf);
 public:
 	GameHost();
 	void networking();
@@ -40,4 +43,3 @@ public:
 	virtual State update() override;
 	virtual void render() override;
 };
-
