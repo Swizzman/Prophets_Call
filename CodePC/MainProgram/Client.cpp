@@ -32,37 +32,37 @@ Packet Client::recieveAPacket()
 	sf::Uint16 x, y;
 	connectionSocket.receive(packet);
 	packet >> recieved.type;
-	if (recieved.type == 1)
+	switch (recieved.type)
 	{
+	case 1:
 		packet >> recieved.posX >> recieved.posY;
-	}
-	else if (recieved.type == 2)
-	{
+		break;
+	case 2:
 		packet >> recieved.posX >> recieved.posY >> recieved.index;
-	}
-	else if (recieved.type == 4)
-	{
+		break;
+	case 4:
 		packet >> recieved.index;
-	}
-	else if (recieved.type == 5)
-	{
+		break;
+	case 5:
 		packet >> recieved.index >> recieved.health;
-	}
-	else if (recieved.type == 6)
-	{
+		break;
+	case 6:
 		packet >> recieved.health;
-	}
-	else if (recieved.type == 7)
-	{
+		break;
+	case 7:
 		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
-	}
-	else if (recieved.type == 8)
-	{
+		break;
+	case 8:
 		packet >> recieved.index >> recieved.column >> recieved.row;
-	}
-	else if (recieved.type == 9)
-	{
+		break;
+	case 9:
 		packet >> recieved.column >> recieved.row;
+		break;
+	case 10:
+		packet >> recieved.index;
+		break;
+	default:
+		break;
 	}
 	return recieved;
 }
@@ -122,6 +122,13 @@ void Client::sendProphetAnim(int column, int row)
 {
 	sf::Packet packet;
 	packet << (sf::Uint16) 9 << (sf::Uint16) column << (sf::Uint16) row;
+	connectionSocket.send(packet);
+}
+
+void Client::sendSoulCollected(int index)
+{
+	sf::Packet packet;
+	packet << (sf::Uint16) 10 << (sf::Uint16) index;
 	connectionSocket.send(packet);
 }
 

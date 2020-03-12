@@ -28,6 +28,11 @@ private:
 	Client client;
 	sf::Mouse mouse;
 	std::thread networkThread;
+	Follower** deadFollowers;
+	int deadCap;
+	int nrOfDead; 
+	
+	void expand(Follower** arr, int& cap, int nrOf);
 public:
 	GameClient();
 	virtual ~GameClient();
@@ -37,6 +42,4 @@ public:
 	virtual State update() override;
 	virtual void render() override;
 };
-
-
 
