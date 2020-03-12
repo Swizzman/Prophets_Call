@@ -1,6 +1,6 @@
 #include "Bomb.h"
 
-Bomb::Bomb(bool dummy) : Ability("bomb.png", 80, 3,0, dummy)
+Bomb::Bomb(bool dummy) : Ability("bomb.png", 80, 1,0, dummy)
 {
 	this->damage = 60;
 

@@ -26,8 +26,8 @@ Prophet::Prophet() :
 	{
 		temp = new Follower * [group[0].capacity]{ nullptr };
 	}
-	this->xSpeed = 5;
-	this->ySpeed = 5;
+	this->xSpeed = 2;
+	this->ySpeed = 2;
 	this->convertingTimeMax = 500;
 	this->chosenAbility = 0;
 	this->convertingSpeed = 10;
