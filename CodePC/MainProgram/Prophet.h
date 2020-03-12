@@ -35,7 +35,7 @@ private:
 	sf::Clock clock;
 	group group[GROUPNR];
 	Prophet* otherProphet;
-	Follower** temp;
+//	Follower** temp;
 
 
 
