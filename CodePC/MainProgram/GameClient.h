@@ -33,10 +33,10 @@ private:
 	Follower** deadFollowers;
 	int deadCap;
 	int nrOfDead; 
-	
-	void expand(Follower** arr, int& cap, int nrOf);
 	Background background;
 	SoundManager soundManager;
+	
+	void expand(Follower** arr, int& cap, int nrOf);
 public:
 	GameClient();
 	virtual ~GameClient();

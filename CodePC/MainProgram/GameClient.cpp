@@ -395,6 +395,7 @@ State GameClient::update()
 			{
 				uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 			}
+			soundManager.deleteAudio();
 			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 			return state;
 		}

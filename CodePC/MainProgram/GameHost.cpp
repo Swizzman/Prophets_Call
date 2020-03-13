@@ -416,7 +416,7 @@ State GameHost::update()
 
 			}
 
-
+			soundManager.deleteAudio();
 			//thisProphet->updateAnimation((int)ANIMATIONSPRITEROW::DIE, 2, 60);
 
 		}
