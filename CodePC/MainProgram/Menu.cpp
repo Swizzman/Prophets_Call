@@ -13,18 +13,23 @@ Menu::Menu()
 	ConnectingText.setString("Connect");
 	ConnectingText.setCharacterSize(40);
 	mainMenuText.setCharacterSize(80);
-	mainMenuText.setPosition(910 - mainMenuText.getGlobalBounds().width/2, 200);
+	mainMenuText.setPosition(910 - mainMenuText.getGlobalBounds().width / 2, 200);
 	playText.setCharacterSize(40);
-	playText.setPosition(mainMenuText.getPosition().x +(mainMenuText.getGlobalBounds().width/2 - playText.getGlobalBounds().width/2),350);
+	playText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - playText.getGlobalBounds().width / 2), 350);
 	CloseText.setCharacterSize(40);
-	ConnectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - ConnectingText.getGlobalBounds().width/2), 420);
-	CloseText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width/2 - CloseText.getGlobalBounds().width / 2), 490);
-
+	ConnectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - ConnectingText.getGlobalBounds().width / 2), 420);
+	CloseText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - CloseText.getGlobalBounds().width / 2), 490);
+	iPText.setFont(font);
+	iPText.setString("Please enter IP:");
+	iPText.setCharacterSize(40);
+	iPText.setPosition(((WIDTH / 2) - iPText.getGlobalBounds().width), ((HEIGHT / 2) - iPText.getGlobalBounds().height));
 	currentHighlightedButton = 0;
-
+	inputText.setFont(font);
+	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20,HEIGHT / 2);
+	inputText.setCharacterSize(40);
 	window.setKeyRepeatEnabled(false);
-
-
+	iPMode = false;
+	inputDone = false;
 
 	elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	timePerFrame = sf::seconds(1 / 60.f);
@@ -52,37 +57,38 @@ void Menu::handleEvents()
 		{
 			if (event.key.code == sf::Keyboard::Q)
 			{
-				
+
 				changeFullscreenMode();
 			}
 		}
-		/*if (event.type == sf::Event::KeyPressed)
+		if (event.type == sf::Event::TextEntered)
 		{
-			if (event.key.code == sf::Keyboard::W)
+			if (iPMode)
 			{
-				if (currentHighlightedButton > 0)
+				if (!inputDone)
 				{
-					currentHighlightedButton--;
+					if (event.text.unicode == 8)
+					{
+						if (!input.empty())
+						{
+							input.pop_back();
+						}
+						inputText.setString(input);
+					}
+					else if (event.text.unicode != 13)
+					{
+						input += event.text.unicode;
+						inputText.setString(input);
+
+					}
+					else
+					{
+						inputDone = true;
+					}
 				}
-				else if(currentHighlightedButton <= 0)
-				{
-					currentHighlightedButton = 1;
-				}
-				std::cout << currentHighlightedButton << std::endl;
+
 			}
-			if (event.key.code == sf::Keyboard::S)
-			{
-				if (currentHighlightedButton < 1)
-				{
-					currentHighlightedButton++;
-				}
-				else if (currentHighlightedButton >= 1)
-				{
-					currentHighlightedButton = 0;
-				}
-				std::cout << currentHighlightedButton << std::endl;
-			}
-		}*/
+		}
 
 
 
@@ -96,96 +102,81 @@ State Menu::update()
 	while (window.isOpen())
 	{
 		elapsedTimeSinceLastUpdate += clock.restart();
-		sf::Vector2f tempVec = static_cast<sf::Vector2f>(mouse.getPosition(window));
-		//sf::FloatRect fr(tempVec.x, tempVec.y,10,10);
-		//sf::FloatRect fr(mouse.getPosition().x, mouse.getPosition().y, 10, 10);
-		if (playText.getGlobalBounds().contains(tempVec))
-		{
-			playText.setFillColor(sf::Color::Yellow);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				state = State::HOST;
-			}
 
-		}
-		else
-		{
-			playText.setFillColor(sf::Color::White);
-		}
-
-		if (CloseText.getGlobalBounds().contains(tempVec))
-		{
-			CloseText.setFillColor(sf::Color::Yellow);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				window.close();
-				state = State::EXIT;
-			}
-		}
-		else
-		{
-			CloseText.setFillColor(sf::Color::White);
-		}
-		if (ConnectingText.getGlobalBounds().contains(tempVec))
-		{
-			ConnectingText.setFillColor(sf::Color::Yellow);
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			{
-				state = State::CONNECT;
-			}
-		}
-		else
-		{
-			ConnectingText.setFillColor(sf::Color::White);
-		}
-
-		
-		
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
 			elapsedTimeSinceLastUpdate -= timePerFrame;
-
-			
-		
-				/*if (currentHighlightedButton == 0)
-				{
-					playText.setFillColor(sf::Color::Yellow);
-					CloseText.setFillColor(sf::Color::White);
-					
-				}
-				else if (currentHighlightedButton == 1)
-				{
-					CloseText.setFillColor(sf::Color::Yellow);
-					playText.setFillColor(sf::Color::White);
-					
-				}*/
-		}
-		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-		{
-			if (currentHighlightedButton == 0)
+			if (inputDone)
 			{
-				state = State::PLAY;
+				iPOut.open("../datafiles/ip.txt");
+				iPOut << input;
+				state = State::CONNECT;
+			}
+			sf::Vector2f mousePos = (sf::Vector2f)mouse.getPosition(window);
+			if (playText.getGlobalBounds().contains(mousePos))
+			{
+				playText.setFillColor(sf::Color::Yellow);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					state = State::HOST;
+				}
+
+			}
+			else
+			{
+				playText.setFillColor(sf::Color::White);
 			}
 
+			if (CloseText.getGlobalBounds().contains(mousePos))
+			{
+				CloseText.setFillColor(sf::Color::Yellow);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					window.close();
+					state = State::EXIT;
+				}
+			}
+			else
+			{
+				CloseText.setFillColor(sf::Color::White);
+			}
+			if (ConnectingText.getGlobalBounds().contains(mousePos))
+			{
+				ConnectingText.setFillColor(sf::Color::Yellow);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					iPMode = true;
 
-		}*/
-		return state;
+					//state = State::CONNECT;
+				}
+			}
+			else
+			{
+				ConnectingText.setFillColor(sf::Color::White);
+			}
+			return state;
+		}
 	}
-
-
-
-	
 }
 
 void Menu::render()
 {
 	window.clear();
+	if (!iPMode)
+	{
+
 	window.draw(playText);
 	window.draw(mainMenuText);
 	window.draw(CloseText);
 	window.draw(ConnectingText);
+	}
+	else
+	{
+		window.draw(inputText);
+		window.draw(iPText);
+	}
 	window.display();
-	
-	
+
+
 }
 
