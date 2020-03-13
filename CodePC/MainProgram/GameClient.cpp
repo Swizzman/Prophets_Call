@@ -52,7 +52,7 @@ GameClient::~GameClient()
 		delete deadFollowers[i];
 	}
 	delete[] deadFollowers;
-	delete[] allFollowers;
+		delete[] allFollowers;
 }
 
 void GameClient::netWorking()
