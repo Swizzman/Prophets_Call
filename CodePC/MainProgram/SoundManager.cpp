@@ -11,7 +11,7 @@ SoundManager::SoundManager()
 	takingDamageBuffer.loadFromFile("../Sounds/hurt.wav");
 	reinforceBuffer.loadFromFile("../Sounds/reinforce.wav");
 	//sound.setBuffer(attackBuffer);
-	sound = new sf::Sound * [100]{nullptr};
+	sound = new sf::Sound * [50]{nullptr};
 }
 
 SoundManager::~SoundManager()
@@ -113,9 +113,9 @@ void SoundManager::deleteAudio()
 		{
 			if (sound[i]->getStatus() != sf::Sound::Status::Playing)
 			{
-				delete[] sound[i];
 				//sound[i] = nullptr;
 			//	cout << i << endl;
+				delete sound[i];
 				for (int b = i; b < nrOf; b++)
 				{
 					sound[b] = sound[b + 1];
