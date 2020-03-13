@@ -35,13 +35,13 @@ Prophet::Prophet() :
 	this->convertCirc.setFillColor(sf::Color::Transparent);
 	this->convertCirc.setOutlineColor(sf::Color::Red);
 	this->convertCirc.setOutlineThickness(5.f);
-	this->convertCirc.setOrigin(getPosition().x + getBounds().width/2 , getPosition().y + getBounds().height/2);
+	this->convertCirc.setOrigin(getPosition().x + getBounds().width / 2, getPosition().y + getBounds().height / 2);
 
 	//temp = new Follower * [group->capacity]{ nullptr };
 
 	currentCommandGroup = 0;
 	setPosition(100, 100);
-	
+
 
 }
 
@@ -55,7 +55,7 @@ Prophet::~Prophet()
 		//}
 
 		delete[] group[i].followers;
-		
+
 	}
 
 }
@@ -207,14 +207,14 @@ void Prophet::moveProphet()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			hDir = this->xSpeed;
-			startAnimation((int)ANIMATIONSPRITEROW::WALKINGRIGHT, 9, 10,0);
+			startAnimation((int)ANIMATIONSPRITEROW::WALKINGRIGHT, 9, 10, 0);
 			lastWalkingDirection = (int)ANIMATIONSPRITEROW::WALKINGRIGHT;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 
 			hDir = -this->xSpeed;
-			startAnimation((int)ANIMATIONSPRITEROW::WALKINGLEFT, 9, 10,0);
+			startAnimation((int)ANIMATIONSPRITEROW::WALKINGLEFT, 9, 10, 0);
 			lastWalkingDirection = (int)ANIMATIONSPRITEROW::WALKINGLEFT;
 		}
 		else
@@ -224,32 +224,32 @@ void Prophet::moveProphet()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			vDir = -this->ySpeed;
-			startAnimation((int)ANIMATIONSPRITEROW::WALKINGUP,9,10,0);
+			startAnimation((int)ANIMATIONSPRITEROW::WALKINGUP, 9, 10, 0);
 			lastWalkingDirection = (int)ANIMATIONSPRITEROW::WALKINGUP;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			vDir = this->ySpeed;
-			startAnimation((int)ANIMATIONSPRITEROW::WALKINGDOWN, 9, 10,0);
-			lastWalkingDirection =  (int)ANIMATIONSPRITEROW::WALKINGDOWN;
+			startAnimation((int)ANIMATIONSPRITEROW::WALKINGDOWN, 9, 10, 0);
+			lastWalkingDirection = (int)ANIMATIONSPRITEROW::WALKINGDOWN;
 		}
 		else
 		{
 			vDir = 0;
-		
+
 		}
 	}
 	if (hDir == 0 && vDir == 0)
 	{
 
-		startAnimation(lastWalkingDirection, 1, 30,-1);
+		startAnimation(lastWalkingDirection, 1, 30, -1);
 	}
 	updateAnimation();
 	setMovingSpeed(hDir, vDir);
 	move();
-	
-	convertCirc.setPosition(getPosition().x -convertCirc.getRadius()/2-11, getPosition().y - convertCirc.getRadius() /2-11);
-	
+
+	convertCirc.setPosition(getPosition().x - convertCirc.getRadius() / 2 - 11, getPosition().y - convertCirc.getRadius() / 2 - 11);
+
 
 }
 
@@ -302,6 +302,15 @@ int Prophet::getSouls()
 	return collectedSouls;
 }
 
+void Prophet::decreaseSouls(int amount)
+{
+	collectedSouls -= amount;
+	if (collectedSouls < 0)
+	{
+		collectedSouls = 0;
+	}
+}
+
 Follower* Prophet::getFollowers()
 {
 	for (int i = 0; i < GROUPNR; i++)
@@ -348,7 +357,7 @@ void Prophet::recieveEnemyProphet(Prophet* other)
 	{
 
 		otherProphet = other;
-		abilityMan.recievePtr(other, &group[currentCommandGroup]);
+		abilityMan.recievePtr(other, this, &group[currentCommandGroup]);
 		commandMan.recievePtr(other, &group[currentCommandGroup], this);
 	}
 }

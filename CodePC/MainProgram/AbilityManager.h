@@ -13,11 +13,13 @@ private:
 	Ability* currentAbility;
 	group* followerGroup;
 	Prophet* enemyProphet;
+	Prophet* thisProphet;
 	bool abilityActive;
 	sf::Clock clock;
 	sf::Time timePerFrame;
 	sf::Time elapsedTimeSinceLastUpdate;
 	bool reinforcementIsOn;
+	int cost;
 
 
 public:
@@ -34,7 +36,7 @@ public:
 	bool returnReinforcementBool();
 	void updateAbility(sf::Vector2f placement);
 	void placeCurrentAbility(sf::Vector2f position, int force = -1);
-	void recievePtr(Prophet* enemyPro, group* followerGroup);
+	void recievePtr(Prophet* enemyPro, Prophet* thisProphet,group* followerGroup);
 	void whileAbilityIsActive();
 	Ability* getCurrentAbility() const;
 
