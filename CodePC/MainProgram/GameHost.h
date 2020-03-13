@@ -9,6 +9,8 @@
 #include "Server.h"
 #include <SFML/System.hpp>
 #include <thread>
+#include "Background.h"
+
 
 class GameHost :
 	public GameState
@@ -32,7 +34,9 @@ private:
 	Follower** deadFollowers;
 	int deadCap;
 	int nrOfDead;
-	
+	Background background;
+	SoundManager soundManager;
+
 	void expand(Follower** arr, int &cap, int nrOf);
 public:
 	GameHost();

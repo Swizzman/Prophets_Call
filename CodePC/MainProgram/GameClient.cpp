@@ -255,23 +255,23 @@ State GameClient::update()
 							{
 								otherProphet->removeFollower(allFollowers[i]);
 
-						}
-						else
-						{
-							thisProphet->removeFollower(allFollowers[i]);
-							for (int i = 0; i < 3; i++)
-							{
-								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 							}
-							soundManager.death();
-						}
-						if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
-						{
-							cout << "taking damage" << endl;
-							soundManager.takeDamage();
-						}
-						//allFollowers[i]->switchTexture("soul.png ");
-						cout << "Follower " << i << " died\n";
+							else
+							{
+								thisProphet->removeFollower(allFollowers[i]);
+								for (int i = 0; i < 3; i++)
+								{
+									uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+								}
+								soundManager.death();
+							}
+							if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+							{
+								cout << "taking damage" << endl;
+								soundManager.takeDamage();
+							}
+							//allFollowers[i]->switchTexture("soul.png ");
+							cout << "Follower " << i << " died\n";
 
 						}
 						if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
@@ -315,90 +315,91 @@ State GameClient::update()
 						allFollowers[i] = new Follower();
 						allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 
-			}
-			if (thisProphet->getCurAbil() != nullptr)
-			{
-				if (thisProphet->getIfSoundBoolIsActive())
-				{
-					cout << "activate" << endl;
-					if (thisProphet->getCurrentAbility() == 0)
-					{
-						soundManager.bomb();
 					}
-					else if (thisProphet->getCurrentAbility() == 1)
+					if (thisProphet->getCurAbil() != nullptr)
 					{
-						soundManager.healthRegen();
+						if (thisProphet->getIfSoundBoolIsActive())
+						{
+							cout << "activate" << endl;
+							if (thisProphet->getCurrentAbility() == 0)
+							{
+								soundManager.bomb();
+							}
+							else if (thisProphet->getCurrentAbility() == 1)
+							{
+								soundManager.healthRegen();
+							}
+							else
+							{
+								soundManager.reinforce();
+							}
+
+						}
+					}
+					if (thisProphet->getIfAbilityIsActive())
+					{
+
+						thisProphet->timerForAbility();
+
 					}
 					else
 					{
-						soundManager.reinforce();
-					}
+						if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+						{
+							thisProphet->endingReinforcementAbility();
 
+						}
+						abilityplaced = false;
+
+
+					}
+					if (otherProphet->getIfAbilityIsActive())
+					{
+
+						otherProphet->timerForAbility();
+
+					}
+					else
+					{
+						if (otherProphet->getCurrentAbility() == 2 && otherProphet->returnReinforceBool())
+						{
+							otherProphet->endingReinforcementAbility();
+
+						}
+
+
+					}
+					//Check conversion and start if key is pressed
+					if (converting)
+					{
+						thisProphet->convert(allFollowers, nrOfTotalFollowers);
+
+					}
+					else
+					{
+						thisProphet->resetClock();
+					}
+					if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
+					{
+						uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
+
+						uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+
+						//uiManager.setUpFps();
+
+
+					}
 				}
 			}
-			if (thisProphet->getIfAbilityIsActive())
+			for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
 			{
-
-					thisProphet->timerForAbility();
-
-				}
-				else
-				{
-					if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
-					{
-						thisProphet->endingReinforcementAbility();
-
-					}
-					abilityplaced = false;
-
-
-				}
-				if (otherProphet->getIfAbilityIsActive())
-				{
-
-					otherProphet->timerForAbility();
-
-				}
-				else
-				{
-					if (otherProphet->getCurrentAbility() == 2 && otherProphet->returnReinforceBool())
-					{
-						otherProphet->endingReinforcementAbility();
-
-					}
-
-
-				}
-				//Check conversion and start if key is pressed
-				if (converting)
-				{
-					thisProphet->convert(allFollowers, nrOfTotalFollowers);
-
-				}
-				else
-				{
-					thisProphet->resetClock();
-				}
-				if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
-				{
-					uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
-
-					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-
-					//uiManager.setUpFps();
-
-
-				}
+				uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 			}
+			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
+			return state;
 		}
-		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
-		{
-			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
-		}
-		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
-		return state;
-	}
 
+	}
 }
 
 void GameClient::render()

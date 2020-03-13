@@ -280,7 +280,14 @@ State GameHost::update()
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 							}
 						}
+						soundManager.death();
 					}
+					if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+					{
+						cout << "taking damage" << endl;
+						soundManager.takeDamage();
+					}
+
 					allFollowers[i]->checkCivMove();
 					if (otherProphet != nullptr)
 					{
@@ -334,6 +341,26 @@ State GameHost::update()
 			if (activeClient)
 			{
 
+				if (thisProphet->getCurAbil() != nullptr)
+				{
+					if (thisProphet->getIfSoundBoolIsActive())
+					{
+						cout << "activate" << endl;
+						if (thisProphet->getCurrentAbility() == 0)
+						{
+							soundManager.bomb();
+						}
+						else if (thisProphet->getCurrentAbility() == 1)
+						{
+							soundManager.healthRegen();
+						}
+						else
+						{
+							soundManager.reinforce();
+						}
+
+					}
+				}
 				if (thisProphet->getIfAbilityIsActive())
 				{
 
