@@ -314,17 +314,14 @@ void AbilityManager::whileAbilityIsActive()
 		{
 			if (!currentAbility->getDummy())
 			{
-
 				if (currentAbility->abilityEffectPulse())
 				{
 					for (int a = 0; a < 3; a++)
 					{
-
 						for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 						{
 							if (followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility())
 							{
-
 								followerGroup[a].followers[i]->takeDamage(-currentAbility->getSpecificVar());
 							}
 						}
