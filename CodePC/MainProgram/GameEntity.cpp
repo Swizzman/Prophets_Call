@@ -490,6 +490,8 @@ void GameEntity::followerDied()
 		alive = false;
 		textureRect.left = 0;
 		textureRect.top = 0;
+		textureRect.width = 50;
+		textureRect.height = 71;
 		sprite.setTextureRect(textureRect);
 	}
 }

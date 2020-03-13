@@ -153,8 +153,13 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
-				abilityplaced = true;
-				server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+				if (thisProphet->getIfAbilityIsActive())
+				{
+					thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+
+					server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+					abilityplaced = true;
+				}
 
 				break;
 			case sf::Keyboard::Tab:
@@ -173,11 +178,6 @@ void GameHost::handleEvents()
 			case sf::Keyboard::Enter:
 				changeFullscreenMode();
 				break;
-				//case  sf::Keyboard::Escape:
-				//	
-				//		window.close();
-				//		std::exit(0);
-				//		break;
 
 			default:
 				break;
@@ -206,9 +206,9 @@ void GameHost::handleEvents()
 					thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
 
 					server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+					abilityplaced = true;
 				}
 
-				abilityplaced = true;
 				break;
 			default:
 				break;
