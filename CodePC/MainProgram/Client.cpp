@@ -1,9 +1,13 @@
 #include "Client.h"
+#include <fstream>
 
 Client::Client()
 {
-	iP = ("25.74.9.3");
+	std::ifstream iPIn;
+	iPIn.open("../datafiles/ip.txt");
 	iP = sf::IpAddress::LocalHost;
+	iPIn >> iP;
+	std::cout << iP << std::endl;
 	connected = false;
 }
 
