@@ -22,6 +22,7 @@
     <ClCompile Include="Ability.cpp" />
     <ClCompile Include="AbilityManager.cpp" />
     <ClCompile Include="AttackProphet.cpp" />
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Closest.cpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="AbilityManager.h" />
     <ClInclude Include="ANIMATIONSPRITEROW.h" />
     <ClInclude Include="AttackProphet.h" />
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Closest.h" />

@@ -447,6 +447,18 @@ Ability* Prophet::getCurAbil() const
 	}
 }
 
+bool Prophet::getIfSoundBoolIsActive() 
+{
+	if (otherProphet != nullptr)
+	{
+		return abilityMan.getActivateSoundBool();
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 
 void Prophet::aFollowerGotKilled(int whichFollower)
@@ -529,7 +541,7 @@ void Prophet::addFollower(Follower* follower)
 	bool added = false;
 	for (int i = 0; i < GROUPNR && !added; i++)
 	{
-		std::cout << "Follower Added\n";
+		//std::cout << "Follower Added\n";
 
 		if (group[i].nrOfFollowers < group[i].capacity)
 		{

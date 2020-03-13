@@ -1,8 +1,9 @@
 #include "Regen.h"
 
-Regen::Regen(bool dummy) :Ability("Regen.png", 100,1, 0.2f, dummy)
+Regen::Regen(bool dummy) :Ability("Regen.png", 100, 2.11f, 0.7f, dummy)
 {
-	this->health = 10;
+	this->health = 15;
+	activateSound = false;
 
 }
 
@@ -29,6 +30,19 @@ int Regen::getSpecificVar()
 void Regen::placeAbility(sf::Vector2f position)
 {
 	setPosition(position);
+}
+
+bool Regen::makeSound()
+{
+
+	return activateSound;
+	//changeSoundBool(false);
+	//cout << "Testing sound bool " << activateSound << endl;
+}
+
+void Regen::changeSoundBool(bool soundBool)
+{
+	activateSound = soundBool;
 }
 
 

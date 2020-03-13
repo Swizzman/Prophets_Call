@@ -255,17 +255,23 @@ State GameClient::update()
 							{
 								otherProphet->removeFollower(allFollowers[i]);
 
-							}
-							else
+						}
+						else
+						{
+							thisProphet->removeFollower(allFollowers[i]);
+							for (int i = 0; i < 3; i++)
 							{
-								thisProphet->removeFollower(allFollowers[i]);
-								for (int i = 0; i < 3; i++)
-								{
-									uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-								}
+								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 							}
-							//allFollowers[i]->switchTexture("soul.png ");
-							cout << "Follower " << i << " died\n";
+							soundManager.death();
+						}
+						if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+						{
+							cout << "taking damage" << endl;
+							soundManager.takeDamage();
+						}
+						//allFollowers[i]->switchTexture("soul.png ");
+						cout << "Follower " << i << " died\n";
 
 						}
 						if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
@@ -309,11 +315,29 @@ State GameClient::update()
 						allFollowers[i] = new Follower();
 						allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 
-					}
-				}
-
-				if (thisProphet->getIfAbilityIsActive())
+			}
+			if (thisProphet->getCurAbil() != nullptr)
+			{
+				if (thisProphet->getIfSoundBoolIsActive())
 				{
+					cout << "activate" << endl;
+					if (thisProphet->getCurrentAbility() == 0)
+					{
+						soundManager.bomb();
+					}
+					else if (thisProphet->getCurrentAbility() == 1)
+					{
+						soundManager.healthRegen();
+					}
+					else
+					{
+						soundManager.reinforce();
+					}
+
+				}
+			}
+			if (thisProphet->getIfAbilityIsActive())
+			{
 
 					thisProphet->timerForAbility();
 
@@ -381,6 +405,7 @@ void GameClient::render()
 {
 	window.clear();
 
+	window.draw(background);
 	window.draw(*thisProphet);
 	if (otherProphet != nullptr)
 	{
