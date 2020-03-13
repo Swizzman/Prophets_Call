@@ -25,6 +25,7 @@ public:
 	void sendAbilPlace(sf::Vector2f pos, int type);
 	void sendFollowerAnim(int index, int column, int row);
 	void sendProphetAnim(int column, int row);
+	void sendSoulCollected(int index);
 	Packet recieveAPacket();
 };
 

@@ -52,7 +52,6 @@ bool Ability::abilityLifeTime()
 	elapsedTimeSinceLastUpdate += clock.restart();
 	if (elapsedTimeSinceLastUpdate.asSeconds() > activeTime)
 	{
-		cout << "turn of ability" << endl;
 		//delete[]currentAbility
 
 		
@@ -77,7 +76,6 @@ bool Ability::abilityEffectPulse()
 	{
 	
 		
-		cout << "turn down Damage Timer" << endl;
 
 		TimeBetweenAbilityPulse = sf::Time::Zero;
 		return true;

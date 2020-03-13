@@ -30,9 +30,7 @@ private:
 	int maxHealth;
 	bool isInRangeOfAbility;
 	bool alive;
-
-
-
+	bool deathNotify;
 	int animationTimer;
 	int currentColummn;
 	int currentRow;
@@ -69,6 +67,8 @@ public:
 	//void attackCooldown();
 	bool getAttackBool();
 	bool getAttackNotify() const;
+	bool getDeathNotify() const;
+	void otherDeathNotify();
 	void otherAttackNotified();
 	void attack(GameEntity *enemy, int damage);
 	void move();

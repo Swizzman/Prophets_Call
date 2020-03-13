@@ -1,12 +1,28 @@
 #include "GameClient.h"
 
+void GameClient::expand(Follower** arr, int& cap, int nrOf)
+{
+	cap += 10;
+	Follower** temp = new Follower * [cap] {nullptr};
+	for (int i = 0; i < nrOf; i++)
+	{
+		temp[i] = arr[i];
+	}
+	delete[] arr;
+	arr = temp;
+}
+
 GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 {
 	thisProphet = new Prophet();
 	otherProphet = nullptr;
+	nrOfDead = 0;
+	deadCap = 30; 
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
+	deadFollowers = new Follower * [deadCap] {nullptr};
+
 	for (int i = 0; i < followerCap; i++)
 	{
 		allFollowers[i] = new Follower();
@@ -31,6 +47,11 @@ GameClient::~GameClient()
 	{
 		delete allFollowers[i];
 	}
+	for (int i = 0; i < nrOfDead; i++)
+	{
+		delete deadFollowers[i];
+	}
+	delete[] deadFollowers;
 	delete[] allFollowers;
 }
 
@@ -44,7 +65,7 @@ void GameClient::netWorking()
 		thisProphet->recieveEnemyProphet(otherProphet);
 		otherProphet->recieveEnemyProphet(thisProphet);
 		Packet packet;
-		while (client.getConnected() && nrOfTotalFollowers <=followerCap)
+		while (client.getConnected() && nrOfTotalFollowers <= followerCap)
 		{
 			packet = client.recieveAPacket();
 			if (packet.type == 1)
@@ -79,7 +100,6 @@ void GameClient::netWorking()
 			else if (packet.type == 6)
 			{
 				thisProphet->setHealth(packet.health);
-				std::cout << thisProphet->getHealth() << std::endl;
 			}
 			else if (packet.type == 7)
 			{
@@ -99,6 +119,14 @@ void GameClient::netWorking()
 			else if (packet.type == 9)
 			{
 				otherProphet->setAnimation(packet.column, packet.row);
+			}
+			else if (packet.type == 10)
+			{
+				//delete allFollowers[packet.index];					
+				deadFollowers[nrOfDead] = allFollowers[packet.index];
+				nrOfDead++;
+				allFollowers[packet.index] = new Follower();
+				allFollowers[packet.index]->placeFollower(WIDTH, HEIGHT);
 			}
 		}
 	}
@@ -197,6 +225,10 @@ State GameClient::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
+			if (deadCap - nrOfDead < 4)
+			{
+				expand(deadFollowers, deadCap, nrOfDead);
+			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			//Move the playerProphet
 			thisProphet->moveProphet();
@@ -210,49 +242,75 @@ State GameClient::update()
 
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
-				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
+				if (allFollowers[i] != nullptr)
 				{
 
-					allFollowers[i]->die();
-					thisProphet->removeFollower(allFollowers[i]);
-					otherProphet->removeFollower(allFollowers[i]);
-					for (int i = 0; i < 3; i++)
+					if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
 					{
-						uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-					}
-					soundManager.death();
-				}
-				if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
-				{
-					cout << "taking damage" << endl;
-					soundManager.takeDamage();
-				}
-				if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
-				{
-					allFollowers[i]->checkCivMove();
-				}
-				if (allFollowers[i]->getOtherNotified())
-				{
-					client.sendConverted(i);
-					allFollowers[i]->otherIsNotified();
-				}
-				if (!allFollowers[i]->getConvertedByOther() && allFollowers[i]->getConverted())
-				{
-					client.sendFollowerPos(allFollowers[i]->getPosition(), i);
-					client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
-				}
-				if (allFollowers[i]->getAttackNotify())
-				{
-					allFollowers[i]->otherAttackNotified();
-					client.sendFollowerDamage(i, allFollowers[i]->getHealth());
+						allFollowers[i]->die();
+						if (allFollowers[i]->getConvertedByOther())
+						{
+							otherProphet->removeFollower(allFollowers[i]);
 
+						}
+						else
+						{
+							thisProphet->removeFollower(allFollowers[i]);
+							for (int i = 0; i < 3; i++)
+							{
+								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+							}
+							soundManager.death();
+						}
+						if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+						{
+							cout << "taking damage" << endl;
+							soundManager.takeDamage();
+						}
+						//allFollowers[i]->switchTexture("soul.png ");
+						cout << "Follower " << i << " died\n";
+
+					}
+					if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
+					{
+						if (allFollowers[i]->isAlive())
+						{
+							allFollowers[i]->checkCivMove();
+
+							client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+							client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
+						}
+					}
+					if (allFollowers[i]->getOtherNotified())
+					{
+						client.sendConverted(i);
+						allFollowers[i]->otherIsNotified();
+					}
+
+					if (allFollowers[i]->getAttackNotify())
+					{
+						allFollowers[i]->otherAttackNotified();
+						client.sendFollowerDamage(i, allFollowers[i]->getHealth());
+
+					}
+					if (otherProphet->getAttackNotify())
+					{
+						otherProphet->otherAttackNotified();
+						client.sendProphetDamage(otherProphet->getHealth());
+					}
+					if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
+					{
+						thisProphet->collectSouls(allFollowers[i]);
+					}
 				}
-				if (otherProphet->getAttackNotify())
+				if (allFollowers[i]->getSoulCollected())
 				{
-					otherProphet->otherAttackNotified();
-					std::cout << otherProphet->getHealth() << std::endl;
-					client.sendProphetDamage(otherProphet->getHealth());
-				}
+					client.sendSoulCollected(i);
+					//delete allFollowers[i];
+					deadFollowers[nrOfDead] = allFollowers[i];
+					nrOfDead++;
+					allFollowers[i] = new Follower();			
+					allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 
 			}
 			if (thisProphet->getCurAbil() != nullptr)
@@ -320,11 +378,10 @@ State GameClient::update()
 			}
 			if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
 			{
-				//cout << thisProphet->getNrOfFollowers() << endl;
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
-			
-					uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-				
+
+				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+
 				//uiManager.setUpFps();
 
 
@@ -372,11 +429,13 @@ void GameClient::render()
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{
-		if (allFollowers[i] != nullptr)
+
+		if (!allFollowers[i]->getSoulCollected())
 		{
 
 			window.draw(*allFollowers[i]);
 		}
+
 	}
 	uiManager.drawUI(window);
 	window.display();

@@ -7,13 +7,12 @@ void Follower::die()
 	alive = false;
 	switchTexture("soul.png ");
 	followerDied();
-//	cout << "I am dead please tell my wife and children I hate them" << endl;
-	
+
 
 
 }
 
-Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 100, false) 
+Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 100, false)
 {
 	windowHeight = 0;
 	windowWidth = 0;
@@ -25,12 +24,11 @@ Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 100, false)
 	converted = false;
 	convertedByOther = false;
 	otherNotified = false;
+	soulCollected = false;
 	maxTime = rand() % 6000 + 2000;
 	convertedAmount = 0;
-	//textureRect = sf::IntRect(0, 0, 64, 64);
 	
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
-	test = 0;
 	this->canAttack = true;
 	followerRange = 100;
 	attackCooldownTime = 2;
@@ -160,6 +158,21 @@ int Follower::inflictDamage()
 	}
 }
 
+int Follower::getSoulValue() const
+{
+	return soulValue;
+}
+
+void Follower::setSoulCollected()
+{
+	soulCollected = true;
+}
+
+bool Follower::getSoulCollected() const
+{
+	return soulCollected;
+}
+
 void Follower::attackCooldown()
 {
 	if (isAlive())
@@ -229,10 +242,9 @@ void Follower::otherConvert()
 
 void Follower::otherIsNotified()
 {
-	if (isAlive())
-	{
-		otherNotified = false;
-	}
+
+	otherNotified = false;
+
 }
 
 bool Follower::getOtherNotified() const
@@ -259,11 +271,11 @@ int Follower::getConvertedAmount() const
 
 void Follower::Collided(GameEntity* other)
 {
- 
+
 	if (!converted)
 	{
 
-		
+
 
 
 		//if (this->getMovingSpeedY() == 0 && this->getMovingSpeedX() == 0)
@@ -313,7 +325,7 @@ void Follower::Collided(GameEntity* other)
 		//updateAnimation();
 
 	}
-	
+
 
 }
 
