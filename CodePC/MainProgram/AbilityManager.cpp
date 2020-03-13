@@ -16,6 +16,7 @@ AbilityManager::AbilityManager()
 	this->makeASoundBool = false;
 	this->soundCounter = 0;
 	this->cost = 0;
+	thisProphet = nullptr;
 }
 
 AbilityManager::~AbilityManager()

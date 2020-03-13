@@ -36,9 +36,9 @@ Prophet::Prophet() :
 	this->convertCirc.setOutlineColor(sf::Color::Red);
 	this->convertCirc.setOutlineThickness(5.f);
 	this->convertCirc.setOrigin(getPosition().x + getBounds().width / 2, getPosition().y + getBounds().height / 2);
-
-	//temp = new Follower * [group->capacity]{ nullptr };
-
+	this->abilityActive = false;
+	this->abilityAnimation = false;
+	this->lastWalkingDirection = 0;
 	currentCommandGroup = 0;
 	setPosition(100, 100);
 
@@ -353,7 +353,7 @@ Follower** Prophet::getAllFollowers(int thisGroup)
 
 void Prophet::recieveEnemyProphet(Prophet* other)
 {
-	if (other != nullptr)
+	if (other != nullptr && this !=nullptr)
 	{
 
 		otherProphet = other;

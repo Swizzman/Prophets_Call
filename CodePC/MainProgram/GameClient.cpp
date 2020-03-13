@@ -12,8 +12,9 @@ void GameClient::expand(Follower** arr, int& cap, int nrOf)
 	arr = temp;
 }
 
-GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
+GameClient::GameClient() : networkThread{}
 {
+	std::cout << "Constructing things\n";
 	thisProphet = new Prophet();
 	otherProphet = nullptr;
 	nrOfDead = 0;
@@ -37,6 +38,8 @@ GameClient::GameClient() : networkThread(&GameClient::netWorking, this)
 	//otherProphet->recieveEnemyProphet(thisProphet);
 	converting = false;
 	abilityplaced = false;
+	soundManager = new SoundManager();
+	networkThread = std::thread(&GameClient::netWorking, this);
 }
 
 GameClient::~GameClient()
@@ -263,12 +266,12 @@ State GameClient::update()
 								{
 									uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 								}
-								soundManager.death();
+								soundManager->death();
 							}
 							if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
 							{
 								cout << "taking damage" << endl;
-								soundManager.takeDamage();
+								soundManager->takeDamage();
 							}
 							//allFollowers[i]->switchTexture("soul.png ");
 							cout << "Follower " << i << " died\n";
@@ -323,15 +326,15 @@ State GameClient::update()
 							cout << "activate" << endl;
 							if (thisProphet->getCurrentAbility() == 0)
 							{
-								soundManager.bomb();
+								soundManager->bomb();
 							}
 							else if (thisProphet->getCurrentAbility() == 1)
 							{
-								soundManager.healthRegen();
+								soundManager->healthRegen();
 							}
 							else
 							{
-								soundManager.reinforce();
+								soundManager->reinforce();
 							}
 
 						}
@@ -395,7 +398,7 @@ State GameClient::update()
 			{
 				uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 			}
-			soundManager.deleteAudio();
+			soundManager->deleteAudio();
 			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 			return state;
 		}

@@ -44,7 +44,6 @@ private:
 	bool abilityActive;
 	sf::Vector2f getCircCenter() const;
 	int currentCommandGroup;
-	int nrOfCivs;
 
 	bool abilityAnimation;
 	int lastWalkingDirection;

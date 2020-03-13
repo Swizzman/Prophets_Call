@@ -20,7 +20,6 @@ private:
 	Follower** allFollowers;
 	UIManager uiManager;
 	int nrOfTotalFollowers;
-	sf::RectangleShape lel;
 	int followerCap;
 	sf::Clock clock;
 	sf::Time timePerFrame;
@@ -34,7 +33,7 @@ private:
 	int deadCap;
 	int nrOfDead; 
 	Background background;
-	SoundManager soundManager;
+	SoundManager* soundManager;
 	
 	void expand(Follower** arr, int& cap, int nrOf);
 public:
