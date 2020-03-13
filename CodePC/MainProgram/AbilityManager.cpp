@@ -13,6 +13,7 @@ AbilityManager::AbilityManager()
 	this->chosenAbility = 0;
 	this->abilityActive = false;
 	reinforcementIsOn = false;
+	this->cost = 0;
 }
 
 AbilityManager::~AbilityManager()
@@ -214,17 +215,33 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		{
 
 		case 0:
-			currentAbility = new Bomb(false);
+			cost = 100;
+			if (thisProphet->getSouls() > cost)
+			{
+				currentAbility = new Bomb(false);
+			}
 			break;
 		case 1:
-			currentAbility = new Regen(false);
+			cost = 70;
+			if (thisProphet->getSouls() > cost)
+			{
+				currentAbility = new Regen(false);
+				
+			}
 			break;
 		case 2:
-			currentAbility = new Reinforcement(false);
+			cost = 30;
+			if (thisProphet->getSouls() > cost)
+			{
+
+				currentAbility = new Reinforcement(false);
+			}
 			break;
 		default:
 			break;
 		}
+		thisProphet->decreaseSouls(cost);
+		cost = 0;
 	}
 	else
 	{
@@ -252,10 +269,11 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 	}
 }
 
-void AbilityManager::recievePtr(Prophet* enemyPro, group* followerGroup)
+void AbilityManager::recievePtr(Prophet* enemyPro, Prophet* thisProphet, group* followerGroup)
 {
 	enemyProphet = enemyPro;
 	this->followerGroup = followerGroup;
+	this->thisProphet = thisProphet;
 }
 
 void AbilityManager::whileAbilityIsActive()

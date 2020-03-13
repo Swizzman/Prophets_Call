@@ -55,20 +55,15 @@ UIManager::UIManager()
 		this->cs[i]->nummberOfFollowersInGroup = 0;
 
 	}
-	//this->fps[0] = new followerPortraitStruct();
-	//this->fps[0]->followerImage.setTexture(followerProfileTexture[0]);
-//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthText.setFont(font);
 
 	canDrawPortrait = false;
 
 	currentCommandControll = 0;
-	//setUpPp();
 
 }
 
 UIManager::~UIManager()
 {
-	//std::cout << numberOfFollowers << std::endl;
 	
 	for (int i = 0; i < numberOfFollowers; i++)
 	{
@@ -97,8 +92,7 @@ void UIManager::setUpCS()
 
 		for (int a = 0; a < 4; a++)
 		{
-			//this->cs[i]->commandRec[a].setSize(sf::Vector2f(250, 50));
-		//	this->cs[i]->commandRec[a].setPosition(1920 - 250, 100+ 50*a +(250*i));
+
 			this->cs[i]->commandRec[a].setSize(sf::Vector2f(250, 35));
 			this->cs[i]->commandRec[a].setPosition(1920 - 250, 100 + 35 * a + (250 * i) + 4 * a);
 			this->cs[i]->commandRec[a].setOutlineThickness(4);
@@ -120,8 +114,6 @@ void UIManager::setUpCS()
 		for (int a = 0; a < 3; a++)
 		{
 			cs[i]->nummberText[a].setCharacterSize(20);
-			//cs[i]->nummberText[a].setPosition(cs[i]->nummberOfFollowerRec.getPosition().x+5 +11*a, cs[i]->nummberOfFollowerRec.getPosition().y  );
-
 		}
 		cs[i]->nummberText[1].setCharacterSize(30);
 		cs[i]->nummberText[0].setString("0");
@@ -228,9 +220,9 @@ void UIManager::setUpPp(int health)
 
 
 
-	this->abilityNames[0].setString(" Bomb			       Cost 50");
+	this->abilityNames[0].setString(" Bomb			      Cost 100");
 	this->abilityNames[1].setString(" Regen				  Cost 70");
-	this->abilityNames[2].setString(" Reinforcement	Cost 100");
+	this->abilityNames[2].setString(" Reinforcement	Cost 30");
 	for (int i = 0; i < 3; i++)
 	{
 		this->abilityRec[i].setSize(sf::Vector2f(360, 66));

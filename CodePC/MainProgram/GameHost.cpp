@@ -201,8 +201,12 @@ void GameHost::handleEvents()
 			case sf::Mouse::Right:
 
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
-				thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
-				server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+				if (thisProphet->getIfAbilityIsActive())
+				{
+					thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+
+					server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+				}
 
 				abilityplaced = true;
 				break;

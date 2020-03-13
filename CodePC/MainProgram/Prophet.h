@@ -62,6 +62,7 @@ public:
 	void collectSouls(Follower* follower);
 	void placeAbil(sf::Vector2f position,int force = -1);
 	int getSouls();
+	void decreaseSouls(int amount);
 	Follower* getFollowers();
 	Follower& getASingleFollower(int whichOne);
 	Follower** getAllFollowers(int thisGroup);
