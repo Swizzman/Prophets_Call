@@ -13,6 +13,8 @@ AbilityManager::AbilityManager()
 	this->chosenAbility = 0;
 	this->abilityActive = false;
 	reinforcementIsOn = false;
+	this->makeASoundBool = false;
+	this->soundCounter = 0;
 }
 
 AbilityManager::~AbilityManager()
@@ -64,17 +66,43 @@ void AbilityManager::startAbility()
 
 void AbilityManager::stopAbility()
 {
+
+	
 	abilityActive = currentAbility->abilityLifeTime();
+	/*if (abilityActive == false)
+	{
+		currentAbility->changeSoundBool(true);
+		abilityActive = true;
+	}
+	if (abilityActive == true && currentAbility->makeSound())
+	{
+		abilityActive = false;
+	}*/
+
+
 	if (abilityActive == false)
 	{
+
 		currentAbility->resetClock();
+		if (currentAbility->getDummy())
+		{
+			
+			if (chosenAbility == 0)
+			{
+				soundCounter = 0;
+				currentAbility->changeSoundBool(true);
+				makeASoundBool = currentAbility->makeSound();
+			}
+		}
 		if (!currentAbility->getDummy())
 		{
 			if (chosenAbility == 0)
 			{
-
-
-
+				soundCounter = 0;
+				currentAbility->changeSoundBool(true);
+				makeASoundBool = currentAbility->makeSound();
+				
+				
 				for (int a = 0; a < 3; a++)
 				{
 
@@ -119,6 +147,7 @@ void AbilityManager::stopAbility()
 						//enemyProphet->touchedByAbility(true);
 					}
 				}
+				
 			}
 
 
@@ -155,7 +184,7 @@ void AbilityManager::stopReinforceAbility()
 	{
 		if (currentAbility->abilityEffectPulse())
 		{
-
+			
 			if (!currentAbility->getDummy())
 			{
 
@@ -170,7 +199,8 @@ void AbilityManager::stopReinforceAbility()
 
 						if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true)
 						{
-
+							//currentAbility->changeSoundBool(true);
+							//makeASoundBool = currentAbility->makeSound();
 
 							followerGroup[a].followers[i]->touchedByAbility(false);
 							followerGroup[a].followers[i]->returnDamage();
@@ -312,6 +342,7 @@ void AbilityManager::whileAbilityIsActive()
 		}
 		if (chosenAbility == 1)
 		{
+			
 			if (!currentAbility->getDummy())
 			{
 
@@ -322,10 +353,11 @@ void AbilityManager::whileAbilityIsActive()
 
 						for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 						{
+								currentAbility->changeSoundBool(true);
+								makeASoundBool = currentAbility->makeSound();
 							if (followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility())
 							{
-
-								followerGroup[a].followers[i]->takeDamage(-currentAbility->getSpecificVar());
+								followerGroup[a].followers[i]->gainHealth(currentAbility->getSpecificVar());
 							}
 						}
 					}
@@ -340,6 +372,34 @@ void AbilityManager::whileAbilityIsActive()
 
 	}
 
+}
+
+bool AbilityManager::getActivateSoundBool()
+{
+	
+	/*if (makeASoundBool == true)
+	{
+
+		stopSoundFunction = true;
+		return currentAbility->makeSound();
+	}
+	else
+	{
+		return false;
+	}*/
+
+	if (makeASoundBool == true)
+	{
+		soundCounter++;
+	}
+	if (soundCounter > 1)
+	{
+		makeASoundBool = false;
+		soundCounter = 0;
+	}
+	//cout << "regenSound" << endl;
+	return makeASoundBool;
+	//cout << "aaaaa" << endl;
 }
 
 Ability* AbilityManager::getCurrentAbility() const
