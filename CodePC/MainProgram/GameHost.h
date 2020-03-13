@@ -9,6 +9,8 @@
 #include "Server.h"
 #include <SFML/System.hpp>
 #include <thread>
+#include "Background.h"
+
 
 class GameHost :
 	public GameState
@@ -31,6 +33,10 @@ private:
 	sf::Mouse mouse;
 	std::thread netWorkThread;
 	sf::Vector2f tempVec;
+	Background background;
+	SoundManager soundManager;
+
+
 public:
 	GameHost();
 	void networking();

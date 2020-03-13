@@ -6,6 +6,7 @@
 #include "ANIMATIONSPRITEROW.h"
 #include "FOLLOWERSPRITEROW.h"
 
+
 using namespace std;
 class GameEntity : public sf::Drawable
 {
@@ -15,6 +16,7 @@ private:
 	int movingSpeedX;
 	int movingSpeedY;
 	int health;
+	int healthLastFrame;
 	bool canAttack;
 	bool attackNotify;
 	string textureName;
@@ -28,6 +30,8 @@ private:
 	int maxHealth;
 	bool isInRangeOfAbility;
 	bool alive;
+
+
 
 	int animationTimer;
 	int currentColummn;
@@ -61,6 +65,7 @@ public:
 	int getHealth();
 	void setHealth(int health);
 	void gainHealth(int health);
+	bool hasLostHealth();
 	//void attackCooldown();
 	bool getAttackBool();
 	bool getAttackNotify() const;

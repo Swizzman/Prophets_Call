@@ -6,6 +6,8 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
 	thisProphet = new Prophet();
 	otherProphet = nullptr;
+	
+	
 	followerCap = 30;
 	nrOfTotalFollowers = 0;
 	allFollowers = new Follower * [followerCap] { nullptr };
@@ -25,16 +27,18 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	//otherProphet = new Prophet();
-	//thisProphet->recieveEnemyProphet(otherProphet);
-	//otherProphet->recieveEnemyProphet(thisProphet);
-	//activeClient = true;
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	activeClient = true;
+
+	//soundManager.resize(30);
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -132,6 +136,7 @@ void GameHost::handleEvents()
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
 				abilityplaced = true;
 				server.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+				thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
 
 				break;
 			case sf::Keyboard::Tab:
@@ -238,9 +243,9 @@ State GameHost::update()
 				//	{
 				//		allFollowers[i]->Collided(allFollowers[a]);
 				//	}
-
-
 				//}
+
+
 				if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
 				{
 
@@ -251,6 +256,18 @@ State GameHost::update()
 					{
 						uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 					}
+					
+					soundManager.death();
+						
+				}
+				if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+				{
+					
+					soundManager.takeDamage();
+				}
+				if (thisProphet->hasLostHealth() == true ||otherProphet->hasLostHealth() == true)
+				{
+					soundManager.takeDamage();
 				}
 				allFollowers[i]->checkCivMove();
 				if (otherProphet != nullptr)
@@ -289,9 +306,30 @@ State GameHost::update()
 			if (activeClient)
 			{
 
+					if (thisProphet->getCurAbil() != nullptr  )
+					{
+						if (thisProphet->getIfSoundBoolIsActive())
+						{
+							cout << "activate" << endl;
+							if (thisProphet->getCurrentAbility() == 0)
+							{
+								soundManager.bomb();
+							}
+							else if(thisProphet->getCurrentAbility() == 1)
+							{
+								soundManager.healthRegen();
+							}
+							else
+							{
+								soundManager.reinforce();
+							}
+
+						}
+					}
 				if (thisProphet->getIfAbilityIsActive())
 				{
 
+					
 					thisProphet->timerForAbility();
 
 				}
@@ -326,7 +364,7 @@ State GameHost::update()
 				if (converting)
 				{
 					thisProphet->convert(allFollowers, nrOfTotalFollowers);
-
+				
 
 				}
 				else
@@ -346,6 +384,7 @@ State GameHost::update()
 
 
 			//thisProphet->updateAnimation((int)ANIMATIONSPRITEROW::DIE, 2, 60);
+			soundManager.deleteAudio();
 
 		}
 		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
@@ -368,6 +407,7 @@ void GameHost::render()
 {
 	window.clear();
 
+	window.draw(background);
 	window.draw(*thisProphet);
 	if (otherProphet != nullptr)
 	{

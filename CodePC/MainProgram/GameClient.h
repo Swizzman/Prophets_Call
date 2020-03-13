@@ -8,6 +8,8 @@
 #include "Menu.h"
 #include "Client.h"
 #include <thread>
+#include "Background.h"
+
 
 class GameClient :
 	public GameState
@@ -28,6 +30,8 @@ private:
 	Client client;
 	sf::Mouse mouse;
 	std::thread networkThread;
+	Background background;
+	SoundManager soundManager;
 public:
 	GameClient();
 	virtual ~GameClient();
