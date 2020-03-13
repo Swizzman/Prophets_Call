@@ -9,6 +9,7 @@ Client::Client()
 	iPIn >> iP;
 	std::cout << iP << std::endl;
 	connected = false;
+	iPIn.close();
 }
 
 void Client::run()

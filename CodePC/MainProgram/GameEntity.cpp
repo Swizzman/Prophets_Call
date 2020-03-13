@@ -7,6 +7,7 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	this->movingSpeedX = movingSpeedX;
 	this->movingSpeedY = movingSpeedY;
 	this->health = health;
+	this->healthLastFrame = health;
 	this->maxHealth = health;
 	this->textureName = textureName;
 	this->animationTimer = 0;
@@ -18,6 +19,7 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	lastWalkingDirection = 5;
 	alive = true;
 
+	
 	lastXDest = 0;
 	lastYDest = 0;
 	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
@@ -119,8 +121,26 @@ void GameEntity::gainHealth(int health)
 		{
 			this->health = maxHealth;
 		}
-
+		healthLastFrame = this->health;
+		attackNotify = true;
 	}
+
+}
+
+bool GameEntity::hasLostHealth()
+{
+	if (healthLastFrame > health)
+	{
+
+		healthLastFrame = health;
+		return true;
+	}
+	else if (healthLastFrame <= health)
+	{
+
+		return false;
+	}
+	
 }
 
 bool GameEntity::getAttackBool()
@@ -503,6 +523,7 @@ bool GameEntity::isAlive()
 
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	
 	target.draw(this->sprite);
 
 }

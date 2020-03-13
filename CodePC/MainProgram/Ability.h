@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+//#include "SoundManager.h"
 using namespace std;
 class Ability : public sf::Drawable
 {
@@ -20,6 +21,7 @@ private:
 	bool isActive;
 	float pulseTimer;
 	bool isDummy;
+//	SoundManager soundManager;
 
 public:
 
@@ -37,6 +39,8 @@ public:
 	virtual void abilityActive() = 0;
 	virtual int getSpecificVar() = 0;
 	virtual void placeAbility(sf::Vector2f position) = 0;
+	virtual void changeSoundBool(bool soundBool) = 0;
+	virtual bool makeSound() = 0;
 	bool getDummy() const;
 
 

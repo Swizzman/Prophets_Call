@@ -8,6 +8,8 @@
 #include "Menu.h"
 #include "Client.h"
 #include <thread>
+#include "Background.h"
+
 
 class GameClient :
 	public GameState
@@ -31,8 +33,10 @@ private:
 	Follower** deadFollowers;
 	int deadCap;
 	int nrOfDead; 
-	
+	bool fullyConnected;
 	void expand(Follower** arr, int& cap, int nrOf);
+	//Background* background;
+	//SoundManager* soundManager;
 public:
 	GameClient();
 	virtual ~GameClient();

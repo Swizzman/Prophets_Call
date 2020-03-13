@@ -97,10 +97,10 @@ void Menu::handleEvents()
 
 State Menu::update()
 {
-	State state = State::NO_CHANGE;
 
 	while (window.isOpen())
 	{
+	State state = State::NO_CHANGE;
 		elapsedTimeSinceLastUpdate += clock.restart();
 
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
@@ -110,6 +110,7 @@ State Menu::update()
 			{
 				iPOut.open("../datafiles/ip.txt");
 				iPOut << input;
+				iPOut.close();
 				state = State::CONNECT;
 			}
 			sf::Vector2f mousePos = (sf::Vector2f)mouse.getPosition(window);
