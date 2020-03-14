@@ -141,6 +141,7 @@ void GameClient::netWorking()
 			}
 		}
 	}
+	std::cout << "Thread Stopped\n";
 }
 
 void GameClient::handleEvents()
@@ -417,22 +418,26 @@ State GameClient::update()
 					}
 				}
 			}
-				if (otherProphet != nullptr &&client.getConnected() )
+				if (otherProphet != nullptr)
 				{
 
 					if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
 					{
+						networkThread.join();
+						cout << "Someone died" << endl;
+
 						if (otherProphet->getHealth() <= 0)
 						{
+							cout << "you are winner" << endl;
 							state = State::WON;
 						}
-						else if (thisProphet->getHealth() <= 0)
+						 if (thisProphet->getHealth() <= 0)
 						{
+							cout << "loser you are" << endl;
 							state = State::LOST;
 						}
 						client.disconnect();
 						std::cout << "Disconnected\n";
-						networkThread.join();
 					}
 				}
 			}
@@ -442,8 +447,8 @@ State GameClient::update()
 			}
 			soundManager->deleteAudio();
 			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
-			return state;
 		}
+			return state;
 
 	}
 }
