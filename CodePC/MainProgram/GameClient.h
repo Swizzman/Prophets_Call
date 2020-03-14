@@ -8,6 +8,8 @@
 #include "Menu.h"
 #include "Client.h"
 #include <thread>
+#include "Background.h"
+
 
 class GameClient :
 	public GameState
@@ -18,7 +20,6 @@ private:
 	Follower** allFollowers;
 	UIManager uiManager;
 	int nrOfTotalFollowers;
-	sf::RectangleShape lel;
 	int followerCap;
 	sf::Clock clock;
 	sf::Time timePerFrame;
@@ -31,6 +32,8 @@ private:
 	Follower** deadFollowers;
 	int deadCap;
 	int nrOfDead; 
+	Background background;
+	SoundManager* soundManager;
 	
 	void expand(Follower** arr, int& cap, int nrOf);
 public:

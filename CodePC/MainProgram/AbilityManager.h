@@ -4,6 +4,7 @@
 #include "Reinforcement.h"
 #include "Regen.h"
 #include <iostream>
+//#include "SoundManager.h"
 class Prophet;
 struct group;
 class AbilityManager
@@ -19,7 +20,11 @@ private:
 	sf::Time timePerFrame;
 	sf::Time elapsedTimeSinceLastUpdate;
 	bool reinforcementIsOn;
+	bool makeASoundBool;
+	int soundCounter;
+	//SoundManager soundManager;
 	int cost;
+	bool hasPlacedAbility;
 
 
 public:
@@ -38,6 +43,7 @@ public:
 	void placeCurrentAbility(sf::Vector2f position, int force = -1);
 	void recievePtr(Prophet* enemyPro, Prophet* thisProphet,group* followerGroup);
 	void whileAbilityIsActive();
+	bool getActivateSoundBool();
 	Ability* getCurrentAbility() const;
 
 

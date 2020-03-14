@@ -29,16 +29,16 @@ Prophet::Prophet() :
 	this->chosenAbility = 0;
 	this->convertingSpeed = 10;
 	this->chosenGroup = 0;
-	this->collectedSouls = 0;
+	this->collectedSouls = 10000;
 	this->otherProphet = nullptr;
 	this->convertCirc.setRadius(150);
 	this->convertCirc.setFillColor(sf::Color::Transparent);
 	this->convertCirc.setOutlineColor(sf::Color::Red);
 	this->convertCirc.setOutlineThickness(5.f);
 	this->convertCirc.setOrigin(getPosition().x + getBounds().width / 2, getPosition().y + getBounds().height / 2);
-
-	//temp = new Follower * [group->capacity]{ nullptr };
-
+	this->abilityActive = false;
+	this->abilityAnimation = false;
+	this->lastWalkingDirection = 0;
 	currentCommandGroup = 0;
 	setPosition(100, 100);
 
@@ -290,9 +290,10 @@ void Prophet::collectSouls(Follower* follower)
 
 void Prophet::placeAbil(sf::Vector2f position, int force)
 {
+	
 	if (otherProphet != nullptr)
 	{
-
+		
 		abilityMan.placeCurrentAbility(position, force);
 	}
 }
@@ -353,7 +354,7 @@ Follower** Prophet::getAllFollowers(int thisGroup)
 
 void Prophet::recieveEnemyProphet(Prophet* other)
 {
-	if (other != nullptr)
+	if (other != nullptr && this !=nullptr)
 	{
 
 		otherProphet = other;
@@ -447,6 +448,18 @@ Ability* Prophet::getCurAbil() const
 	}
 }
 
+bool Prophet::getIfSoundBoolIsActive() 
+{
+	if (otherProphet != nullptr)
+	{
+		return abilityMan.getActivateSoundBool();
+	}
+	else
+	{
+		return false;
+	}
+}
+
 
 
 void Prophet::aFollowerGotKilled(int whichFollower)
@@ -529,7 +542,7 @@ void Prophet::addFollower(Follower* follower)
 	bool added = false;
 	for (int i = 0; i < GROUPNR && !added; i++)
 	{
-		std::cout << "Follower Added\n";
+		//std::cout << "Follower Added\n";
 
 		if (group[i].nrOfFollowers < group[i].capacity)
 		{

@@ -67,12 +67,11 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="GameClient.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="GameWonMode.cpp" />
+    <ClCompile Include="GameLostMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h">
@@ -144,18 +143,13 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ANIMATIONSPRITEROW.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FOLLOWERSPRITEROW.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="GameClient.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="ANIMATIONSPRITEROW.h" />
+    <ClInclude Include="FOLLOWERSPRITEROW.h" />
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="GameWonMode.h" />
+    <ClInclude Include="GameLostMode.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

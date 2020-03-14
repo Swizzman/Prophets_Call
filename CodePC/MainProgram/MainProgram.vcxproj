@@ -22,6 +22,7 @@
     <ClCompile Include="Ability.cpp" />
     <ClCompile Include="AbilityManager.cpp" />
     <ClCompile Include="AttackProphet.cpp" />
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Closest.cpp" />
@@ -31,9 +32,11 @@
     <ClCompile Include="Follower.cpp" />
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="GameHost.cpp" />
+    <ClCompile Include="GameLostMode.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="GameWonMode.cpp" />
     <ClCompile Include="LowestHP.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -51,6 +54,7 @@
     <ClInclude Include="AbilityManager.h" />
     <ClInclude Include="ANIMATIONSPRITEROW.h" />
     <ClInclude Include="AttackProphet.h" />
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Closest.h" />
@@ -61,9 +65,11 @@
     <ClInclude Include="FOLLOWERSPRITEROW.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="GameHost.h" />
+    <ClInclude Include="GameLostMode.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="GameWonMode.h" />
     <ClInclude Include="LowestHP.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NETWORKSTATE.h" />

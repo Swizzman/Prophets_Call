@@ -29,8 +29,6 @@ public:
 	virtual ~Menu();
 
 	sf::Text renderText();
-
-	void changeText(std::string newText);
 	
 
 

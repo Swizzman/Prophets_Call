@@ -403,6 +403,24 @@ State GameHost::update()
 			netWorkThread.join();
 			state = State::EXIT;
 		}
+		if (activeClient)
+		{
+
+			if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+			{
+				server.disconnect();
+				std::cout << "Disconnected\n";
+				netWorkThread.join();
+				if (thisProphet->getHealth() <= 0)
+				{
+					state = State::LOST;
+				}
+				else if (otherProphet->getHealth() <= 0)
+				{
+					state = State::WON;
+				}
+			}
+		}
 
 		return state;
 	}

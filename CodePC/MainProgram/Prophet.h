@@ -44,7 +44,6 @@ private:
 	bool abilityActive;
 	sf::Vector2f getCircCenter() const;
 	int currentCommandGroup;
-	int nrOfCivs;
 
 	bool abilityAnimation;
 	int lastWalkingDirection;
@@ -74,6 +73,7 @@ public:
 	void changeCurrentCommandGroup();
 	int getcurrentGroupCommand();
 	Ability* getCurAbil() const;
+	bool getIfSoundBoolIsActive() ;
 	void aFollowerGotKilled(int whichFollower);
 	void changeCurrentCommand();
 	bool getIfAbilityIsActive();

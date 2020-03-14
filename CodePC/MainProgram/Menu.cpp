@@ -25,8 +25,8 @@ Menu::Menu()
 	iPText.setPosition(((WIDTH / 2) - iPText.getGlobalBounds().width), ((HEIGHT / 2) - iPText.getGlobalBounds().height));
 	currentHighlightedButton = 0;
 	inputText.setFont(font);
+	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20,HEIGHT / 2);
 	inputText.setCharacterSize(40);
-	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20,iPText.getPosition().y);
 	window.setKeyRepeatEnabled(false);
 	iPMode = false;
 	inputDone = false;
@@ -110,6 +110,7 @@ State Menu::update()
 			{
 				iPOut.open("../datafiles/ip.txt");
 				iPOut << input;
+				iPOut.close();
 				state = State::CONNECT;
 			}
 			sf::Vector2f mousePos = (sf::Vector2f)mouse.getPosition(window);

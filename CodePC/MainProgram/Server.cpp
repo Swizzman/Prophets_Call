@@ -18,6 +18,16 @@ Server::~Server()
 {
 }
 
+void Server::disconnect()
+{
+	if (clientConnected)
+	{
+		clientSock->disconnect();
+		tcpSocket.disconnect();
+		clientConnected = false;
+	}
+}
+
 void Server::run()
 {
 
