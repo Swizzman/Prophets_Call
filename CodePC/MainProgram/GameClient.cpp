@@ -97,6 +97,10 @@ void GameClient::netWorking()
 				if (allFollowers[packet.index] != nullptr)
 				{
 					std::cout << "Follower Took damage\n";
+					if (packet.health < allFollowers[packet.index]->getHealth() )
+					{
+						soundManager->takeDamage();
+					}
 					allFollowers[packet.index]->setHealth(packet.health);
 				}
 			}

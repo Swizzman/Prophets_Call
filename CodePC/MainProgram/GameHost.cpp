@@ -40,16 +40,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	/*otherProphet = new Prophet();
+	otherProphet = new Prophet();
 	thisProphet->recieveEnemyProphet(otherProphet);
 	otherProphet->recieveEnemyProphet(thisProphet);
-	activeClient = true;*/
+	activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -212,6 +212,7 @@ void GameHost::handleEvents()
 			switch (event.mouseButton.button)
 			{
 			case sf::Mouse::Right:
+
 
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
 				if (thisProphet->getIfAbilityIsActive())
