@@ -16,6 +16,7 @@ AbilityManager::AbilityManager()
 	this->makeASoundBool = false;
 	this->soundCounter = 0;
 	this->cost = 0;
+	this->hasPlacedAbility = false;
 	thisProphet = nullptr;
 }
 
@@ -247,8 +248,11 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 
 		case 0:
 			cost = 100;
+			
 			if (thisProphet->getSouls() > cost)
 			{
+				
+				hasPlacedAbility = true;
 				currentAbility = new Bomb(false);
 			}
 			break;
@@ -256,6 +260,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 			cost = 70;
 			if (thisProphet->getSouls() > cost)
 			{
+				hasPlacedAbility = true;
 				currentAbility = new Regen(false);
 				
 			}
@@ -264,14 +269,18 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 			cost = 30;
 			if (thisProphet->getSouls() > cost)
 			{
-
+				hasPlacedAbility = true;
 				currentAbility = new Reinforcement(false);
 			}
 			break;
 		default:
 			break;
 		}
-		thisProphet->decreaseSouls(cost);
+		if (thisProphet->getSouls() > cost)
+		{
+			
+			thisProphet->decreaseSouls(cost);
+		}
 		cost = 0;
 	}
 	else
@@ -279,12 +288,18 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		switch (force)
 		{
 		case 0:
+			hasPlacedAbility = true;
+			
 			currentAbility = new Bomb(true);
 			break;
 		case 1:
+			hasPlacedAbility = true;
+		
 			currentAbility = new Regen(true);
 			break;
 		case 2:
+			hasPlacedAbility = true;
+		
 			currentAbility = new Reinforcement(true);
 			break;
 		default:
@@ -292,11 +307,13 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 
 		}
 	}
-	if (currentAbility != nullptr)
+	
+	if (currentAbility != nullptr && hasPlacedAbility == true)
 	{
-
+	
 		startAbility();
 		currentAbility->placeAbility(position);
+		hasPlacedAbility = false;
 	}
 }
 

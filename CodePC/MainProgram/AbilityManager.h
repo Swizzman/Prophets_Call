@@ -24,6 +24,7 @@ private:
 	int soundCounter;
 	//SoundManager soundManager;
 	int cost;
+	bool hasPlacedAbility;
 
 
 public:

@@ -290,9 +290,10 @@ void Prophet::collectSouls(Follower* follower)
 
 void Prophet::placeAbil(sf::Vector2f position, int force)
 {
+	
 	if (otherProphet != nullptr)
 	{
-
+		
 		abilityMan.placeCurrentAbility(position, force);
 	}
 }
