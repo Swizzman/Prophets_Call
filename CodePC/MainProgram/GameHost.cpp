@@ -40,16 +40,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	otherProphet = new Prophet();
-	thisProphet->recieveEnemyProphet(otherProphet);
-	otherProphet->recieveEnemyProphet(thisProphet);
-	activeClient = true;
+	//otherProphet = new Prophet();
+	//thisProphet->recieveEnemyProphet(otherProphet);
+	//otherProphet->recieveEnemyProphet(thisProphet);
+	//activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	//server.run();
+	server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -114,7 +114,6 @@ void GameHost::networking()
 		}
 		else if (packet.type == 10)
 		{
-			//delete allFollowers[packet.index];
 			deadFollowers[nrOfDead] = allFollowers[packet.index];
 			nrOfDead++;
 			allFollowers[packet.index] = new Follower();
@@ -164,9 +163,6 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
-				//if (thisProphet->getNrOfFollowers() > 0)
-				//	thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
-				//thisProphet->takeDamage(rand() % 20);
 
 				break;
 			case sf::Keyboard::LControl:
@@ -303,7 +299,6 @@ State GameHost::update()
 					}
 					if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
 					{
-						cout << "taking damage" << endl;
 						soundManager.takeDamage();
 					}
 
@@ -448,6 +443,26 @@ State GameHost::update()
 		{
 			netWorkThread.join();
 			state = State::EXIT;
+		}
+		if (activeClient)
+		{
+
+			if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+			{
+				if (thisProphet->getHealth() <= 0)
+				{
+					state = State::LOST;
+				}
+				else if (otherProphet->getHealth() <= 0)
+				{
+					server.sendProphetDamage(0);
+					state = State::WON;
+				}
+
+				server.disconnect();
+				std::cout << "Disconnected\n";
+				netWorkThread.join();
+			}
 		}
 
 		return state;
