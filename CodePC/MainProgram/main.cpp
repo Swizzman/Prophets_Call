@@ -3,6 +3,8 @@
 #include "GameState.h"
 #include "GameHost.h"
 #include "GameClient.h"
+#include "GameLostMode.h"
+#include "GameWonMode.h"
 #include "Menu.h"
 
 #ifdef _DEBUG
@@ -49,6 +51,14 @@ int main()
 		case State::MENU:
 			delete current;
 			current = new Menu();
+			break;
+		case State::LOST:
+			delete current;
+			current = new GameLostMode();
+			break;
+		case State::WON:
+			delete current;
+			current = new GameWonMode();
 			break;
 		default:
 			break;

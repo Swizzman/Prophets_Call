@@ -9,6 +9,7 @@ Client::Client()
 	iPIn >> iP;
 	std::cout << iP << std::endl;
 	connected = false;
+	iPIn.close();
 }
 
 void Client::run()
@@ -69,6 +70,12 @@ Packet Client::recieveAPacket()
 		break;
 	}
 	return recieved;
+}
+
+void Client::disconnect()
+{
+	connectionSocket.disconnect();
+	connected = false;
 }
 
 void Client::sendProphetPos(sf::Vector2f pos)

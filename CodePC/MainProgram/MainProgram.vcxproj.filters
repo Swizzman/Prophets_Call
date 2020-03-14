@@ -70,6 +70,8 @@
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="GameWonMode.cpp" />
+    <ClCompile Include="GameLostMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h">
@@ -146,6 +148,8 @@
     <ClInclude Include="ANIMATIONSPRITEROW.h" />
     <ClInclude Include="FOLLOWERSPRITEROW.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="GameWonMode.h" />
+    <ClInclude Include="GameLostMode.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

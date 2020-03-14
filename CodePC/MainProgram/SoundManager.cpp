@@ -11,7 +11,9 @@ SoundManager::SoundManager()
 	takingDamageBuffer.loadFromFile("../Sounds/hurt.wav");
 	reinforceBuffer.loadFromFile("../Sounds/reinforce.wav");
 	//sound.setBuffer(attackBuffer);
-	sound = new sf::Sound * [50]{nullptr};
+	nrOf = 0;
+	//sound.setBuffer(attackBuffer);
+	sound = new sf::Sound * [5]{nullptr};
 }
 
 SoundManager::~SoundManager()
@@ -27,6 +29,9 @@ SoundManager::~SoundManager()
 	
 	
 }
+
+
+
 
 void SoundManager::attack()
 {

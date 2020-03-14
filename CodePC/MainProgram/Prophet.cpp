@@ -29,7 +29,7 @@ Prophet::Prophet() :
 	this->chosenAbility = 0;
 	this->convertingSpeed = 10;
 	this->chosenGroup = 0;
-	this->collectedSouls = 100;
+	this->collectedSouls = 10000;
 	this->otherProphet = nullptr;
 	this->convertCirc.setRadius(150);
 	this->convertCirc.setFillColor(sf::Color::Transparent);
@@ -356,7 +356,6 @@ void Prophet::recieveEnemyProphet(Prophet* other)
 {
 	if (other != nullptr && this !=nullptr)
 	{
-
 		otherProphet = other;
 		abilityMan.recievePtr(other, this, &group[currentCommandGroup]);
 		commandMan.recievePtr(other, &group[currentCommandGroup], this);

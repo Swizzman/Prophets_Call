@@ -15,6 +15,7 @@ private:
 public:
 	Server();
 	virtual ~Server();
+	void disconnect();
 	void run();
 	bool getClientConnected() const;
 	void sendProphetPos(sf::Vector2f pos);
