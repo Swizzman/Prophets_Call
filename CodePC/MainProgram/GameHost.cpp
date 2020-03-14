@@ -57,7 +57,11 @@ void GameHost::networking()
 		packet = server.recieveAPacket();
 		if (packet.type == 1)
 		{
-			otherProphet->setPosition(packet.posX, packet.posY);
+			if (otherProphet != nullptr)
+			{
+
+				otherProphet->setPosition(packet.posX, packet.posY);
+			}
 
 		}
 		if (packet.type == 2)
@@ -73,6 +77,10 @@ void GameHost::networking()
 		{
 			if (allFollowers[packet.index] != nullptr)
 			{
+				if (packet.health < allFollowers[packet.index]->getHealth())
+				{
+					soundManager.takeDamage();
+				}
 				allFollowers[packet.index]->setHealth(packet.health);
 			}
 		}
@@ -98,7 +106,11 @@ void GameHost::networking()
 		}
 		else if (packet.type == 9)
 		{
-			otherProphet->setAnimation(packet.column, packet.row);
+			if (otherProphet != nullptr)
+			{
+
+				otherProphet->setAnimation(packet.column, packet.row);
+			}
 		}
 		else if (packet.type == 10)
 		{
@@ -120,6 +132,7 @@ GameHost::~GameHost()
 		delete allFollowers[i];
 	}
 	delete[] allFollowers;
+
 }
 
 void GameHost::handleEvents()

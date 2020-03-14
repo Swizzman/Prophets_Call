@@ -29,7 +29,7 @@ Prophet::Prophet() :
 	this->chosenAbility = 0;
 	this->convertingSpeed = 10;
 	this->chosenGroup = 0;
-	this->collectedSouls = 10000;
+	this->collectedSouls = 100;
 	this->otherProphet = nullptr;
 	this->convertCirc.setRadius(150);
 	this->convertCirc.setFillColor(sf::Color::Transparent);
