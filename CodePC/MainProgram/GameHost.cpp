@@ -301,6 +301,10 @@ State GameHost::update()
 					{
 						soundManager.takeDamage();
 					}
+					if (thisProphet->hasLostHealth() || (otherProphet != nullptr && otherProphet->hasLostHealth()))
+					{
+						soundManager.takeDamage();
+					}
 
 					allFollowers[i]->checkCivMove();
 					if (otherProphet != nullptr)
@@ -375,16 +379,25 @@ State GameHost::update()
 
 					}
 				}
-				else if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
-				{
+				 if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
+				 {
 					if (otherProphet->getIfSoundBoolIsActive())
 					{
 						if (otherProphet->getCurrentAbility() == 0)
 						{
 							soundManager.bomb();
 						}
+						else if (thisProphet->getCurrentAbility() == 1)
+						{
+							soundManager.healthRegen();
+						}
+						else
+						{
+							soundManager.reinforce();
+						}
+
 					}
-				}
+				 }
 				if (thisProphet->getIfAbilityIsActive())
 				{
 

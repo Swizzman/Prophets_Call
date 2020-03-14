@@ -252,6 +252,8 @@ State GameClient::update()
 				client.sendProphetAnim(thisProphet->getCurrentColummn(), thisProphet->getCurrentRow());
 				//Check All the civilians for movement
 
+			if (otherProphet != nullptr)
+			{
 
 				for (int i = 0; i < nrOfTotalFollowers; i++)
 				{
@@ -280,6 +282,10 @@ State GameClient::update()
 								cout << "taking damage" << endl;
 								soundManager->takeDamage();
 							}
+							if (thisProphet->hasLostHealth() || otherProphet->hasLostHealth())
+							{
+								soundManager->takeDamage();
+							}
 							//allFollowers[i]->switchTexture("soul.png ");
 							cout << "Follower " << i << " died\n";
 
@@ -306,7 +312,7 @@ State GameClient::update()
 							client.sendFollowerDamage(i, allFollowers[i]->getHealth());
 
 						}
-						if (otherProphet->getAttackNotify())
+						if (otherProphet != nullptr &&otherProphet->getAttackNotify() )
 						{
 							otherProphet->otherAttackNotified();
 							client.sendProphetDamage(otherProphet->getHealth());
@@ -373,7 +379,7 @@ State GameClient::update()
 
 
 					}
-					if (otherProphet->getIfAbilityIsActive())
+					if (otherProphet != nullptr && otherProphet->getIfAbilityIsActive())
 					{
 
 						otherProphet->timerForAbility();
@@ -410,7 +416,8 @@ State GameClient::update()
 
 					}
 				}
-				if (client.getConnected())
+			}
+				if (otherProphet != nullptr &&client.getConnected() )
 				{
 
 					if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)

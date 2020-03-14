@@ -241,6 +241,10 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		delete currentAbility;
 		currentAbility = nullptr;
 	}
+	if (currentAbility != nullptr)
+	{
+		currentAbility = nullptr;
+	}
 	if (force == -1)
 	{
 
