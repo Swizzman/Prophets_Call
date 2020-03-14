@@ -72,6 +72,12 @@ Packet Client::recieveAPacket()
 	return recieved;
 }
 
+void Client::disconnect()
+{
+	connectionSocket.disconnect();
+	connected = false;
+}
+
 void Client::sendProphetPos(sf::Vector2f pos)
 {
 	sf::Packet packet;

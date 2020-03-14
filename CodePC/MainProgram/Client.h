@@ -25,6 +25,7 @@ public:
 	void run();
 	virtual ~Client();
 	Packet recieveAPacket();
+	void disconnect();
 	void sendProphetPos(sf::Vector2f pos);
 	void sendFollowerPos(sf::Vector2f pos, int index);
 	void sendConverted(int index);
