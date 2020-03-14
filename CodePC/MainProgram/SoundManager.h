@@ -5,7 +5,6 @@
 #include <string>
 #include <ctime>
 
-using namespace std;
 class SoundManager
 {
 private:
@@ -24,7 +23,7 @@ private:
 public:
 	SoundManager();
 	virtual ~SoundManager();
-
+	void loadSounds();
 	void attack();
 	void convert();
 	void bomb();

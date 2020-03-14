@@ -356,7 +356,6 @@ void Prophet::recieveEnemyProphet(Prophet* other)
 {
 	if (other != nullptr && this !=nullptr)
 	{
-
 		otherProphet = other;
 		abilityMan.recievePtr(other, this, &group[currentCommandGroup]);
 		commandMan.recievePtr(other, &group[currentCommandGroup], this);

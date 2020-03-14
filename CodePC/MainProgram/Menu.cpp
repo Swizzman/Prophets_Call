@@ -97,10 +97,10 @@ void Menu::handleEvents()
 
 State Menu::update()
 {
-	State state = State::NO_CHANGE;
 
 	while (window.isOpen())
 	{
+	State state = State::NO_CHANGE;
 		elapsedTimeSinceLastUpdate += clock.restart();
 
 		while (elapsedTimeSinceLastUpdate > timePerFrame)

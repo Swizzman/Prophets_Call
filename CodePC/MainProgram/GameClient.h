@@ -36,6 +36,8 @@ private:
 	SoundManager* soundManager;
 	
 	void expand(Follower** arr, int& cap, int nrOf);
+	//Background* background;
+	//SoundManager* soundManager;
 public:
 	GameClient();
 	virtual ~GameClient();
