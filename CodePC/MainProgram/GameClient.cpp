@@ -346,6 +346,16 @@ State GameClient::update()
 
 						}
 					}
+					else if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
+					{
+						if (otherProphet->getIfSoundBoolIsActive())
+						{
+							if (otherProphet->getCurrentAbility() == 0)
+							{
+								soundManager->bomb();
+							}
+						}
+					}
 					if (thisProphet->getIfAbilityIsActive())
 					{
 
