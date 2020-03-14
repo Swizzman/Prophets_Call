@@ -70,7 +70,6 @@ void GameClient::netWorking()
 		thisProphet->recieveEnemyProphet(otherProphet);
 		otherProphet->recieveEnemyProphet(thisProphet);
 
-		fullyConnected = true;
 		Packet packet;
 		while (client.getConnected() && nrOfTotalFollowers <= followerCap)
 		{
@@ -241,7 +240,7 @@ State GameClient::update()
 				expand(deadFollowers, deadCap, nrOfDead);
 			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
-			if (client.getConnected() && fullyConnected)
+			if (client.getConnected() )
 			{
 
 				//Move the playerProphet

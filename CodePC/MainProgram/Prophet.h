@@ -73,7 +73,7 @@ public:
 	void changeCurrentCommandGroup();
 	int getcurrentGroupCommand();
 	Ability* getCurAbil() const;
-	bool getIfSoundBoolIsActive() ;
+	bool getIfSoundBoolIsActive();
 	void aFollowerGotKilled(int whichFollower);
 	void changeCurrentCommand();
 	bool getIfAbilityIsActive();
