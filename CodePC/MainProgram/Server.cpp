@@ -127,7 +127,10 @@ void Server::sendSoulCollected(int index)
 
 Packet Server::recieveAPacket()
 {
-
+	if (clientSock->sf::Socket::Disconnected == true)
+	{
+		clientConnected = false;
+	}
 
 	sf::Packet packet;
 	Packet recieved;
