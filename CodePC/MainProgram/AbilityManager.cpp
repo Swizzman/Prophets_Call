@@ -235,11 +235,10 @@ void AbilityManager::updateAbility(sf::Vector2f placement)
 
 void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 {
-	if (currentAbility != nullptr)
+	if (abilityActive)
 	{
 		abilityActive = false;
 		delete currentAbility;
-		currentAbility = nullptr;
 	}
 	if (currentAbility != nullptr)
 	{
