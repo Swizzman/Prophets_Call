@@ -249,7 +249,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		case 0:
 			cost = 100;
 			
-			if (thisProphet->getSouls() > cost)
+			if (thisProphet->getSouls() >= cost)
 			{
 				
 				hasPlacedAbility = true;
@@ -258,7 +258,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 			break;
 		case 1:
 			cost = 70;
-			if (thisProphet->getSouls() > cost)
+			if (thisProphet->getSouls() >= cost)
 			{
 				hasPlacedAbility = true;
 				currentAbility = new Regen(false);
@@ -267,7 +267,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 			break;
 		case 2:
 			cost = 30;
-			if (thisProphet->getSouls() > cost)
+			if (thisProphet->getSouls() >= cost)
 			{
 				hasPlacedAbility = true;
 				currentAbility = new Reinforcement(false);
@@ -276,7 +276,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		default:
 			break;
 		}
-		if (thisProphet->getSouls() > cost)
+		if (thisProphet->getSouls() >= cost)
 		{
 			
 			thisProphet->decreaseSouls(cost);

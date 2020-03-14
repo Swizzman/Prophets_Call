@@ -352,7 +352,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		//	////group[i].followers[group[i].nrOfFollowers++] = temp[a];
 		//	//delete[] fpsTemp[a];
 		//}
-
+		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size());
 		numberOfFollowers = followersInGroup;
 	
 }
