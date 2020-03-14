@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
+#include <vector>
+
+
 
 class UIManager
 {
@@ -49,7 +52,8 @@ private:
 
 
 	followerPortraitStruct** fps;
-	followerPortraitStruct** fpsTemp;
+//	followerPortraitStruct** fpsTemp;
+	std::vector<followerPortraitStruct> fpsTemp;
 	commandStruct** cs;
 	ProphetProperties pp;
 	int numberOfFollowers;

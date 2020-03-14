@@ -32,7 +32,8 @@ UIManager::UIManager()
 
 	this->cs = new commandStruct * [GROUPCAP] {nullptr};
 	this->fps = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER] {nullptr};
-	fpsTemp = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER]{ nullptr };
+//	fpsTemp = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER]{ nullptr };
+
 	//this->convertingRec = new sf::RectangleShape * [nrOfCiv] {nullptr};
 	//this->convertingOutline = new sf::RectangleShape * [nrOfCiv] {nullptr};
 	for (int i = 0; i < GROUPCAP; i++)
@@ -75,7 +76,7 @@ UIManager::~UIManager()
 		delete cs[i];
 	}
 	delete[] cs;
-	delete[] fpsTemp;
+	//delete[] fpsTemp;
 }
 
 void UIManager::setUpCS()
@@ -319,24 +320,38 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		{
 			if (health > 0)
 			{
-				fpsTemp[nrOfFollowersAlive] = new followerPortraitStruct();
-				fpsTemp[nrOfFollowersAlive] = fps[i];
-				delete fps[i];
-			//	fps[i] = nullptr;
+
+				fpsTemp.push_back(*fps[i]);
+			//	fpsTemp[nrOfFollowersAlive] = new followerPortraitStruct();
+			//	fpsTemp[nrOfFollowersAlive] = fps[i];
+			//	delete fps[i];
+			////	fps[i] = nullptr;
 				nrOfFollowersAlive++;
-
-
+			}
+			else
+			{
+				delete fps[i];
 			}
 		}
 		
-		for (int a = 0; a < followersInGroup; a++)
+		for (int i = 0; i < nrOfFollowersAlive; i++)
 		{
 
-			fps[a] = new followerPortraitStruct();
-			fps[a] = fpsTemp[a];
-			//group[i].followers[group[i].nrOfFollowers++] = temp[a];
-			delete[] fpsTemp[a];
+			*fps[i] = fpsTemp.at(i);
+			
 		}
+		for (int i = nrOfFollowersAlive; i < followersInGroup; i++)
+		{
+			delete fps[i];
+		}
+		//for (int a = 0; a < followersInGroup; a++)
+		//{
+
+		//	fps[a] = new followerPortraitStruct();
+		//	//fps[a] = fpsTemp[a];
+		//	////group[i].followers[group[i].nrOfFollowers++] = temp[a];
+		//	//delete[] fpsTemp[a];
+		//}
 
 		numberOfFollowers = followersInGroup;
 	
