@@ -40,16 +40,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	//otherProphet = new Prophet();
-	//thisProphet->recieveEnemyProphet(otherProphet);
-	//otherProphet->recieveEnemyProphet(thisProphet);
-	//activeClient = true;
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -57,7 +57,11 @@ void GameHost::networking()
 		packet = server.recieveAPacket();
 		if (packet.type == 1)
 		{
-			otherProphet->setPosition(packet.posX, packet.posY);
+			if (otherProphet != nullptr)
+			{
+
+				otherProphet->setPosition(packet.posX, packet.posY);
+			}
 
 		}
 		if (packet.type == 2)
@@ -73,6 +77,10 @@ void GameHost::networking()
 		{
 			if (allFollowers[packet.index] != nullptr)
 			{
+				if (packet.health < allFollowers[packet.index]->getHealth())
+				{
+					soundManager.takeDamage();
+				}
 				allFollowers[packet.index]->setHealth(packet.health);
 			}
 		}
@@ -98,7 +106,11 @@ void GameHost::networking()
 		}
 		else if (packet.type == 9)
 		{
-			otherProphet->setAnimation(packet.column, packet.row);
+			if (otherProphet != nullptr)
+			{
+
+				otherProphet->setAnimation(packet.column, packet.row);
+			}
 		}
 		else if (packet.type == 10)
 		{
@@ -120,6 +132,7 @@ GameHost::~GameHost()
 		delete allFollowers[i];
 	}
 	delete[] allFollowers;
+
 }
 
 void GameHost::handleEvents()
@@ -199,6 +212,7 @@ void GameHost::handleEvents()
 			switch (event.mouseButton.button)
 			{
 			case sf::Mouse::Right:
+
 
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
 				if (thisProphet->getIfAbilityIsActive())
@@ -280,7 +294,14 @@ State GameHost::update()
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 							}
 						}
+						soundManager.death();
 					}
+					if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+					{
+						cout << "taking damage" << endl;
+						soundManager.takeDamage();
+					}
+
 					allFollowers[i]->checkCivMove();
 					if (otherProphet != nullptr)
 					{
@@ -334,6 +355,26 @@ State GameHost::update()
 			if (activeClient)
 			{
 
+				if (thisProphet->getCurAbil() != nullptr)
+				{
+					if (thisProphet->getIfSoundBoolIsActive())
+					{
+						cout << "activate" << endl;
+						if (thisProphet->getCurrentAbility() == 0)
+						{
+							soundManager.bomb();
+						}
+						else if (thisProphet->getCurrentAbility() == 1)
+						{
+							soundManager.healthRegen();
+						}
+						else
+						{
+							soundManager.reinforce();
+						}
+
+					}
+				}
 				if (thisProphet->getIfAbilityIsActive())
 				{
 
@@ -389,7 +430,7 @@ State GameHost::update()
 
 			}
 
-
+			soundManager.deleteAudio();
 			//thisProphet->updateAnimation((int)ANIMATIONSPRITEROW::DIE, 2, 60);
 
 		}
@@ -431,6 +472,7 @@ void GameHost::render()
 {
 	window.clear();
 
+	window.draw(background);
 	window.draw(*thisProphet);
 	if (otherProphet != nullptr)
 	{
