@@ -70,7 +70,6 @@ void GameClient::netWorking()
 		thisProphet->recieveEnemyProphet(otherProphet);
 		otherProphet->recieveEnemyProphet(thisProphet);
 
-		fullyConnected = true;
 		Packet packet;
 		while (client.getConnected() && nrOfTotalFollowers <= followerCap)
 		{
@@ -101,7 +100,7 @@ void GameClient::netWorking()
 				if (allFollowers[packet.index] != nullptr)
 				{
 					std::cout << "Follower Took damage\n";
-					if (packet.health < allFollowers[packet.index]->getHealth() )
+					if (packet.health < allFollowers[packet.index]->getHealth())
 					{
 						soundManager->takeDamage();
 					}
@@ -165,7 +164,6 @@ void GameClient::handleEvents()
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
 				thisProphet->getASingleFollower(rand() % thisProphet->getNrOfFollowers()).takeDamage(rand() % 20);
-				thisProphet->takeDamage(rand() % 20);
 
 				break;
 			case sf::Keyboard::LControl:
@@ -241,7 +239,7 @@ State GameClient::update()
 				expand(deadFollowers, deadCap, nrOfDead);
 			}
 			elapsedTimeSinceLastUpdate -= timePerFrame;
-			if (client.getConnected() && fullyConnected)
+			if (client.getConnected())
 			{
 
 				//Move the playerProphet
@@ -399,6 +397,24 @@ State GameClient::update()
 						//uiManager.setUpFps();
 
 
+					}
+				}
+				if (client.getConnected())
+				{
+
+					if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+					{
+						if (otherProphet->getHealth() <= 0)
+						{
+							state = State::WON;
+						}
+						else if (thisProphet->getHealth() <= 0)
+						{
+							state = State::LOST;
+						}
+						client.disconnect();
+						std::cout << "Disconnected\n";
+						networkThread.join();
 					}
 				}
 			}

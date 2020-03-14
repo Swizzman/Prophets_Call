@@ -459,17 +459,6 @@ bool Prophet::getIfSoundBoolIsActive()
 	}
 }
 
-bool Prophet::getIfSoundBoolIsActive() 
-{
-	if (otherProphet != nullptr)
-	{
-		return abilityMan.getActivateSoundBool();
-	}
-	else
-	{
-		return false;
-	}
-}
 
 
 
