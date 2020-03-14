@@ -13,7 +13,7 @@ SoundManager::SoundManager()
 	//sound.setBuffer(attackBuffer);
 	nrOf = 0;
 	//sound.setBuffer(attackBuffer);
-	sound = new sf::Sound * [5]{nullptr};
+	sound = new sf::Sound * [50]{nullptr};
 }
 
 SoundManager::~SoundManager()
@@ -122,8 +122,6 @@ void SoundManager::deleteAudio()
 		{
 			if (sound[i]->getStatus() != sf::Sound::Status::Playing)
 			{
-				//sound[i] = nullptr;
-			//	cout << i << endl;
 				delete sound[i];
 				for (int b = i; b < nrOf; b++)
 				{

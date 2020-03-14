@@ -127,15 +127,18 @@ void Server::sendSoulCollected(int index)
 
 Packet Server::recieveAPacket()
 {
-	if (clientSock->sf::Socket::Disconnected == true)
-	{
-		clientConnected = false;
-	}
+
 
 	sf::Packet packet;
 	Packet recieved;
 	sf::Uint16 x, y;
-	clientSock->receive(packet);
+	if (clientSock->receive(packet) == sf::Socket::Disconnected)
+	{
+		clientConnected = false;
+	}
+
+
+
 	packet >> recieved.type;
 	switch (recieved.type)
 	{
@@ -170,6 +173,7 @@ Packet Server::recieveAPacket()
 	default:
 		break;
 	}
+
 	return recieved;
 
 }
