@@ -253,192 +253,193 @@ State GameClient::update()
 				client.sendProphetAnim(thisProphet->getCurrentColummn(), thisProphet->getCurrentRow());
 				//Check All the civilians for movement
 
-			if (otherProphet != nullptr)
-			{
-
-				for (int i = 0; i < nrOfTotalFollowers; i++)
-				{
-					if (allFollowers[i] != nullptr)
-					{
-
-						if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
-						{
-							allFollowers[i]->die();
-							if (allFollowers[i]->getConvertedByOther())
-							{
-								otherProphet->removeFollower(allFollowers[i]);
-
-							}
-							else
-							{
-								thisProphet->removeFollower(allFollowers[i]);
-								for (int i = 0; i < 3; i++)
-								{
-									uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-								}
-								soundManager->death();
-							}
-							if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
-							{
-								cout << "taking damage" << endl;
-								soundManager->takeDamage();
-							}
-							if (thisProphet->hasLostHealth() || otherProphet->hasLostHealth())
-							{
-								soundManager->takeDamage();
-							}
-							//allFollowers[i]->switchTexture("soul.png ");
-							cout << "Follower " << i << " died\n";
-
-						}
-						if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
-						{
-							if (allFollowers[i]->isAlive())
-							{
-								allFollowers[i]->checkCivMove();
-
-								client.sendFollowerPos(allFollowers[i]->getPosition(), i);
-								client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
-							}
-						}
-						if (allFollowers[i]->getOtherNotified())
-						{
-							client.sendConverted(i);
-							allFollowers[i]->otherIsNotified();
-						}
-
-						if (allFollowers[i]->getAttackNotify())
-						{
-							allFollowers[i]->otherAttackNotified();
-							client.sendFollowerDamage(i, allFollowers[i]->getHealth());
-
-						}
-						if (otherProphet != nullptr &&otherProphet->getAttackNotify() )
-						{
-							otherProphet->otherAttackNotified();
-							client.sendProphetDamage(otherProphet->getHealth());
-						}
-						if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
-						{
-							thisProphet->collectSouls(allFollowers[i]);
-						}
-					}
-					if (allFollowers[i]->getSoulCollected())
-					{
-						client.sendSoulCollected(i);
-						//delete allFollowers[i];
-						deadFollowers[nrOfDead] = allFollowers[i];
-						nrOfDead++;
-						allFollowers[i] = new Follower();
-						allFollowers[i]->placeFollower(WIDTH, HEIGHT);
-
-					}
-					if (thisProphet->getCurAbil() != nullptr)
-					{
-						if (thisProphet->getIfSoundBoolIsActive())
-						{
-							cout << "activate" << endl;
-							if (thisProphet->getCurrentAbility() == 0)
-							{
-								soundManager->bomb();
-							}
-							else if (thisProphet->getCurrentAbility() == 1)
-							{
-								soundManager->healthRegen();
-							}
-							else
-							{
-								soundManager->reinforce();
-							}
-
-						}
-					}
-					else if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
-					{
-						if (otherProphet->getIfSoundBoolIsActive())
-						{
-							if (otherProphet->getCurrentAbility() == 0)
-							{
-								soundManager->bomb();
-							}
-						}
-					}
-					if (thisProphet->getIfAbilityIsActive())
-					{
-
-						thisProphet->timerForAbility();
-
-					}
-					else
-					{
-						if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
-						{
-							thisProphet->endingReinforcementAbility();
-
-						}
-						abilityplaced = false;
-
-
-					}
-					if (otherProphet != nullptr && otherProphet->getIfAbilityIsActive())
-					{
-
-						otherProphet->timerForAbility();
-
-					}
-					else
-					{
-						if (otherProphet->getCurrentAbility() == 2 && otherProphet->returnReinforceBool())
-						{
-							otherProphet->endingReinforcementAbility();
-
-						}
-
-
-					}
-					//Check conversion and start if key is pressed
-					if (converting)
-					{
-						thisProphet->convert(allFollowers, nrOfTotalFollowers);
-
-					}
-					else
-					{
-						thisProphet->resetClock();
-					}
-					if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
-					{
-						uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
-
-						uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-
-						//uiManager.setUpFps();
-
-
-					}
-				}
-			}
 				if (otherProphet != nullptr)
 				{
 
-					if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+					for (int i = 0; i < nrOfTotalFollowers; i++)
 					{
-						networkThread.join();
-						cout << "Someone died" << endl;
+						if (allFollowers[i] != nullptr)
+						{
 
-						if (otherProphet->getHealth() <= 0)
-						{
-							cout << "you are winner" << endl;
-							state = State::WON;
+							if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
+							{
+								allFollowers[i]->die();
+								if (allFollowers[i]->getConvertedByOther())
+								{
+									otherProphet->removeFollower(allFollowers[i]);
+
+								}
+								else
+								{
+									thisProphet->removeFollower(allFollowers[i]);
+									for (int i = 0; i < 3; i++)
+									{
+										uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+									}
+									soundManager->death();
+								}
+								if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+								{
+									cout << "taking damage" << endl;
+									soundManager->takeDamage();
+								}
+								if (thisProphet->hasLostHealth() || otherProphet->hasLostHealth())
+								{
+									soundManager->takeDamage();
+								}
+								//allFollowers[i]->switchTexture("soul.png ");
+								cout << "Follower " << i << " died\n";
+
+							}
+							if (allFollowers[i]->getConverted() && !allFollowers[i]->getConvertedByOther())
+							{
+								if (allFollowers[i]->isAlive())
+								{
+									allFollowers[i]->checkCivMove();
+
+									client.sendFollowerPos(allFollowers[i]->getPosition(), i);
+									client.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
+								}
+							}
+							if (allFollowers[i]->getOtherNotified())
+							{
+								client.sendConverted(i);
+								allFollowers[i]->otherIsNotified();
+							}
+
+							if (allFollowers[i]->getAttackNotify())
+							{
+								allFollowers[i]->otherAttackNotified();
+								client.sendFollowerDamage(i, allFollowers[i]->getHealth());
+
+							}
+							if (otherProphet != nullptr && otherProphet->getAttackNotify())
+							{
+								otherProphet->otherAttackNotified();
+								client.sendProphetDamage(otherProphet->getHealth());
+							}
+							if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
+							{
+								thisProphet->collectSouls(allFollowers[i]);
+							}
 						}
-						 if (thisProphet->getHealth() <= 0)
+						if (allFollowers[i]->getSoulCollected())
 						{
-							cout << "loser you are" << endl;
-							state = State::LOST;
+							client.sendSoulCollected(i);
+							//delete allFollowers[i];
+							deadFollowers[nrOfDead] = allFollowers[i];
+							nrOfDead++;
+							allFollowers[i] = new Follower();
+							allFollowers[i]->placeFollower(WIDTH, HEIGHT);
+
 						}
-						client.disconnect();
-						std::cout << "Disconnected\n";
+						if (thisProphet->getCurAbil() != nullptr)
+						{
+							if (thisProphet->getIfSoundBoolIsActive())
+							{
+								cout << "activate" << endl;
+								if (thisProphet->getCurrentAbility() == 0)
+								{
+									soundManager->bomb();
+								}
+								else if (thisProphet->getCurrentAbility() == 1)
+								{
+									soundManager->healthRegen();
+								}
+								else
+								{
+									soundManager->reinforce();
+								}
+
+							}
+						}
+						else if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
+						{
+							if (otherProphet->getIfSoundBoolIsActive())
+							{
+								if (otherProphet->getCurrentAbility() == 0)
+								{
+									soundManager->bomb();
+								}
+							}
+						}
+						if (thisProphet->getIfAbilityIsActive())
+						{
+
+							thisProphet->timerForAbility();
+
+						}
+						else
+						{
+							if (thisProphet->getCurrentAbility() == 2 && thisProphet->returnReinforceBool())
+							{
+								thisProphet->endingReinforcementAbility();
+
+							}
+							abilityplaced = false;
+
+
+						}
+						if (otherProphet != nullptr && otherProphet->getIfAbilityIsActive())
+						{
+
+							otherProphet->timerForAbility();
+
+						}
+						else
+						{
+							if (otherProphet->getCurrentAbility() == 2 && otherProphet->returnReinforceBool())
+							{
+								otherProphet->endingReinforcementAbility();
+
+							}
+
+
+						}
+						//Check conversion and start if key is pressed
+						if (converting)
+						{
+							thisProphet->convert(allFollowers, nrOfTotalFollowers);
+
+						}
+						else
+						{
+							thisProphet->resetClock();
+						}
+						if (this->thisProphet->getNrOfFollowers() > uiManager.getNrOfCurrentGroup())
+						{
+							uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
+
+							uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
+
+							//uiManager.setUpFps();
+
+
+						}
 					}
+				}
+			}
+			if (otherProphet != nullptr)
+			{
+
+				if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+				{
+					
+					cout << "Someone died" << endl;
+
+					if (otherProphet->getHealth() <= 0)
+					{
+						cout << "you are winner" << endl;
+						state = State::WON;
+					}
+					if (thisProphet->getHealth() <= 0)
+					{
+						cout << "loser you are" << endl;
+						state = State::LOST;
+					}
+					networkThread.join();
+					client.disconnect();
+					std::cout << "Disconnected\n";
 				}
 			}
 			for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
@@ -448,7 +449,7 @@ State GameClient::update()
 			soundManager->deleteAudio();
 			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		}
-			return state;
+		return state;
 
 	}
 }
