@@ -132,6 +132,11 @@ GameHost::~GameHost()
 		delete allFollowers[i];
 	}
 	delete[] allFollowers;
+	for (int i = 0; i < nrOfDead; i++)
+	{
+		delete deadFollowers[i];
+	}
+	delete[] deadFollowers;
 
 }
 
