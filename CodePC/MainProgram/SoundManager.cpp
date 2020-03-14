@@ -22,6 +22,10 @@ SoundManager::~SoundManager()
 	{
 		for (int i = 0; i < nrOf; i++)
 		{
+			if (sound[i]->getStatus() == sf::Sound::Status::Playing)
+			{
+				sound[i]->stop();
+			}
 			delete sound[i];
 		}
 	}
