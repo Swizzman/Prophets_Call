@@ -308,7 +308,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		}
 	}
 	
-	if (currentAbility != nullptr && hasPlacedAbility == true)
+	if (currentAbility != nullptr /*&& hasPlacedAbility == true*/)
 	{
 	
 		startAbility();
