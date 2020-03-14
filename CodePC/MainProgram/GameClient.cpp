@@ -56,6 +56,7 @@ GameClient::~GameClient()
 	}
 	delete[] deadFollowers;
 	delete[] allFollowers;
+	delete soundManager;
 }
 
 void GameClient::netWorking()
