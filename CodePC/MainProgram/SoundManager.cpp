@@ -29,6 +29,7 @@ SoundManager::~SoundManager()
 			delete sound[i];
 		}
 	}
+	
 	delete[] sound;
 	
 	
