@@ -3,14 +3,13 @@
 
 Server::Server()
 {
-	iP = sf::IpAddress::LocalHost;
 	iP = ("25.74.9.3");
+	iP = sf::IpAddress::LocalHost;
 	port = 55000;
 	listener.listen(port, iP);
 	std::cout << "Server started on: " << iP << ":" << port << std::endl;
 	clientConnected = false;
 	selector.add(listener);
-	std::cout << "Listening...\n";
 	clientSock = std::make_unique<sf::TcpSocket>();
 }
 
@@ -30,20 +29,12 @@ void Server::disconnect()
 
 void Server::run()
 {
-
-
-	std::cout << "isRunning\n";
 	if (selector.wait())
 	{
-		std::cout << "wait\n";
-
 		if (selector.isReady(listener))
 		{
-			std::cout << "isReady\n";
 			if (listener.accept(*clientSock) == sf::Socket::Done)
 			{
-				std::cout << "Client connected\n";
-
 				clientConnected = true;
 
 			}
@@ -83,7 +74,6 @@ void Server::sendConverted(int index)
 void Server::sendFollowerDamage(int index, int newHealth)
 {
 	sf::Packet packet;
-	std::cout << "Follower Damage sent!\n";
 	packet << (sf::Uint16) 5 << (sf::Uint16) index << (sf::Uint32) newHealth;
 	clientSock->send(packet);
 }
@@ -107,8 +97,6 @@ void Server::sendFollowerAnim(int index, int column, int row)
 	sf::Packet packet;
 	packet << (sf::Uint16) 8 << (sf::Uint16) index << (sf::Uint16) column << (sf::Uint16) row;
 	clientSock->send(packet);
-
-
 }
 
 void Server::sendProphetAnim(int column, int row)
@@ -137,8 +125,6 @@ Packet Server::recieveAPacket()
 		clientConnected = false;
 	}
 
-
-
 	packet >> recieved.type;
 	switch (recieved.type)
 	{
@@ -148,7 +134,6 @@ Packet Server::recieveAPacket()
 	case 2:
 		packet >> recieved.posX >> recieved.posY >> recieved.index;
 		break;
-
 	case 4:
 		packet >> recieved.index;
 		break;

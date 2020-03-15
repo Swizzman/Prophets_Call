@@ -3,8 +3,6 @@
 #include "Bomb.h"
 #include "Reinforcement.h"
 #include "Regen.h"
-#include <iostream>
-//#include "SoundManager.h"
 class Prophet;
 struct group;
 class AbilityManager
@@ -22,7 +20,6 @@ private:
 	bool reinforcementIsOn;
 	bool makeASoundBool;
 	int soundCounter;
-	//SoundManager soundManager;
 	int cost;
 	bool hasPlacedAbility;
 

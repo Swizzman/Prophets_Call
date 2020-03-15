@@ -25,7 +25,7 @@ Menu::Menu()
 	iPText.setPosition(((WIDTH / 2) - iPText.getGlobalBounds().width), ((HEIGHT / 2) - iPText.getGlobalBounds().height));
 	currentHighlightedButton = 0;
 	inputText.setFont(font);
-	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20,HEIGHT / 2);
+	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20, (HEIGHT / 2) - iPText.getGlobalBounds().height);
 	inputText.setCharacterSize(40);
 	window.setKeyRepeatEnabled(false);
 	iPMode = false;
@@ -39,10 +39,6 @@ Menu::~Menu()
 {
 }
 
-sf::Text Menu::renderText()
-{
-	return playText;
-}
 
 void Menu::handleEvents()
 {
@@ -55,7 +51,7 @@ void Menu::handleEvents()
 		}
 		if (event.type == sf::Event::KeyPressed)
 		{
-			if (event.key.code == sf::Keyboard::Q)
+			if (event.key.code == sf::Keyboard::Insert)
 			{
 
 				changeFullscreenMode();
@@ -100,7 +96,7 @@ State Menu::update()
 
 	while (window.isOpen())
 	{
-	State state = State::NO_CHANGE;
+		State state = State::NO_CHANGE;
 		elapsedTimeSinceLastUpdate += clock.restart();
 
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
@@ -108,9 +104,13 @@ State Menu::update()
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			if (inputDone)
 			{
-				iPOut.open("../datafiles/ip.txt");
-				iPOut << input;
-				iPOut.close();
+				if (input.length() > 4)
+				{
+
+					iPOut.open("../datafiles/ip.txt");
+					iPOut << input;
+					iPOut.close();
+				}
 				state = State::CONNECT;
 			}
 			sf::Vector2f mousePos = (sf::Vector2f)mouse.getPosition(window);
@@ -147,8 +147,6 @@ State Menu::update()
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					iPMode = true;
-
-					//state = State::CONNECT;
 				}
 			}
 			else
@@ -166,10 +164,10 @@ void Menu::render()
 	if (!iPMode)
 	{
 
-	window.draw(playText);
-	window.draw(mainMenuText);
-	window.draw(CloseText);
-	window.draw(ConnectingText);
+		window.draw(playText);
+		window.draw(mainMenuText);
+		window.draw(CloseText);
+		window.draw(ConnectingText);
 	}
 	else
 	{

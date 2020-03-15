@@ -1,6 +1,6 @@
 #include "GameEntity.h"
 class Follower;
-GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health, bool isProphet)
+GameEntity::GameEntity(std::string textureName, int movingSpeedX, int movingSpeedY, int health, bool isProphet)
 {
 	this->texture.loadFromFile("../images/" + textureName);
 	this->sprite.setTexture(texture);
@@ -12,42 +12,55 @@ GameEntity::GameEntity(string textureName, int movingSpeedX, int movingSpeedY, i
 	this->textureName = textureName;
 	this->animationTimer = 0;
 	this->currentColummn = 0;
-	collided = false;
-	abilityHasTakenAffect = false;
+	this->collided = false;
+	this->abilityHasTakenAffect = false;
 	this->haveAnimation = isProphet;
 	this->currentPriority = 0;
-	lastWalkingDirection = 5;
-	alive = true;
-
-	
-	lastXDest = 0;
-	lastYDest = 0;
-	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
-	//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
-	textureRect = sf::IntRect(0, 0, 64, 64);
+	this->lastWalkingDirection = 5;
+	this->alive = true;
+	this->lastXDest = 0;
+	this->lastYDest = 0;
+	this->textureRect = sf::IntRect(0, 0, 64, 64);
 	this->sprite.setTextureRect(textureRect);
 
-	attackNotify = false;
-	range = 100;
+	this->attackNotify = false;
+	this->range = 100;
 
-	randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
-	maxTime = rand() % 6000 + 2000;
+	this->randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
+	this->maxTime = rand() % 6000 + 2000;
 }
 
 GameEntity::GameEntity()
 {
 	texture.loadFromFile("???");
 	this->sprite.setTexture(texture);
-	this->movingSpeedX = 0;
-	this->movingSpeedY = 0;
-	this->health = 0;
-	this->maxHealth = 0;
-	collided = false;
-	abilityHasTakenAffect = false;
-	range = 100;
+	this->movingSpeedX = movingSpeedX;
+	this->movingSpeedY = movingSpeedY;
+	this->health = health;
+	this->healthLastFrame = health;
+	this->maxHealth = health;
+	this->textureName = textureName;
+	this->animationTimer = 0;
+	this->currentColummn = 0;
+	this->collided = false;
+	this->abilityHasTakenAffect = false;
+	this->haveAnimation = false;
+	this->currentPriority = 0;
+	this->lastWalkingDirection = 5;
+	this->alive = true;
 
-	randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
-	maxTime = rand() % 6000 + 2000;
+
+	this->lastXDest = 0;
+	this->lastYDest = 0;
+
+	this->textureRect = sf::IntRect(0, 0, 64, 64);
+	this->sprite.setTextureRect(textureRect);
+
+	this->attackNotify = false;
+	this->range = 100;
+
+	this->randomPos = sf::Vector2f(rand() % 300 - 150, rand() % 300 - 150);
+	this->maxTime = rand() % 6000 + 2000;
 }
 
 GameEntity::~GameEntity()
@@ -57,10 +70,6 @@ GameEntity::~GameEntity()
 
 void GameEntity::takeDamage(int damage)
 {
-
-	//if (isAlive())
-	//{
-
 
 	this->health -= damage;
 	if (this->health < 0)
@@ -72,7 +81,7 @@ void GameEntity::takeDamage(int damage)
 		this->health = maxHealth;
 	}
 	attackNotify = true;
-	//}
+
 }
 
 sf::Vector2f GameEntity::getPos()
@@ -87,7 +96,6 @@ sf::FloatRect GameEntity::getBounds()
 
 void GameEntity::switchTexture(std::string newTexture)
 {
-	//cout << newTexture << endl;
 	texture.loadFromFile("../images/" + newTexture);
 	sprite.setTexture(texture);
 	this->textureName = newTexture;
@@ -95,7 +103,6 @@ void GameEntity::switchTexture(std::string newTexture)
 
 int GameEntity::getHealth()
 {
-
 	return health;
 }
 
@@ -110,7 +117,7 @@ void GameEntity::setHealth(int health)
 
 void GameEntity::gainHealth(int health)
 {
-	if (isAlive())
+	if (alive)
 	{
 		if (this->health < maxHealth)
 		{
@@ -140,7 +147,7 @@ bool GameEntity::hasLostHealth()
 
 		return false;
 	}
-	
+
 }
 
 bool GameEntity::getAttackBool()
@@ -168,29 +175,9 @@ void GameEntity::otherAttackNotified()
 	attackNotify = false;
 }
 
-void GameEntity::attack(GameEntity* enemy, int damage)
-{
-	//if (sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) <= range &&
-	//	sqrt(pow(enemy->getPos().x - sprite.getPosition().x, 2) + pow(enemy->getPos().y - sprite.getPosition().y, 2) >= -range)))
-	//{
-	//	if (canAttack == true)
-	//	{
-	//		enemy->takeDamage(damage);
-
-	//		//attack enemy object
-	//		canAttack = false;
-	//	}
-	//	
-	//	
-
-	//}
-
-
-}
-
 void GameEntity::move()
 {
-	if (isAlive())
+	if (alive == true)
 	{
 		this->sprite.move(movingSpeedX, movingSpeedY);
 	}
@@ -198,21 +185,17 @@ void GameEntity::move()
 
 void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 {
-	if (isAlive() )
+	if (alive == true)
 	{
 		getNewRandomPos(currentCommand, false);
-		/*sf::Vector2f dist = dest- getPosition();
-		float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
-		sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);*/
+	
 		if ((lastXDest > 0 && dest.x > 0) && getCurrentPriority() <= 0 || (lastXDest < 0 && dest.x < 0) && getCurrentPriority() <= 0)
 		{
-
-
 			if (abs(dest.x) > abs(dest.y) && dest.x > 0.3)
 			{
 				startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
 				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
-				//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY()) << endl;
+
 			}
 			else if (abs(dest.x) > abs(dest.y) && dest.x < -0.5)
 			{
@@ -231,7 +214,6 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 			}
 			if (abs(dest.x) == abs(dest.y) && dest.y < -0.5)
 			{
-				//	cout << "same walking speed " << endl;
 				startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
 				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
 			}
@@ -245,9 +227,6 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 		{
 
 			startAnimation(lastWalkingDirection, 1, 15, -1);
-			//	cout << "(" << dest.x << lastXDest << ") : (" << dest.y << lastYDest << ")" << endl;
-
-
 		}
 
 		updateAnimation();
@@ -260,16 +239,6 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 
 		}
 	}
-
-
-
-	/*if ((abs(dest.x) < 0.5f && abs(dest.y) < 0.5f) || (-lastXDest == dest.x || -lastYDest == dest.y))
-	{
-		startAnimation(lastWalkingDirection, 1, 15, -1);
-
-	cout << "(" << dest.x  << ") : (" << dest.y  << ")" << endl;
-	}*/
-
 }
 
 
@@ -302,32 +271,30 @@ void GameEntity::setPosition(sf::Vector2f position)
 	this->sprite.setPosition(position);
 }
 
-string GameEntity::getTextureName()
+std::string GameEntity::getTextureName() const
 {
 	return textureName;
 }
 
-sf::Vector2f GameEntity::getPosition()
+sf::Vector2f GameEntity::getPosition() const
 {
 	return this->sprite.getPosition();
 }
 
-sf::Vector2f GameEntity::getOrigin()
+sf::Vector2f GameEntity::getOrigin() const
 {
 	return this->sprite.getOrigin();
 }
 
-sf::Vector2f GameEntity::getRandomPos()
+sf::Vector2f GameEntity::getRandomPos() const
 {
-	return randomPos;
+	return this->randomPos;
 }
 
 void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 {
 	if (alive)
 	{
-
-
 		moveTimer += clock.restart();
 		int randomPosRange = 0;
 
@@ -350,7 +317,6 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 		}
 		if (reset)
 		{
-			//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
 			randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
 			moveTimer = sf::Time::Zero;
 			maxTime = rand() % 5000 + 2000;
@@ -359,18 +325,15 @@ void GameEntity::getNewRandomPos(int currentCommand, bool reset)
 		}
 		if (moveTimer.asMilliseconds() > maxTime&& randomPosRange != 0)
 		{
-			//float xRPos = rand() % 250 - dynamic_cast<class Prophet>(this->)
 			randomPos = sf::Vector2f(rand() % randomPosRange - randomPosRange / 2, rand() % randomPosRange - randomPosRange / 2);
 			moveTimer = sf::Time::Zero;
 			maxTime = rand() % 5000 + 2000;
-
-
 		}
 
 	}
 }
 
-bool GameEntity::getCollidedBool()
+bool GameEntity::getCollidedBool() const
 {
 	return collided;
 }
@@ -389,7 +352,7 @@ void GameEntity::touchedByAbility(bool abilityIsActive)
 
 }
 
-bool GameEntity::CheckIfEntityCanBeAffectedByAbility()
+bool GameEntity::checkIfEntityCanBeAffectedByAbility() const
 {
 	return abilityHasTakenAffect;
 }
@@ -405,13 +368,12 @@ bool GameEntity::getIfIsInRangeOfAbility(bool IsInRange)
 	return	isInRangeOfAbility;
 }
 
-float GameEntity::getRange()
+float GameEntity::getRange() const
 {
-
 	return range;
 }
 
-bool GameEntity::hasAAnimation()
+bool GameEntity::hasAAnimation() const
 {
 	return haveAnimation;
 }
@@ -421,28 +383,26 @@ void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBef
 	if (alive == true)
 	{
 
-			
-		if (priority >= this->currentPriority || (currentPriority == 0 && priority == -1))
+
+		if (priority >= this->currentPriority || (this->currentPriority == 0 && priority == -1))
 		{
-			if (currentRow != nrOfRows || (priority == -1 && currentPriority == 0))
+			if (this->currentRow != nrOfRows || (priority == -1 && this->currentPriority == 0))
 			{
-				
-				textureRect.left = 0;
+				this->textureRect.left = 0;
 			}
 
-			currentPriority = priority;
-			currentRow = nrOfRows;
-			frameBeforeNextSpriteFrame = nrOfFramesBeforeNextIntRect;
-			//currentColummn = 0;
+			this->currentPriority = priority;
+			this->currentRow = nrOfRows;
+			this->frameBeforeNextSpriteFrame = nrOfFramesBeforeNextIntRect;
 			this->nrOfColumms = nrOfColumms;
 			updateAnimation();
 
-			if (currentRow != nrOfRows)
+			if (this->currentRow != nrOfRows)
 			{
 				this->textureRect.left = 0;
 				this->sprite.setTextureRect(textureRect);
 			}
-			currentRow = nrOfRows;
+			this->currentRow = nrOfRows;
 			this->textureRect.top = this->textureRect.height * nrOfRows;
 
 
@@ -452,30 +412,28 @@ void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBef
 
 void GameEntity::updateAnimation()
 {
-
-	//cout << textureRect.left << " : " << (int)this->texture.getSize().x << endl;
 	if (alive == true)
 	{
 
 		this->animationTimer = (this->animationTimer + 1) % frameBeforeNextSpriteFrame;
 		if (this->animationTimer == frameBeforeNextSpriteFrame - 1)
 		{
-			currentColummn++;
+			this->currentColummn++;
 			this->textureRect.left = (this->textureRect.left + this->textureRect.width) % (int)(nrOfColumms * this->textureRect.width);
 
 		}
 		if (currentColummn >= nrOfColumms)
 		{
-			currentPriority = 0;
+			this->currentPriority = 0;
 
-			currentColummn = 0;
+			this->currentColummn = 0;
 		}
 		this->sprite.setTextureRect(this->textureRect);
 
 	}
 }
 
-int GameEntity::getCurrentPriority()
+int GameEntity::getCurrentPriority() const
 {
 	return currentPriority;
 }
@@ -491,40 +449,37 @@ void GameEntity::setAnimation(int column, int row)
 	}
 }
 
-int GameEntity::getCurrentRow()
+int GameEntity::getCurrentRow() const
 {
 	return currentRow;
 }
 
-int GameEntity::getCurrentColummn()
+int GameEntity::getCurrentColummn()const 
 {
 	return currentColummn;
 }
-
-
-
 
 void GameEntity::followerDied()
 {
 	if (alive == true)
 	{
-		alive = false;
-		textureRect.left = 0;
-		textureRect.top = 0;
-		textureRect.width = 50;
-		textureRect.height = 71;
-		sprite.setTextureRect(textureRect);
+		this->alive = false;
+		this->textureRect.left = 0;
+		this->textureRect.top = 0;
+		this->textureRect.width = 50;
+		this->textureRect.height = 71;
+		this->sprite.setTextureRect(this->textureRect);
 	}
 }
 
-bool GameEntity::isAlive()
+bool GameEntity::getAlive() const
 {
 	return alive;
 }
 
 void GameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	
+
 	target.draw(this->sprite);
 
 }

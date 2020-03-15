@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include "GameState.h"
 #include <fstream>
-#include <iostream>
 class Menu : public GameState 
 {
 
@@ -27,11 +26,6 @@ private:
 public:
 	Menu();
 	virtual ~Menu();
-
-	sf::Text renderText();
-	
-
-
 	// Inherited via GameState
 	virtual void handleEvents() override;
 

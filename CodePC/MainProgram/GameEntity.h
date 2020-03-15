@@ -1,13 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <iostream>
 #include <ctime>
 #include "ANIMATIONSPRITEROW.h"
 #include "FOLLOWERSPRITEROW.h"
 
 
-using namespace std;
 class GameEntity : public sf::Drawable
 {
 private:
@@ -19,7 +17,7 @@ private:
 	int healthLastFrame;
 	bool canAttack;
 	bool attackNotify;
-	string textureName;
+	std::string textureName;
 	sf::Vector2f randomPos;
 	sf::Time moveTimer;
 	sf::Clock clock;
@@ -43,16 +41,9 @@ private:
 	int nrOfColumms;
 
 	sf::IntRect textureRect;
-	
-
-
-
-	//	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
-		//	followerProfileTexture[b].getSize().x, 60.f / followerProfileTexture[b].getSize().y);
-
 
 public:
-	GameEntity(string textureName, int movingSpeedX, int movingSpeedY, int health, bool isProphet);
+	GameEntity(std::string textureName, int movingSpeedX, int movingSpeedY, int health, bool isProphet);
 	GameEntity();
 	virtual  ~GameEntity();
 
@@ -64,13 +55,11 @@ public:
 	void setHealth(int health);
 	void gainHealth(int health);
 	bool hasLostHealth();
-	//void attackCooldown();
 	bool getAttackBool();
 	bool getAttackNotify() const;
 	bool getDeathNotify() const;
 	void otherDeathNotify();
 	void otherAttackNotified();
-	void attack(GameEntity *enemy, int damage);
 	void move();
 	void moveTowardsDest(sf::Vector2f dest, int currentCommand);
 	void setMovingSpeed(int newSpeedX, int newSpeedY);
@@ -78,28 +67,27 @@ public:
 	int getMovingSpeedY();
 	void setPosition(float xPos, float yPos);
 	void setPosition(sf::Vector2f position);
-	string getTextureName();
-	sf::Vector2f getPosition();
-	sf::Vector2f getOrigin();
-	sf::Vector2f getRandomPos();
+	std::string getTextureName() const;
+	sf::Vector2f getPosition() const;
+	sf::Vector2f getOrigin() const;
+	sf::Vector2f getRandomPos() const;
 	virtual void die() = 0;
 	void getNewRandomPos(int currentCommand, bool reset);
-//	void Collided(GameEntity* other);
-	bool getCollidedBool();
+	bool getCollidedBool() const;
 	void touchedByAbility(bool abilityIsActive);
-	bool CheckIfEntityCanBeAffectedByAbility();
+	bool checkIfEntityCanBeAffectedByAbility() const;
 	bool getIfIsInRangeOfAbility(bool IsInRange);
-	float getRange();
+	float getRange() const;
 	void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
 	void updateAnimation();
-	int getCurrentPriority();
+	int getCurrentPriority() const;
 	void setAnimation(int column, int row);
-	bool hasAAnimation();
-	int getCurrentRow();
-	int getCurrentColummn();
+	bool hasAAnimation() const;
+	int getCurrentRow() const;
+	int getCurrentColummn() const;
 	// Inherited via Drawable
 	void followerDied();
-	bool isAlive();
+	bool getAlive()const ;
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 };

@@ -18,11 +18,6 @@ LowestHP::LowestHP()
 LowestHP::~LowestHP()
 {
 }
-//
-//GameEntity* LowestHP::calculateRoute(GameEntity* thisObject, GameEntity** object)
-//{
-//	return nullptr;
-//}
 
 sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object)
 {
@@ -37,7 +32,6 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 	if (sqrt(pow((enemyObject->getPosition().x + enemyObject->getBounds().width / 2) - (object->getPosition().x + object->getBounds().width / 2), 2) +
 		pow((enemyObject->getPosition().y + enemyObject->getBounds().height / 2) - (object->getPosition().y + object->getBounds().height / 2), 2)) > object->getRange())
 	{
-		//	cout << "get new random pos" << endl;
 		object->getNewRandomPos(0, true);
 
 	}
@@ -61,14 +55,12 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 				{
 					tempDist = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition() - object->getPosition();
 					magniTemp = sqrt(pow(tempDist.x, 2) + pow(tempDist.y, 2));
-						//sqrt(pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition().x - object->getPosition().x, 2) + pow(dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getPosition().y - object->getPosition().y, 2));
 					attackProphetBool = false;
 					whichFollower = i;
 					whichGroup = a;
 					health = dynamic_cast<Prophet*>(enemyObject)->getAllFollowers(a)[i]->getHealth();
 				}
 			}
-			//+object->getRandomPos()
 
 
 
@@ -82,8 +74,6 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 			tempDist = (enemyObject)->getPosition() + object->getRandomPos() -object->getPosition();
 
 			magniTemp = sqrt(pow(tempDist.x, 2) + pow(tempDist.y, 2));
-			
-				//sqrt(pow((enemyObject)->getPosition().x - object->getPosition().x, 2) + pow((enemyObject)->getPosition().y - object->getPosition().y, 2));
 			attackProphetBool = true;
 			health = dynamic_cast<Prophet*>(enemyObject)->getHealth();
 		}
@@ -176,9 +166,6 @@ sf::Vector2f LowestHP::calculateRoute(GameEntity* thisObject, GameEntity* enemyO
 		}
 
 	}
-	
-	
-	//cout << dist.x << " : " << dist.y << endl;
 
 	return dir;
 }

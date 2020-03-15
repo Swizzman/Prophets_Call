@@ -2,37 +2,30 @@
 
 void Follower::die()
 {
-	//die;
-
 	alive = false;
 	switchTexture("soul.png ");
 	followerDied();
-
-
-
 }
 
 Follower::Follower() : GameEntity("CivilianSpriteSheet.png", 1, 1, 100, false)
 {
-	windowHeight = 0;
-	windowWidth = 0;
-	damage = 20;
-	startDamage = 20;
-	soulValue = 40;
-	attackRange = 5.f;
-	alive = true;
-	converted = false;
-	convertedByOther = false;
-	otherNotified = false;
-	soulCollected = false;
-	maxTime = rand() % 6000 + 2000;
-	convertedAmount = 0;
-	
+	this->windowHeight = 0;
+	this->windowWidth = 0;
+	this->damage = 20;
+	this->startDamage = 20;
+	this->soulValue = 40;
+	this->alive = true;
+	this->converted = false;
+	this->convertedByOther = false;
+	this->otherNotified = false;
+	this->soulCollected = false;
+	this->maxTime = rand() % 6000 + 2000;
+	this->convertedAmount = 0;
 	setMovingSpeed(getMovingSpeedX() - rand() % 3, getMovingSpeedY() - rand() % 3);
 	this->canAttack = true;
-	followerRange = 100;
-	attackCooldownTime = 2;
-	lastWalkingDirection = 5;
+	this->followerRange = 100.f;
+	this->attackCooldownTime = 2;
+	this->lastWalkingDirection = 5;
 }
 
 Follower::~Follower()
@@ -43,31 +36,26 @@ Follower::~Follower()
 
 void Follower::increaseDamageDone(int increase)
 {
-	if (isAlive())
+	if (getAlive())
 	{
 		damage += increase;
-		cout << damage << endl;
 	}
 }
 
-void Follower::returnDamage()
+void Follower::resetDamage()
 {
-	if (isAlive())
+	if (getAlive())
 	{
 		damage = startDamage;
-		cout << damage << endl;
 	}
 }
 
 void Follower::checkCivMove()
 {
-	if (isAlive())
+	if (getAlive())
 	{
-
-
 		if (!converted)
 		{
-
 			moveTimer += clock.restart();
 			if (moveTimer.asMilliseconds() > maxTime)
 			{
@@ -77,8 +65,6 @@ void Follower::checkCivMove()
 				maxTime = rand() % 6000 + 2000;
 
 			}
-
-
 			move();
 			if (getPosition().x < 0 || getPosition().x + getBounds().width > windowWidth)
 			{
@@ -95,7 +81,7 @@ void Follower::checkCivMove()
 			{
 				startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
 				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
-				//cout << abs(this->getMovingSpeedX()) << " : " << abs(this->getMovingSpeedY())<< endl;
+
 			}
 			else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
 			{
@@ -115,7 +101,6 @@ void Follower::checkCivMove()
 
 			if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() < 0)
 			{
-				//	cout << "same walking speed " << endl;
 				startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
 				lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
 			}
@@ -129,7 +114,6 @@ void Follower::checkCivMove()
 				startAnimation(lastWalkingDirection, 1, 15, -1);
 
 			}
-
 
 			updateAnimation();
 		}
@@ -150,10 +134,9 @@ void Follower::placeFollower(int width, int height)
 
 int Follower::inflictDamage()
 {
-	if (isAlive())
+	if (getAlive())
 	{
 		canAttack = false;
-		//	cout << "ouch" << endl;
 		return damage;
 	}
 }
@@ -175,7 +158,7 @@ bool Follower::getSoulCollected() const
 
 void Follower::attackCooldown()
 {
-	if (isAlive())
+	if (getAlive())
 	{
 
 		attackTime += attackClock.restart();
@@ -183,7 +166,6 @@ void Follower::attackCooldown()
 		if (attackTime.asSeconds() > attackCooldownTime)
 		{
 
-			//cout << "Timer restart " << endl;
 			attackTime = sf::Time::Zero;
 			canAttack = true;
 
@@ -194,7 +176,7 @@ void Follower::attackCooldown()
 
 }
 
-bool Follower::getAttackCooldown()
+bool Follower::getAttackCooldown() const
 {
 	return canAttack;
 }
@@ -206,7 +188,7 @@ void Follower::resetAttackClock()
 
 void Follower::convert()
 {
-	if (isAlive())
+	if (getAlive())
 	{
 		if (!converted)
 		{
@@ -230,7 +212,7 @@ void Follower::convert()
 
 void Follower::otherConvert()
 {
-	if (isAlive())
+	if (getAlive())
 	{
 		convertedAmount = 200;
 		converted = true;
@@ -269,72 +251,14 @@ int Follower::getConvertedAmount() const
 	return convertedAmount;
 }
 
-void Follower::Collided(GameEntity* other)
-{
-
-	if (!converted)
-	{
 
 
-
-
-		//if (this->getMovingSpeedY() == 0 && this->getMovingSpeedX() == 0)
-		//{
-		//	setPosition(getPosition().x, getPosition().y);
-		////	startAnimation(lastWalkingDirection,1,15,-1);
-		//	
-		//}
-		//else if (this->getMovingSpeedX() == 0 && this->getMovingSpeedY() != 0)
-		//{
-		//	setPosition(getPosition().x, getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
-		//}
-		//else if (this->getMovingSpeedY() == 0)
-		//{
-		//	setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y);
-		//}
-
-		//if (this->getMovingSpeedY() != 0 && this->getMovingSpeedX() != 0)
-		//{
-		//	setPosition(getPosition().x - getMovingSpeedX() / abs(getMovingSpeedX()), getPosition().y - getMovingSpeedY() / abs(getMovingSpeedY()));
-		//}
-		//setMovingSpeed(-getMovingSpeedX(), -getMovingSpeedY());
-		//if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() > 0)
-		//{
-		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGRIGHT, 9, 15, 0);
-		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGRIGHT;
-		//}
-		//else if (abs(this->getMovingSpeedX()) > abs(this->getMovingSpeedY()) && this->getMovingSpeedX() < 0)
-		//{
-		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGLEFT, 9, 15, 0);
-		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGLEFT;
-		//}
-		//else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() > 0)
-		//{
-		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGDOWN, 9, 15, 0);
-		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGDOWN;
-		//}
-		//else if (abs(this->getMovingSpeedX()) < abs(this->getMovingSpeedY()) && this->getMovingSpeedY() < 0)
-		//{
-		//	startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
-		//	lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
-		//}
-		//if (getMovingSpeedX() == 0 && getMovingSpeedY() == 0)
-		//{
-		//	startAnimation(lastWalkingDirection, 1, 15, -1);
-		//}
-		//updateAnimation();
-
-	}
-
-
-}
-
-float Follower::getFollowerRange()
+float Follower::getFollowerRange() const
 {
 	return followerRange;
 }
 
-bool Follower::getIfAlive()
+bool Follower::getIfAlive() const
 {
 	return alive;
 }
