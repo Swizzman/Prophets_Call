@@ -35,7 +35,6 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	this->timePerFrame = sf::seconds(1 / 60.f);
 	this->uiManager.setUpPp(thisProphet->getHealth());
 	this->uiManager.setUpCS();
-	this->uiManager.setUpFps(nrOfTotalFollowers);
 	this->converting = false;
 	this->abilityplaced = false;
 	this->activeClient = false;
@@ -289,7 +288,7 @@ State GameHost::update()
 							for (int i = 0; i < 3; i++)
 							{
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-								
+
 							}
 
 						}
@@ -444,14 +443,8 @@ State GameHost::update()
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
 
-			soundManager.deleteAudio();
 
 		}
-		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
-		{
-			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
-		}
-		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 
 		if (otherProphet != nullptr)
 		{
@@ -471,6 +464,12 @@ State GameHost::update()
 				server.disconnect();
 				netWorkThread.join();
 			}
+			for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
+			{
+				uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
+			}
+			soundManager.deleteAudio();
+			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		}
 
 		return state;
