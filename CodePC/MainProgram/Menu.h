@@ -10,8 +10,8 @@ private:
 	sf::Font font;
 	sf::Text playText;
 	sf::Text mainMenuText;
-	sf::Text CloseText;
-	sf::Text ConnectingText;
+	sf::Text closeText;
+	sf::Text connectingText;
 	sf::Text iPText;
 	sf::Mouse mouse;
 	std::string input;

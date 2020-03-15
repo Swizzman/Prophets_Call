@@ -42,11 +42,11 @@ private:
 	CommandManager commandMan;
 	sf::Mouse abilityMouse;
 	bool abilityActive;
-	sf::Vector2f getCircCenter() const;
 	int currentCommandGroup;
 
 	bool abilityAnimation;
 	int lastWalkingDirection;
+	sf::Vector2f getCircCenter() const;
 public:
 	Prophet();
 	virtual ~Prophet();
@@ -69,7 +69,7 @@ public:
 	void changeAbility();
 	sf::CircleShape getConvertCirc() const;
 	void changeCurrentCommandGroup();
-	int getcurrentGroupCommand();
+	int getCurrentGroupCommand();
 	Ability* getCurAbil() const;
 	bool getIfSoundBoolIsActive() ;
 	void changeCurrentCommand();

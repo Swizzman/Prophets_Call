@@ -16,10 +16,10 @@ struct Packet
 class Client
 {
 private:
+	sf::IpAddress iP;
 	sf::TcpSocket connectionSocket;
 	sf::Packet recievePacket;
 	bool connected;
-	sf::IpAddress iP;
 public:
 	Client();
 	void run();

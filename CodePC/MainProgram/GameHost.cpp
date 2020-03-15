@@ -186,7 +186,7 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::LShift:
 				thisProphet->changeCurrentCommand();
-				uiManager.updateCS(thisProphet->getcurrentGroupCommand());
+				uiManager.updateCS(thisProphet->getCurrentGroupCommand());
 				break;
 			case sf::Keyboard::Enter:
 				changeFullscreenMode();
