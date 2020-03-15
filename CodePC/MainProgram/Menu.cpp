@@ -5,20 +5,20 @@ Menu::Menu()
 	font.loadFromFile("c:/windows/Fonts/arial.ttf");
 	playText.setFont(font);
 	mainMenuText.setFont(font);
-	CloseText.setFont(font);
-	ConnectingText.setFont(font);
+	closeText.setFont(font);
+	connectingText.setFont(font);
 	playText.setString("Play");
 	mainMenuText.setString("Prophets Call");
-	CloseText.setString("Quit");
-	ConnectingText.setString("Connect");
-	ConnectingText.setCharacterSize(40);
+	closeText.setString("Quit");
+	connectingText.setString("Connect");
+	connectingText.setCharacterSize(40);
 	mainMenuText.setCharacterSize(80);
 	mainMenuText.setPosition(910 - mainMenuText.getGlobalBounds().width / 2, 200);
 	playText.setCharacterSize(40);
 	playText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - playText.getGlobalBounds().width / 2), 350);
-	CloseText.setCharacterSize(40);
-	ConnectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - ConnectingText.getGlobalBounds().width / 2), 420);
-	CloseText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - CloseText.getGlobalBounds().width / 2), 490);
+	closeText.setCharacterSize(40);
+	connectingText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - connectingText.getGlobalBounds().width / 2), 420);
+	closeText.setPosition(mainMenuText.getPosition().x + (mainMenuText.getGlobalBounds().width / 2 - closeText.getGlobalBounds().width / 2), 490);
 	iPText.setFont(font);
 	iPText.setString("Please enter IP:");
 	iPText.setCharacterSize(40);
@@ -128,9 +128,9 @@ State Menu::update()
 				playText.setFillColor(sf::Color::White);
 			}
 
-			if (CloseText.getGlobalBounds().contains(mousePos))
+			if (closeText.getGlobalBounds().contains(mousePos))
 			{
-				CloseText.setFillColor(sf::Color::Yellow);
+				closeText.setFillColor(sf::Color::Yellow);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					window.close();
@@ -139,11 +139,11 @@ State Menu::update()
 			}
 			else
 			{
-				CloseText.setFillColor(sf::Color::White);
+				closeText.setFillColor(sf::Color::White);
 			}
-			if (ConnectingText.getGlobalBounds().contains(mousePos))
+			if (connectingText.getGlobalBounds().contains(mousePos))
 			{
-				ConnectingText.setFillColor(sf::Color::Yellow);
+				connectingText.setFillColor(sf::Color::Yellow);
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					iPMode = true;
@@ -151,7 +151,7 @@ State Menu::update()
 			}
 			else
 			{
-				ConnectingText.setFillColor(sf::Color::White);
+				connectingText.setFillColor(sf::Color::White);
 			}
 			return state;
 		}
@@ -166,8 +166,8 @@ void Menu::render()
 
 		window.draw(playText);
 		window.draw(mainMenuText);
-		window.draw(CloseText);
-		window.draw(ConnectingText);
+		window.draw(closeText);
+		window.draw(connectingText);
 	}
 	else
 	{

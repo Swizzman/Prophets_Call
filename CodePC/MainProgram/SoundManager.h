@@ -6,15 +6,15 @@ class SoundManager
 {
 private:
 	
- 	sf::Sound** sound;
 	sf::SoundBuffer attackBuffer;
 	sf::SoundBuffer convertBuffer;
 	sf::SoundBuffer bombBuffer;
 	sf::SoundBuffer abilityBuffer;
-	sf::SoundBuffer DeathBuffer;
-	sf::SoundBuffer HealthRegenBuffer;
+	sf::SoundBuffer deathBuffer;
+	sf::SoundBuffer healthRegenBuffer;
 	sf::SoundBuffer takingDamageBuffer;
 	sf::SoundBuffer reinforceBuffer;
+ 	sf::Sound** sound;
 	int nrOf;
 
 public:

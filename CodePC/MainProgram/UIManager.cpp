@@ -52,7 +52,7 @@ UIManager::UIManager()
 
 	this->canDrawPortrait = false;
 
-	this->currentCommandControll = 0;
+	this->currentCommandControl = 0;
 
 }
 
@@ -120,7 +120,7 @@ void UIManager::setUpCS()
 
 
 
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			for (int a = 0; a < 4; a++)
 			{
@@ -228,7 +228,7 @@ void UIManager::setUpPp(int health)
 	}
 
 
-	this->healtProc = health;
+	this->healthProc = health;
 
 
 }
@@ -239,7 +239,7 @@ void UIManager::updateCS(int currentCommand)
 
 	for (int i = 0; i < GROUPCAP; i++)
 	{
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			for (int a = 0; a < 4; a++)
 			{
@@ -271,7 +271,7 @@ void UIManager::updateFps(int health, int whichFollower)
 	{
 
 
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			if (health < 0)
 				health = 0;
@@ -336,7 +336,7 @@ void UIManager::addFps(std::string textureName, int maxHealth, int followersInGr
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			delete fps[cs[i]->nummberOfFollowersInGroup];
 			this->fps[cs[i]->nummberOfFollowersInGroup] = new followerPortraitStruct();
@@ -473,7 +473,7 @@ void UIManager::updatePp(int health, int soul, int currentAbility)
 	{
 		health = 0;
 	}
-	this->pp.healthText[1].setString(std::to_string((int)(100 * (health / healtProc))) + "%");
+	this->pp.healthText[1].setString(std::to_string((int)(100 * (health / healthProc))) + "%");
 	this->pp.healthText[1].setPosition(this->pp.ppRec[3].getPosition().x + this->pp.ppRec[3].getGlobalBounds().width / 2 - 
 		this->pp.healthText[1].getGlobalBounds().width / 2, this->healthBar.getPosition().y - 5);
 
@@ -483,7 +483,7 @@ void UIManager::updatePp(int health, int soul, int currentAbility)
 		this->pp.soulText.getGlobalBounds().height * 2);
 
 
-	this->pp.ppRec[4].setSize(sf::Vector2f(2.4f * (100 * (health / healtProc)), 30));
+	this->pp.ppRec[4].setSize(sf::Vector2f(2.4f * (100 * (health / healthProc)), 30));
 
 
 	for (int i = 0; i < ABILITYCAP; i++)
@@ -503,15 +503,15 @@ void UIManager::updatePp(int health, int soul, int currentAbility)
 
 void UIManager::changeCS()
 {
-	currentCommandControll++;
-	if (currentCommandControll > GROUPCAP - 1)
+	currentCommandControl++;
+	if (currentCommandControl > GROUPCAP - 1)
 	{
-		currentCommandControll = 0;
+		currentCommandControl = 0;
 	}
 
 	for (int i = 0; i < GROUPCAP; i++)
 	{
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			for (int a = 0; a < 4; a++)
 			{
@@ -537,7 +537,7 @@ void UIManager::updateCSNumber(int nrOfFollowers)
 	
 	for (int i = 0; i < GROUPCAP; i++)
 	{
-		if (i == currentCommandControll)
+		if (i == currentCommandControl)
 		{
 			cs[i]->nummberOfFollowersInGroup++;
 			cs[i]->nummberText[0].setString(std::to_string(cs[i]->nummberOfFollowersInGroup));
@@ -568,7 +568,7 @@ int UIManager::getNrOfCurrentGroup() const
 	int nrOf = 0;
 	for (int i = 0; i < GROUPCAP; i++)
 	{
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			nrOf =  cs[i]->nummberOfFollowersInGroup;
 		}
@@ -618,7 +618,7 @@ void UIManager::drawUI(sf::RenderWindow& window)
 			window.draw(this->cs[i]->commandRec[a]);
 			window.draw(this->cs[i]->commandNames[a]);
 		}
-		if (currentCommandControll == i)
+		if (currentCommandControl == i)
 		{
 			for (int a = 0; a < cs[i]->nummberOfFollowersInGroup; a++)
 			{

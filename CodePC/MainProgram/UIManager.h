@@ -57,8 +57,8 @@ private:
 	ProphetProperties pp;
 	int numberOfFollowers;
 	int chosenAbility;
-	int currentCommandControll;
-	float healtProc;
+	int currentCommandControl;
+	float healthProc;
 	bool canDrawPortrait;
 
 	int nrOfCiv;

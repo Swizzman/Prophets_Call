@@ -6,8 +6,8 @@ SoundManager::SoundManager()
 	this->abilityBuffer.loadFromFile("../Sounds/ability.wav");
 	this->convertBuffer.loadFromFile("../Sounds/convert.wav");
 	this->bombBuffer.loadFromFile("../Sounds/bomb.wav");
-	this->DeathBuffer.loadFromFile("../Sounds/death.wav");
-	this->HealthRegenBuffer.loadFromFile("../Sounds/HealthRegen.wav");
+	this->deathBuffer.loadFromFile("../Sounds/death.wav");
+	this->healthRegenBuffer.loadFromFile("../Sounds/HealthRegen.wav");
 	this->takingDamageBuffer.loadFromFile("../Sounds/hurt.wav");
 	this->reinforceBuffer.loadFromFile("../Sounds/reinforce.wav");
 	this->nrOf = 0;
@@ -88,7 +88,7 @@ void SoundManager::death()
 
 	sound[nrOf] = new sf::Sound;
 
-	sound[nrOf]->setBuffer(DeathBuffer);
+	sound[nrOf]->setBuffer(deathBuffer);
 	sound[nrOf]->play();
 	nrOf++;
 
@@ -98,7 +98,7 @@ void SoundManager::healthRegen()
 {
 	sound[nrOf] = new sf::Sound;
 
-	sound[nrOf]->setBuffer(HealthRegenBuffer);
+	sound[nrOf]->setBuffer(healthRegenBuffer);
 	sound[nrOf]->play();
 	nrOf++;
 }

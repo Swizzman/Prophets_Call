@@ -390,7 +390,7 @@ void Prophet::changeCurrentCommandGroup()
 
 }
 
-int Prophet::getcurrentGroupCommand()
+int Prophet::getCurrentGroupCommand()
 {
 	int command = 0;
 	for (int i = 0; i < GROUPNR; i++)
