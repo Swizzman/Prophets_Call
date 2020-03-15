@@ -301,22 +301,25 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 {
 	int nrOfFollowersAlive = 0;
 	
-	for (int i = 0; i < followersInGroup; i++)
-	{
-		if (health > 0)
+		
+		for (int i = 0; i < followersInGroup; i++)
 		{
-			fpsTemp[nrOfFollowersAlive] = new followerPortraitStruct();
-			fpsTemp[nrOfFollowersAlive] = fps[i];
-			delete fps[i];
-			//	fps[i] = nullptr;
-			nrOfFollowersAlive++;
+			if (health > 0)
+			{
+				std::cout << "is this even playing" << std::endl;
+				fpsTemp.push_back(*fps[i]);
 
-
+				nrOfFollowersAlive++;
+			}
+			else
+			{
+				if (fps[i] != nullptr)
+				delete fps[i];
+			}
 		}
-	}
-
-	for (int a = 0; a < followersInGroup; a++)
-	{
+		
+		for (int i = 0; i < nrOfFollowersAlive; i++)
+		{
 
 		fps[a] = new followerPortraitStruct();
 		fps[a] = fpsTemp[a];
