@@ -28,7 +28,7 @@ UIManager::UIManager()
 
 	this->cs = new commandStruct * [GROUPCAP] {nullptr};
 	this->fps = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER] {nullptr};
-	this->fpsTemp = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER]{ nullptr };
+
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 		this->cs[i] = new commandStruct();
@@ -306,7 +306,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		{
 			if (health > 0)
 			{
-				std::cout << "is this even playing" << std::endl;
+			
 				fpsTemp.push_back(*fps[i]);
 
 				nrOfFollowersAlive++;
@@ -330,9 +330,8 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		}
 
 		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size());
-		numberOfFollowers = followersInGroup;
-		std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
-		std::cout << "this is in UIManager " << std::endl;
+		numberOfFollowers = nrOfFollowersAlive;
+
 }
 
 void UIManager::addFps(std::string textureName, int maxHealth, int followersInGroup)
