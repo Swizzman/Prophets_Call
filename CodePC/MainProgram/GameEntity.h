@@ -48,7 +48,7 @@ public:
 	virtual  ~GameEntity();
 
 	void takeDamage(int damage);
-	sf::Vector2f getPos();
+	
 	sf::FloatRect getBounds();
 	void switchTexture(std::string newTexture);
 	int getHealth();
@@ -78,7 +78,7 @@ public:
 	bool checkIfEntityCanBeAffectedByAbility() const;
 	bool getIfIsInRangeOfAbility(bool IsInRange);
 	float getRange() const;
-	void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
+	void startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBeforeNextIntRect, int priority);
 	void updateAnimation();
 	int getCurrentPriority() const;
 	void setAnimation(int column, int row);

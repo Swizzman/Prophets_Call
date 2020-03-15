@@ -84,10 +84,7 @@ void GameEntity::takeDamage(int damage)
 
 }
 
-sf::Vector2f GameEntity::getPos()
-{
-	return sprite.getPosition();
-}
+
 
 sf::FloatRect GameEntity::getBounds()
 {

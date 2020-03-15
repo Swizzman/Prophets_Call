@@ -1,6 +1,6 @@
 #pragma once
 #include "Commands.h"
-#include "FOLLOWERSPRITEROW.h"
+
 
 class AttackProphet :
 	public Commands
