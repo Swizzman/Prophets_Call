@@ -12,30 +12,23 @@ UIManager::UIManager()
 	{
 		this->abilityNames[i].setFont(font);
 	}
-	followerProfileTexture[0].loadFromFile("../images/FollowerSpriteSheet.png");
-	followerProfileTextureName[0] = "FollowerSpriteSheet.png";
-	followerProfileTexture[1].loadFromFile("../images/Civilian.png");
-	followerProfileTextureName[1] = "Civilian.png";
-	followerProfileTexture[2].loadFromFile("../images/Prophet.png");
-	followerProfileTextureName[2] = "Prophet.png";
-	followerProfileTexture[3].loadFromFile("../images/BTH.bmp");
-	followerProfileTextureName[3] = "BTH.bmp";
+	this->followerProfileTexture[0].loadFromFile("../images/FollowerSpriteSheet.png");
+	this->followerProfileTextureName[0] = "FollowerSpriteSheet.png";
+	this->followerProfileTexture[1].loadFromFile("../images/Civilian.png");
+	this->followerProfileTextureName[1] = "Civilian.png";
+	this->followerProfileTexture[2].loadFromFile("../images/Prophet.png");
+	this->followerProfileTextureName[2] = "Prophet.png";
+	this->followerProfileTexture[3].loadFromFile("../images/BTH.bmp");
+	this->followerProfileTextureName[3] = "BTH.bmp";
 
 
 
-	chosenAbility = 0;
-	//numberOfFollowers = 0;
+	this->chosenAbility = 0;
 
-
-	//followerPortraitStruct *fps;
-	//commandStruct* cs;
 
 	this->cs = new commandStruct * [GROUPCAP] {nullptr};
 	this->fps = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER] {nullptr};
-//	fpsTemp = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER]{ nullptr };
 
-	//this->convertingRec = new sf::RectangleShape * [nrOfCiv] {nullptr};
-	//this->convertingOutline = new sf::RectangleShape * [nrOfCiv] {nullptr};
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 		this->cs[i] = new commandStruct();
@@ -57,9 +50,9 @@ UIManager::UIManager()
 
 	}
 
-	canDrawPortrait = false;
+	this->canDrawPortrait = false;
 
-	currentCommandControll = 0;
+	this->currentCommandControll = 0;
 
 }
 
@@ -76,7 +69,6 @@ UIManager::~UIManager()
 		delete cs[i];
 	}
 	delete[] cs;
-	//delete[] fpsTemp;
 }
 
 void UIManager::setUpCS()
@@ -235,7 +227,6 @@ void UIManager::setUpPp(int health)
 		this->abilityNames[i].setPosition(this->abilityRec[i].getPosition().x, this->abilityRec[i].getPosition().y + this->abilityNames[i].getGlobalBounds().height / 2);
 	}
 
-	//	std::cout << health << std::endl;
 
 	this->healtProc = health;
 
@@ -250,7 +241,6 @@ void UIManager::updateCS(int currentCommand)
 	{
 		if (currentCommandControll == i)
 		{
-		//	std::cout << currentCommand << std::endl;
 			for (int a = 0; a < 4; a++)
 			{
 				if (currentCommand == a)
@@ -283,7 +273,6 @@ void UIManager::updateFps(int health, int whichFollower)
 
 		if (currentCommandControll == i)
 		{
-			//std::cout << health << ":"<< whichFollower << std::endl;s
 			if (health < 0)
 				health = 0;
 			
@@ -298,12 +287,6 @@ void UIManager::updateFps(int health, int whichFollower)
 				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (fps[whichFollower]->followerMaxHealth / this->fps[whichFollower]->followerMaxHealth)), 15));
 
 			}
-			
-
-			//this->fps[whichFollower]->followerHealthBar.setPosition(this->fps[whichFollower]->followerImage.getPosition().x + this->fps[whichFollower]->followerImage.getGlobalBounds().width / 2 - this->fps[whichFollower]->followerHealthBar.getGlobalBounds().width / 2, this->fps[whichFollower]->followerImage.getPosition().y + this->fps[whichFollower]->followerImage.getGlobalBounds().height + this->fps[whichFollower]->followerHealthBar.getGlobalBounds().height / 2);
-
-
-
 		}
 
 
@@ -322,10 +305,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 			{
 
 				fpsTemp.push_back(*fps[i]);
-			//	fpsTemp[nrOfFollowersAlive] = new followerPortraitStruct();
-			//	fpsTemp[nrOfFollowersAlive] = fps[i];
-			//	delete fps[i];
-			////	fps[i] = nullptr;
+
 				nrOfFollowersAlive++;
 			}
 			else
@@ -344,14 +324,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		{
 			delete fps[i];
 		}
-		//for (int a = 0; a < followersInGroup; a++)
-		//{
 
-		//	fps[a] = new followerPortraitStruct();
-		//	//fps[a] = fpsTemp[a];
-		//	////group[i].followers[group[i].nrOfFollowers++] = temp[a];
-		//	//delete[] fpsTemp[a];
-		//}
 		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size());
 		numberOfFollowers = followersInGroup;
 	
@@ -377,7 +350,6 @@ void UIManager::addFps(std::string textureName, int maxHealth, int followersInGr
 				if (followerProfileTextureName[b] == textureName)
 				{
 
-					//	std::cout << textureName << std::endl;
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setTexture(followerProfileTexture[b]);
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setTextureRect(this->fps[cs[i]->nummberOfFollowersInGroup]->textRect);
 					this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setScale(60.f /
@@ -398,7 +370,6 @@ void UIManager::addFps(std::string textureName, int maxHealth, int followersInGr
 				this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x
 					+ pp.ppRec[3].getGlobalBounds().width + this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width
 					* (cs[i]->nummberOfFollowersInGroup), pp.ppRec[3].getPosition().y);
-				//this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width + 980.f / 10.f * (cs[i]->nummberOfFollowersInGroup+1) - this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width , pp.ppRec[3].getPosition().y);
 
 				this->fps[cs[i]->nummberOfFollowersInGroup]->followerHealthBar.setPosition(this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getPosition().x
 					+ this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width / 2
@@ -418,8 +389,6 @@ void UIManager::addFps(std::string textureName, int maxHealth, int followersInGr
 			}
 			else if (cs[i]->nummberOfFollowersInGroup <= 9)
 			{
-				/*	this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x + pp.ppRec[3].getGlobalBounds().width
-						+ 980 / 10  * (cs[i]->nummberOfFollowersInGroup +1)- this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.getGlobalBounds().width , pp.ppRec[3].getPosition().y);*/
 
 				this->fps[cs[i]->nummberOfFollowersInGroup]->followerImage.setPosition(pp.ppRec[3].getPosition().x +
 					pp.ppRec[3].getGlobalBounds().width +
@@ -515,7 +484,7 @@ void UIManager::updatePp(int health, int soul, int currentAbility)
 
 
 	this->pp.ppRec[4].setSize(sf::Vector2f(2.4f * (100 * (health / healtProc)), 30));
-	//this->pp.ppRec[4].setPosition(this->pp.ppRec[3].getPosition().x + this->pp.ppRec[3].getGlobalBounds().width / 2 - this->pp.ppRec[4].getGlobalBounds().width / 2, 850 + this->pp.ppRec[3].getGlobalBounds().height + 50);
+
 
 	for (int i = 0; i < ABILITYCAP; i++)
 	{
@@ -570,7 +539,6 @@ void UIManager::updateCSNumber(int nrOfFollowers)
 	{
 		if (i == currentCommandControll)
 		{
-			//std::cout << nrOfFollowers << std::endl;
 			cs[i]->nummberOfFollowersInGroup++;
 			cs[i]->nummberText[0].setString(std::to_string(cs[i]->nummberOfFollowersInGroup));
 			cs[i]->nummberText[1].setString("/");
@@ -595,7 +563,7 @@ void UIManager::decreaseCsNumber(int nrOfFollowers, int whichGroup)
 		- cs[whichGroup]->nummberText[0].getGlobalBounds().width / 2, cs[whichGroup]->nummberOfFollowerRec.getPosition().y);
 }
 
-int UIManager::getNrOfCurrentGroup()
+int UIManager::getNrOfCurrentGroup() const
 {
 	for (int i = 0; i < GROUPCAP; i++)
 	{
@@ -608,19 +576,7 @@ int UIManager::getNrOfCurrentGroup()
 
 }
 
-void UIManager::convertingBar(int convertingPercent, sf::FloatRect civPos, int whichCiv)
-{
 
-	//convertingRec
-	for (int i = 0; i < nrOfCiv; i++)
-	{
-
-
-
-	}
-
-
-}
 
 void UIManager::drawUI(sf::RenderWindow& window)
 {
@@ -665,7 +621,6 @@ void UIManager::drawUI(sf::RenderWindow& window)
 		{
 			for (int a = 0; a < cs[i]->nummberOfFollowersInGroup; a++)
 			{
-				//std::cout << cs[i]->nummberOfFollowersInGroup << std::endl;
 				window.draw(this->fps[a]->followerImage);
 				window.draw(this->fps[a]->followerRedHealth);
 				window.draw(this->fps[a]->followerHealthBar);

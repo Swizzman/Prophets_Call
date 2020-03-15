@@ -15,6 +15,5 @@ public:
 
 	// Inherited via Commands
 	virtual sf::Vector2f calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object) override;
-	//virtual GameEntity* calculateRoute(GameEntity* thisObject, GameEntity** object) override;
 };
 

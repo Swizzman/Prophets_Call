@@ -39,10 +39,6 @@ Menu::~Menu()
 {
 }
 
-sf::Text Menu::renderText()
-{
-	return playText;
-}
 
 void Menu::handleEvents()
 {
@@ -55,7 +51,7 @@ void Menu::handleEvents()
 		}
 		if (event.type == sf::Event::KeyPressed)
 		{
-			if (event.key.code == sf::Keyboard::Q)
+			if (event.key.code == sf::Keyboard::Insert)
 			{
 
 				changeFullscreenMode();
@@ -151,8 +147,6 @@ State Menu::update()
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					iPMode = true;
-
-					//state = State::CONNECT;
 				}
 			}
 			else

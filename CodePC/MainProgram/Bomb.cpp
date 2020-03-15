@@ -30,22 +30,11 @@ void Bomb::placeAbility(sf::Vector2f position)
 }
 
 bool Bomb::makeSound()
-{
-	/*	soundCounter++;
-	
-	if (soundCounter  >= 2)
-	{
-
-		cout << "Testing sound bool " << activateSound << endl;
-		changeSoundBool(false);
-		soundCounter = 0;
-	}*/
-	
+{	
 	return activateSound;
 }
 
 void Bomb::changeSoundBool(bool soundBool)
 {
 	activateSound = soundBool;
-
 }

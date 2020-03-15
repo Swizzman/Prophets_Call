@@ -16,11 +16,9 @@ void Client::run()
 {
 	if (connectionSocket.connect(iP, 55000) != sf::Socket::Done)
 	{
-		std::cout << "Error connecting \n";
 	}
 	else
 	{
-		std::cout << "Connected to Server\n";
 		connected = true;
 
 	}
@@ -38,7 +36,6 @@ Packet Client::recieveAPacket()
 
 	if (connectionSocket.receive(packet) == sf::Socket::Disconnected)
 	{
-		std::cout << "Disconnected\n";
 		recieved.type = 6;
 		recieved.health = 0;
 		connected = false;
@@ -123,7 +120,6 @@ void Client::sendProphetDamage(int newHealth)
 {
 	sf::Packet packet;
 	packet << (sf::Uint16) 6 << (sf::Uint32) newHealth;
-	std::cout << "Prophet Damage sent!\n";
 	connectionSocket.send(packet);
 }
 

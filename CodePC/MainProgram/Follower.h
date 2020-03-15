@@ -8,12 +8,10 @@ private:
 	int damage;
 	int startDamage;
 	int soulValue;
-	float attackRange;
 	bool alive;
 	bool converted;
 	bool convertedByOther;
 	bool otherNotified;
-	bool collided;
 	bool soulCollected;
 	int maxTime;
 	int windowWidth;
@@ -25,15 +23,13 @@ private:
 	sf::Time attackTime;
 	bool canAttack;
 	float attackCooldownTime;
-	float followerRange = 100;
-
+	float followerRange;
 	int lastWalkingDirection;
-//	sf::IntRect textureRect;
 public:
 	Follower();
 	virtual ~Follower();
 	void increaseDamageDone(int increase);
-	void returnDamage();
+	void resetDamage();
 	void checkCivMove();
 	void placeFollower(int width, int height);
 	int inflictDamage();
@@ -41,7 +37,7 @@ public:
 	void setSoulCollected();
 	bool getSoulCollected() const;
 	void attackCooldown();
-	bool getAttackCooldown();
+	bool getAttackCooldown() const;
 	void resetAttackClock();
 	void otherIsNotified();
 	bool getOtherNotified() const;
@@ -50,9 +46,8 @@ public:
 	bool getConverted() const;
 	bool getConvertedByOther() const;
 	int getConvertedAmount()const;
-	void Collided(GameEntity *other);
-	float getFollowerRange();
-	bool getIfAlive();
+	float getFollowerRange() const;
+	bool getIfAlive() const;
 
 	// Inherited via GameEntity
 	virtual void die() override;

@@ -1,9 +1,6 @@
-
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <iostream>
-//#include "SoundManager.h"
 using namespace std;
 class Ability : public sf::Drawable
 {
@@ -21,7 +18,6 @@ private:
 	bool isActive;
 	float pulseTimer;
 	bool isDummy;
-//	SoundManager soundManager;
 
 public:
 
@@ -33,7 +29,6 @@ public:
 	void turnBoolTrue();
 	bool abilityLifeTime();
 	bool abilityEffectPulse();
-	void turnPulseOff();
 	void resetClock();
 	void changeCircleColor(sf::Color color);
 	virtual void abilityActive() = 0;

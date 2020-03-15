@@ -10,8 +10,6 @@ Prophet::Prophet() :
 	GameEntity("thisProphetSpriteSheet.png", 0, 0, 1000, true)
 {
 
-	//this->group1 = new group();
-
 	for (int i = 0; i < GROUPNR; i++)
 	{
 
@@ -39,7 +37,7 @@ Prophet::Prophet() :
 	this->abilityActive = false;
 	this->abilityAnimation = false;
 	this->lastWalkingDirection = 0;
-	currentCommandGroup = 0;
+	this->currentCommandGroup = 0;
 	setPosition(100, 100);
 
 
@@ -49,10 +47,6 @@ Prophet::~Prophet()
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
-		//for (int y = 0; y < group[y].nrOfFollowers; y++)
-		//{
-		//	delete group[i].followers[y];
-		//}
 
 		delete[] group[i].followers;
 
@@ -90,7 +84,6 @@ void Prophet::convert(Follower** follArr, int nrOf)
 									if (follArr[i]->getConverted())
 									{
 										group[a].followers[group[a].nrOfFollowers++] = follArr[i];
-										//std::cout << group[a].nrOfFollowers << std::endl;
 
 									}
 
@@ -110,7 +103,6 @@ void Prophet::convert(Follower** follArr, int nrOf)
 void Prophet::convertsFollow()
 {
 
-	//group[a].followers[i]->moveTowardsDest(getPosition());
 	if (otherProphet != nullptr)
 	{
 		commandMan.useCommand();
@@ -137,7 +129,6 @@ void Prophet::convertsFollow()
 
 		if (abs(getMovingSpeedX()) == abs(getMovingSpeedY()) && this->getMovingSpeedY() < 0)
 		{
-			//	cout << "same walking speed " << endl;
 			startAnimation((int)FOLLOWERSPRITEROW::WALKINGUP, 9, 15, 0);
 			lastWalkingDirection = (int)FOLLOWERSPRITEROW::WALKINGUP;
 		}
@@ -163,10 +154,7 @@ void Prophet::resetClock()
 	clock.restart();
 }
 
-bool Prophet::checkMovement()
-{
-	return false;
-}
+
 
 bool Prophet::checkCollision(sf::FloatRect otherBoundingBox)
 {
@@ -290,15 +278,15 @@ void Prophet::collectSouls(Follower* follower)
 
 void Prophet::placeAbil(sf::Vector2f position, int force)
 {
-	
+
 	if (otherProphet != nullptr)
 	{
-		
+
 		abilityMan.placeCurrentAbility(position, force);
 	}
 }
 
-int Prophet::getSouls()
+int Prophet::getSouls() const
 {
 	return collectedSouls;
 }
@@ -312,7 +300,7 @@ void Prophet::decreaseSouls(int amount)
 	}
 }
 
-Follower* Prophet::getFollowers()
+Follower* Prophet::getFollowers() const
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
@@ -324,7 +312,7 @@ Follower* Prophet::getFollowers()
 
 }
 
-Follower& Prophet::getASingleFollower(int whichOne)
+Follower& Prophet::getASingleFollower(int whichOne)const
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
@@ -338,7 +326,7 @@ Follower& Prophet::getASingleFollower(int whichOne)
 
 }
 
-Follower** Prophet::getAllFollowers(int thisGroup)
+Follower** Prophet::getAllFollowers(int thisGroup) const
 {
 	for (int i = 0; i < GROUPNR; i++)
 	{
@@ -346,15 +334,13 @@ Follower** Prophet::getAllFollowers(int thisGroup)
 		{
 
 			return group[i].followers;
-
 		}
-
 	}
 }
 
 void Prophet::recieveEnemyProphet(Prophet* other)
 {
-	if (other != nullptr && this !=nullptr)
+	if (other != nullptr && this != nullptr)
 	{
 		otherProphet = other;
 		abilityMan.recievePtr(other, this, &group[currentCommandGroup]);
@@ -362,10 +348,8 @@ void Prophet::recieveEnemyProphet(Prophet* other)
 	}
 }
 
-int Prophet::getCurrentAbility()
+int Prophet::getCurrentAbility() const
 {
-
-
 	return chosenAbility;
 }
 
@@ -383,18 +367,7 @@ void Prophet::changeAbility()
 	}
 }
 
-void Prophet::checkAbility()
-{
-	if (otherProphet != nullptr)
-	{
 
-		if ((abilityActive = abilityMan.getAbilityActive()) == true)
-		{
-
-			//abilityMan.placeCurrentAbility((sf::Vector2f)abilityMouse.getPosition());
-		}
-	}
-}
 
 sf::CircleShape Prophet::getConvertCirc() const
 {
@@ -420,12 +393,10 @@ int Prophet::getcurrentGroupCommand()
 
 		if (currentCommandGroup == i)
 		{
-			//	this->group[i].currentCommand++;
 			if (this->group[i].currentCommand > 3)
 			{
 				this->group[i].currentCommand = 0;
 			}
-			//std::cout << this->group[i].currentCommand << std::endl;
 			return this->group[i].currentCommand;
 		}
 	}
@@ -460,14 +431,6 @@ bool Prophet::getIfSoundBoolIsActive()
 }
 
 
-
-void Prophet::aFollowerGotKilled(int whichFollower)
-{
-
-
-
-}
-
 void Prophet::changeCurrentCommand()
 {
 	if (otherProphet != nullptr)
@@ -498,7 +461,6 @@ void Prophet::timerForAbility()
 	{
 		if (abilityAnimation == false)
 		{
-			//startAnimation(lastWalkingDirection-4, 7,15,1);
 			abilityAnimation = true;
 		}
 
@@ -526,12 +488,12 @@ bool Prophet::returnReinforceBool()
 
 }
 
-int Prophet::getWalkingDirection()
+int Prophet::getWalkingDirection() const
 {
 	return lastWalkingDirection;
 }
 
-int Prophet::getCurrentGroup()
+int Prophet::getCurrentGroup() const
 {
 	return chosenGroup;
 }
@@ -541,7 +503,6 @@ void Prophet::addFollower(Follower* follower)
 	bool added = false;
 	for (int i = 0; i < GROUPNR && !added; i++)
 	{
-		//std::cout << "Follower Added\n";
 
 		if (group[i].nrOfFollowers < group[i].capacity)
 		{
@@ -558,13 +519,11 @@ void Prophet::removeFollower(Follower* follower)
 
 	for (int i = 0; i < GROUPNR; i++)
 	{
-		//int nrOfFollower = 0;
 		for (int a = 0; a < group[i].nrOfFollowers; a++)
 		{
 
 			if (group[i].followers[a] == follower)
 			{
-				std::cout << "Found the follower\n";
 				group[i].followers[a] = nullptr;
 				for (int b = a; b < group[i].nrOfFollowers; b++)
 				{
