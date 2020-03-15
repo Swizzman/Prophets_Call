@@ -353,8 +353,6 @@ void AbilityManager::whileAbilityIsActive()
 						
 						if (currentAbility->abilityEffectPulse())
 						{
-
-
 							followerGroup[a].followers[i]->touchedByAbility(false);
 							followerGroup[a].followers[i]->resetDamage();
 						}
