@@ -424,8 +424,8 @@ State GameClient::update()
 						{
 							state = State::LOST;
 						}
-						networkThread.join();
 						client.disconnect();
+						networkThread.join();
 					}
 				}
 			}
