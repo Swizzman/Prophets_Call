@@ -35,7 +35,6 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	this->timePerFrame = sf::seconds(1 / 60.f);
 	this->uiManager.setUpPp(thisProphet->getHealth());
 	this->uiManager.setUpCS();
-	this->uiManager.setUpFps(nrOfTotalFollowers);
 	this->converting = false;
 	this->abilityplaced = false;
 	this->activeClient = false;
@@ -285,9 +284,9 @@ State GameHost::update()
 						}
 						else
 						{
+								thisProphet->removeFollower(allFollowers[i]);
 							for (int i = 0; i < 3; i++)
 							{
-								thisProphet->removeFollower(allFollowers[i]);
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 
 							}

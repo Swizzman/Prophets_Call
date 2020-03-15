@@ -264,7 +264,7 @@ State GameClient::update()
 								if (allFollowers[i]->getConvertedByOther())
 								{
 									otherProphet->removeFollower(allFollowers[i]);
-									
+
 
 								}
 								else
@@ -273,7 +273,7 @@ State GameClient::update()
 									for (int i = 0; i < 3; i++)
 									{
 										uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-										
+
 
 									}
 									soundManager->death();
@@ -414,23 +414,24 @@ State GameClient::update()
 						}
 					}
 				}
-				if (otherProphet != nullptr)
-				{
+			}
+			if (otherProphet != nullptr)
+			{
 
-					if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+				if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
+				{
+					if (otherProphet->getHealth() <= 0)
 					{
-						if (otherProphet->getHealth() <= 0)
-						{
-							state = State::WON;
-						}
-						if (thisProphet->getHealth() <= 0)
-						{
-							state = State::LOST;
-						}
-						client.disconnect();
-						networkThread.join();
+						state = State::WON;
 					}
+					if (thisProphet->getHealth() <= 0)
+					{
+						state = State::LOST;
+					}
+					client.disconnect();
+					networkThread.join();
 				}
+
 			}
 			for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
 			{
