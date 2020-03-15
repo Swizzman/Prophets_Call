@@ -310,6 +310,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 			}
 			else
 			{
+				if (fps[i] != nullptr)
 				delete fps[i];
 			}
 		}
@@ -322,7 +323,11 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		}
 		for (int i = nrOfFollowersAlive; i < followersInGroup; i++)
 		{
-			delete fps[i];
+			if (fps[i] != nullptr)
+			{
+
+				delete fps[i];
+			}
 		}
 
 		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size());
