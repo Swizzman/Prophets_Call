@@ -264,11 +264,7 @@ State GameClient::update()
 								if (allFollowers[i]->getConvertedByOther())
 								{
 									otherProphet->removeFollower(allFollowers[i]);
-									for (int a = 0; a < otherProphet->getAllNrOfFollowers(i); a++)
-									{
-
-										uiManager.removeFps(otherProphet->getAllNrOfFollowers(i), i, otherProphet->getAllFollowers(i)[a]->getHealth());
-									}
+									
 
 								}
 								else
@@ -277,6 +273,11 @@ State GameClient::update()
 									for (int i = 0; i < 3; i++)
 									{
 										uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
+										for (int a = 0; a < thisProphet->getAllNrOfFollowers(i); a++)
+										{
+
+											uiManager.removeFps(thisProphet->getAllNrOfFollowers(i), i, thisProphet->getAllFollowers(i)[a]->getHealth());
+										}
 
 									}
 									soundManager->death();
