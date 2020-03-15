@@ -159,7 +159,7 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
-				
+
 				otherProphet->addFollower(allFollowers[1]);
 
 				break;
@@ -287,6 +287,7 @@ State GameHost::update()
 						{
 							for (int i = 0; i < 3; i++)
 							{
+								thisProphet->removeFollower(allFollowers[i]);
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 								for (int a = 0; a < thisProphet->getAllNrOfFollowers(i); a++)
 								{
@@ -294,8 +295,7 @@ State GameHost::update()
 									uiManager.removeFps(thisProphet->getAllNrOfFollowers(i), i, thisProphet->getAllFollowers(i)[a]->getHealth());
 								}
 							}
-							thisProphet->removeFollower(allFollowers[i]);
-							
+
 						}
 						soundManager.death();
 					}
