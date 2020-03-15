@@ -40,16 +40,16 @@ GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 	abilityplaced = false;
 	activeClient = false;
 	thisProphet->setPosition(500, 500);
-	//otherProphet = new Prophet();
-	//thisProphet->recieveEnemyProphet(otherProphet);
-	//otherProphet->recieveEnemyProphet(thisProphet);
-	//activeClient = true;
+	otherProphet = new Prophet();
+	thisProphet->recieveEnemyProphet(otherProphet);
+	otherProphet->recieveEnemyProphet(thisProphet);
+	activeClient = true;
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	//server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -163,6 +163,8 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
+				
+				otherProphet->addFollower(allFollowers[1]);
 
 				break;
 			case sf::Keyboard::LControl:

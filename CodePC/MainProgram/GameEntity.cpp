@@ -198,13 +198,13 @@ void GameEntity::move()
 
 void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 {
-	if (isAlive())
+	if (isAlive() )
 	{
 		getNewRandomPos(currentCommand, false);
 		/*sf::Vector2f dist = dest- getPosition();
 		float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 		sf::Vector2f dir = sf::Vector2f(dist.x / magni, dist.y / magni);*/
-		if ((lastXDest > 0 && dest.x > 0) || (lastXDest < 0 && dest.x < 0))
+		if ((lastXDest > 0 && dest.x > 0) && getCurrentPriority() <= 0 || (lastXDest < 0 && dest.x < 0) && getCurrentPriority() <= 0)
 		{
 
 
@@ -421,11 +421,12 @@ void GameEntity::startAnimation(int nrOfRows, int nrOfColumms, int nrOfFramesBef
 	if (alive == true)
 	{
 
-
+			
 		if (priority >= this->currentPriority || (currentPriority == 0 && priority == -1))
 		{
 			if (currentRow != nrOfRows || (priority == -1 && currentPriority == 0))
 			{
+				
 				textureRect.left = 0;
 			}
 

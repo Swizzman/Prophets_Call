@@ -6,8 +6,17 @@ class LowestHP :
 {
 	// Inherited via Commands
 private:
-	float range = 1000;
+	float range = 700;
 	bool attackProphetBool;
+	bool enemysNotInRange;
+	sf::Vector2f tempDist;
+	float magniTemp = 100000;
+	float health = 100000;
+	
+	sf::Vector2f thisEnemy;
+
+	int whichGroup;
+	int whichFollower;
 public:
 	LowestHP();
 	virtual ~LowestHP();
