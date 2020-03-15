@@ -3,8 +3,8 @@
 
 Server::Server()
 {
-	iP = ("25.74.9.3");
 	iP = sf::IpAddress::LocalHost;
+	iP = ("25.74.9.3");
 	port = 55000;
 	listener.listen(port, iP);
 	std::cout << "Server started on: " << iP << ":" << port << std::endl;

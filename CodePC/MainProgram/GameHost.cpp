@@ -56,10 +56,8 @@ void GameHost::networking()
 		{
 			if (otherProphet != nullptr)
 			{
-
 				otherProphet->setPosition(packet.posX, packet.posY);
 			}
-
 		}
 		if (packet.type == 2)
 		{
@@ -84,7 +82,6 @@ void GameHost::networking()
 		else if (packet.type == 6)
 		{
 			thisProphet->setHealth(packet.health);
-			std::cout << thisProphet->getHealth() << std::endl;
 		}
 		else if (packet.type == 7)
 		{
@@ -243,7 +240,7 @@ State GameHost::update()
 		elapsedTimeSinceLastUpdate += clock.restart();
 		while (elapsedTimeSinceLastUpdate > timePerFrame)
 		{
-			if (deadCap - nrOfDead < 4)
+			if (nrOfDead == deadCap)
 			{
 				expand(deadFollowers, deadCap, nrOfDead);
 			}
@@ -336,7 +333,6 @@ State GameHost::update()
 						if (otherProphet->getAttackNotify())
 						{
 							otherProphet->otherAttackNotified();
-							std::cout << otherProphet->getHealth() << std::endl;
 							server.sendProphetDamage(otherProphet->getHealth());
 						}
 					}
