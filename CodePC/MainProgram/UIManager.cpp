@@ -311,20 +311,9 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 
 				nrOfFollowersAlive++;
 			}
-			else
-			{
-				if (fps[i] != nullptr)
-				delete fps[i];
-			}
-		}
-		
-		for (int i = 0; i < nrOfFollowersAlive; i++)
-		{
 
-			*fps[i] = fpsTemp.at(i);
-			
 		}
-		for (int i = nrOfFollowersAlive; i < followersInGroup; i++)
+		for (int i = 0; i < followersInGroup; i++)
 		{
 			if (fps[i] != nullptr)
 			{
@@ -333,9 +322,16 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 
 			}
 		}
+		numberOfFollowers = nrOfFollowersAlive;
+		
+		for (int i = 0; i < nrOfFollowersAlive; i++)
+		{
+
+			*fps[i] = fpsTemp.at(i);
+			
+		}
 
 	//	fpsTemp.erase(fpsTemp.begin() + fpsTemp.size()-1);
-		numberOfFollowers = nrOfFollowersAlive;
 		std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
 		std::cout << "this is in UIManager " << std::endl;
 }
