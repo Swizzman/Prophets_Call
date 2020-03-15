@@ -25,7 +25,7 @@ Menu::Menu()
 	iPText.setPosition(((WIDTH / 2) - iPText.getGlobalBounds().width), ((HEIGHT / 2) - iPText.getGlobalBounds().height));
 	currentHighlightedButton = 0;
 	inputText.setFont(font);
-	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20, HEIGHT / 2);
+	inputText.setPosition(iPText.getGlobalBounds().left + iPText.getGlobalBounds().width + 20, (HEIGHT / 2) - iPText.getGlobalBounds().height);
 	inputText.setCharacterSize(40);
 	window.setKeyRepeatEnabled(false);
 	iPMode = false;
@@ -108,7 +108,7 @@ State Menu::update()
 			elapsedTimeSinceLastUpdate -= timePerFrame;
 			if (inputDone)
 			{
-				if (input.length() > 3)
+				if (input.length() > 4)
 				{
 
 					iPOut.open("../datafiles/ip.txt");

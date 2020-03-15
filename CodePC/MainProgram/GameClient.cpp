@@ -141,6 +141,7 @@ void GameClient::netWorking()
 			}
 		}
 	}
+	std::cout << "Thread Stopped\n";
 }
 
 void GameClient::handleEvents()
@@ -252,6 +253,8 @@ State GameClient::update()
 				client.sendProphetAnim(thisProphet->getCurrentColummn(), thisProphet->getCurrentRow());
 				//Check All the civilians for movement
 
+			if (otherProphet != nullptr)
+			{
 
 				for (int i = 0; i < nrOfTotalFollowers; i++)
 				{
@@ -280,6 +283,10 @@ State GameClient::update()
 								cout << "taking damage" << endl;
 								soundManager->takeDamage();
 							}
+							if (thisProphet->hasLostHealth() || otherProphet->hasLostHealth())
+							{
+								soundManager->takeDamage();
+							}
 							//allFollowers[i]->switchTexture("soul.png ");
 							cout << "Follower " << i << " died\n";
 
@@ -306,7 +313,7 @@ State GameClient::update()
 							client.sendFollowerDamage(i, allFollowers[i]->getHealth());
 
 						}
-						if (otherProphet->getAttackNotify())
+						if (otherProphet != nullptr &&otherProphet->getAttackNotify() )
 						{
 							otherProphet->otherAttackNotified();
 							client.sendProphetDamage(otherProphet->getHealth());
@@ -346,6 +353,16 @@ State GameClient::update()
 
 						}
 					}
+					else if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
+					{
+						if (otherProphet->getIfSoundBoolIsActive())
+						{
+							if (otherProphet->getCurrentAbility() == 0)
+							{
+								soundManager->bomb();
+							}
+						}
+					}
 					if (thisProphet->getIfAbilityIsActive())
 					{
 
@@ -363,7 +380,7 @@ State GameClient::update()
 
 
 					}
-					if (otherProphet->getIfAbilityIsActive())
+					if (otherProphet != nullptr && otherProphet->getIfAbilityIsActive())
 					{
 
 						otherProphet->timerForAbility();
@@ -400,22 +417,27 @@ State GameClient::update()
 
 					}
 				}
-				if (client.getConnected())
+			}
+				if (otherProphet != nullptr)
 				{
 
 					if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
 					{
+						networkThread.join();
+						cout << "Someone died" << endl;
+
 						if (otherProphet->getHealth() <= 0)
 						{
+							cout << "you are winner" << endl;
 							state = State::WON;
 						}
-						else if (thisProphet->getHealth() <= 0)
+						 if (thisProphet->getHealth() <= 0)
 						{
+							cout << "loser you are" << endl;
 							state = State::LOST;
 						}
 						client.disconnect();
 						std::cout << "Disconnected\n";
-						networkThread.join();
 					}
 				}
 			}
@@ -425,8 +447,8 @@ State GameClient::update()
 			}
 			soundManager->deleteAudio();
 			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
-			return state;
 		}
+			return state;
 
 	}
 }

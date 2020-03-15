@@ -132,7 +132,13 @@ Packet Server::recieveAPacket()
 	sf::Packet packet;
 	Packet recieved;
 	sf::Uint16 x, y;
-	clientSock->receive(packet);
+	if (clientSock->receive(packet) == sf::Socket::Disconnected)
+	{
+		clientConnected = false;
+	}
+
+
+
 	packet >> recieved.type;
 	switch (recieved.type)
 	{
@@ -167,6 +173,7 @@ Packet Server::recieveAPacket()
 	default:
 		break;
 	}
+
 	return recieved;
 
 }

@@ -301,6 +301,10 @@ State GameHost::update()
 					{
 						soundManager.takeDamage();
 					}
+					if (thisProphet->hasLostHealth() || (otherProphet != nullptr && otherProphet->hasLostHealth()))
+					{
+						soundManager.takeDamage();
+					}
 
 					allFollowers[i]->checkCivMove();
 					if (otherProphet != nullptr)
@@ -375,6 +379,25 @@ State GameHost::update()
 
 					}
 				}
+				 if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
+				 {
+					if (otherProphet->getIfSoundBoolIsActive())
+					{
+						if (otherProphet->getCurrentAbility() == 0)
+						{
+							soundManager.bomb();
+						}
+						else if (thisProphet->getCurrentAbility() == 1)
+						{
+							soundManager.healthRegen();
+						}
+						else
+						{
+							soundManager.reinforce();
+						}
+
+					}
+				 }
 				if (thisProphet->getIfAbilityIsActive())
 				{
 
@@ -431,7 +454,6 @@ State GameHost::update()
 			}
 
 			soundManager.deleteAudio();
-			//thisProphet->updateAnimation((int)ANIMATIONSPRITEROW::DIE, 2, 60);
 
 		}
 		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)

@@ -35,39 +35,51 @@ Packet Client::recieveAPacket()
 	sf::Packet packet;
 	Packet recieved;
 	sf::Uint16 x, y;
-	connectionSocket.receive(packet);
-	packet >> recieved.type;
-	switch (recieved.type)
+
+	if (connectionSocket.receive(packet) == sf::Socket::Disconnected)
 	{
-	case 1:
-		packet >> recieved.posX >> recieved.posY;
-		break;
-	case 2:
-		packet >> recieved.posX >> recieved.posY >> recieved.index;
-		break;
-	case 4:
-		packet >> recieved.index;
-		break;
-	case 5:
-		packet >> recieved.index >> recieved.health;
-		break;
-	case 6:
-		packet >> recieved.health;
-		break;
-	case 7:
-		packet >> recieved.posX >> recieved.posY >> recieved.abilType;
-		break;
-	case 8:
-		packet >> recieved.index >> recieved.column >> recieved.row;
-		break;
-	case 9:
-		packet >> recieved.column >> recieved.row;
-		break;
-	case 10:
-		packet >> recieved.index;
-		break;
-	default:
-		break;
+		std::cout << "Disconnected\n";
+		recieved.type = 6;
+		recieved.health = 0;
+		connected = false;
+
+	}
+	else
+	{
+
+		packet >> recieved.type;
+		switch (recieved.type)
+		{
+		case 1:
+			packet >> recieved.posX >> recieved.posY;
+			break;
+		case 2:
+			packet >> recieved.posX >> recieved.posY >> recieved.index;
+			break;
+		case 4:
+			packet >> recieved.index;
+			break;
+		case 5:
+			packet >> recieved.index >> recieved.health;
+			break;
+		case 6:
+			packet >> recieved.health;
+			break;
+		case 7:
+			packet >> recieved.posX >> recieved.posY >> recieved.abilType;
+			break;
+		case 8:
+			packet >> recieved.index >> recieved.column >> recieved.row;
+			break;
+		case 9:
+			packet >> recieved.column >> recieved.row;
+			break;
+		case 10:
+			packet >> recieved.index;
+			break;
+		default:
+			break;
+		}
 	}
 	return recieved;
 }

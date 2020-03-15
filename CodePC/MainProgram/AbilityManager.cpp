@@ -240,6 +240,10 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		abilityActive = false;
 		delete currentAbility;
 	}
+	if (currentAbility != nullptr)
+	{
+		currentAbility = nullptr;
+	}
 	if (force == -1)
 	{
 
@@ -274,6 +278,8 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 			}
 			break;
 		default:
+			currentAbility = new Bomb(false);
+
 			break;
 		}
 		if (thisProphet->getSouls() >= cost)
@@ -308,7 +314,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		}
 	}
 	
-	if (currentAbility != nullptr && hasPlacedAbility == true)
+	if (currentAbility != nullptr && !abilityActive/*&& hasPlacedAbility == true*/)
 	{
 	
 		startAbility();
