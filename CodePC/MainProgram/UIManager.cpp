@@ -301,39 +301,77 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 {
 	int nrOfFollowersAlive = 0;
 	
-		
+	
+		/*if (group[i].followers[a] == follower)
+		{
+			group[i].followers[a] = nullptr;
+			for (int b = a; b < group[i].nrOfFollowers; b++)
+			{
+				group[i].followers[b] = group[i].followers[b + 1];
+			}
+			group[i].followers[group[i].nrOfFollowers] = nullptr;
+			group[i].nrOfFollowers--;
+
+		}*/
+
 		for (int i = 0; i < followersInGroup; i++)
 		{
-			if (fps[i]->followerHealthBar.getSize().x > 0)
+			if (fps[i]->followerHealthBar.getSize().x <= 0 )
+			{
+
+				fps[i] = nullptr;
+				for (int a = i; a < followersInGroup; a++)
+				{
+					fps[a] = fps[a+1];
+				}
+				fps[followersInGroup] = nullptr;
+				numberOfFollowers = followersInGroup;
+				
+			}
+			
+			/*if (fps[i]->followerHealthBar.getSize().x > 0)
 			{
 				std::cout << "is this even playing" << std::endl;
 				fpsTemp.push_back(*fps[i]);
 
 				nrOfFollowersAlive++;
-			}
+			}*/
 
 		}
-		for (int i = 0; i < followersInGroup; i++)
-		{
-			if (fps[i] != nullptr)
-			{
-				std::cout << "this is place i in array " << i << " : And this is nrOfFollowersAlive  " << nrOfFollowersAlive << std::endl;
-				delete fps[i];
 
-			}
-		}
-		numberOfFollowers = nrOfFollowersAlive;
-		
-		for (int i = 0; i < nrOfFollowersAlive; i++)
-		{
+	//	for (int i = 0; i < followersInGroup; i++)
+	//	{
+	//		
+	//		if (fps[i]->followerHealthBar.getSize().x > 0)
+	//		{
+	//			std::cout << "is this even playing" << std::endl;
+	//			fpsTemp.push_back(*fps[i]);
 
-			*fps[i] = fpsTemp.at(i);
-			
-		}
+	//			nrOfFollowersAlive++;
+	//		}
 
-	//	fpsTemp.erase(fpsTemp.begin() + fpsTemp.size()-1);
-		std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
-		std::cout << "this is in UIManager " << std::endl;
+	//	}
+	//	for (int i = 0; i < followersInGroup; i++)
+	//	{
+	//		if (fps[i] != nullptr)
+	//		{
+	//			std::cout << "this is place i in array " << i << " : And this is nrOfFollowersAlive  " << nrOfFollowersAlive << std::endl;
+	//			delete fps[i];
+
+	//		}
+	//	}
+	//	numberOfFollowers = nrOfFollowersAlive;
+	//	
+	//	for (int i = 0; i < nrOfFollowersAlive; i++)
+	//	{
+
+	//		*fps[i] = fpsTemp.at(i);
+	//		
+	//	}
+
+	////	fpsTemp.erase(fpsTemp.begin() + fpsTemp.size()-1);
+	//	std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
+	//	std::cout << "this is in UIManager " << std::endl;
 }
 
 void UIManager::addFps(std::string textureName, int maxHealth, int followersInGroup)
