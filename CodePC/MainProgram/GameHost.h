@@ -37,11 +37,11 @@ private:
 	Background background;
 	SoundManager soundManager;
 
-	void expand(Follower** arr, int &cap, int nrOf);
+	void expand(Follower** arr, int& cap, int nrOf);
 public:
 	GameHost();
-	void networking();
 	virtual ~GameHost();
+	void networking();
 	// Inherited via GameState
 	virtual void handleEvents() override;
 	virtual State update() override;

@@ -1,9 +1,6 @@
 #pragma once
 #include <SFML/Audio.hpp>
-#include <vector>
-#include <iostream>
 #include <string>
-#include <ctime>
 
 class SoundManager
 {
@@ -23,7 +20,6 @@ private:
 public:
 	SoundManager();
 	virtual ~SoundManager();
-	void loadSounds();
 	void attack();
 	void convert();
 	void bomb();

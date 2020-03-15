@@ -16,40 +16,37 @@ void GameHost::expand(Follower** arr, int& cap, int nrOf)
 
 GameHost::GameHost() : netWorkThread(&GameHost::networking, this)
 {
-	thisProphet = new Prophet();
-	otherProphet = nullptr;
-	nrOfDead = 0;
-	deadCap = 30;
-	followerCap = 30;
-	nrOfTotalFollowers = 0;
-	allFollowers = new Follower * [followerCap] { nullptr };
-	deadFollowers = new Follower * [deadCap] {nullptr};
-	for (int i = 0; i < followerCap; i++)
+	this->thisProphet = new Prophet();
+	this->otherProphet = nullptr;
+	this->nrOfDead = 0;
+	this->deadCap = 30;
+	this->followerCap = 30;
+	this->nrOfTotalFollowers = 0;
+	this->allFollowers = new Follower * [this->followerCap]{ nullptr };
+	this->deadFollowers = new Follower * [this->deadCap]{ nullptr };
+	for (int i = 0; i < this->followerCap; i++)
 	{
-		allFollowers[i] = new Follower();
-		allFollowers[i]->placeFollower(WIDTH, HEIGHT);
-		nrOfTotalFollowers++;
+		this->allFollowers[i] = new Follower();
+		this->allFollowers[i]->placeFollower(WIDTH, HEIGHT);
+		this->nrOfTotalFollowers++;
 	}
 
-	elapsedTimeSinceLastUpdate = sf::Time::Zero;
-	timePerFrame = sf::seconds(1 / 60.f);
-	uiManager.setUpPp(thisProphet->getHealth());
-	uiManager.setUpCS();
-	uiManager.setUpFps(nrOfTotalFollowers);
-	converting = false;
-	abilityplaced = false;
-	activeClient = false;
-	thisProphet->setPosition(500, 500);
-	//otherProphet = new Prophet();
-	//thisProphet->recieveEnemyProphet(otherProphet);
-	//otherProphet->recieveEnemyProphet(thisProphet);
-	//activeClient = true;
+	this->elapsedTimeSinceLastUpdate = sf::Time::Zero;
+	this->timePerFrame = sf::seconds(1 / 60.f);
+	this->uiManager.setUpPp(thisProphet->getHealth());
+	this->uiManager.setUpCS();
+	this->uiManager.setUpFps(nrOfTotalFollowers);
+	this->converting = false;
+	this->abilityplaced = false;
+	this->activeClient = false;
+	this->thisProphet->setPosition(500, 500);
+
 }
 
 void GameHost::networking()
 {
 
-	server.run();
+	this->server.run();
 	Packet packet;
 
 	while (server.getClientConnected())
@@ -272,14 +269,12 @@ State GameHost::update()
 
 
 			thisProphet->convertsFollow();
-			//Move the playerProphet
-			//Check All the civilians for movement
 			for (int i = 0; i < nrOfTotalFollowers; i++)
 			{
 				if (allFollowers[i] != nullptr)
 				{
 
-					if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->isAlive())
+					if (allFollowers[i]->getHealth() <= 0 && allFollowers[i]->getAlive())
 					{
 						allFollowers[i]->die();
 						if (allFollowers[i]->getConvertedByOther())
@@ -297,7 +292,7 @@ State GameHost::update()
 						}
 						soundManager.death();
 					}
-					if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->isAlive())
+					if (allFollowers[i]->hasLostHealth() == true && allFollowers[i]->getAlive())
 					{
 						soundManager.takeDamage();
 					}
@@ -311,14 +306,13 @@ State GameHost::update()
 					{
 						if ((allFollowers[i]->getConvertedByOther() == false && allFollowers[i]->getConverted()) || !allFollowers[i]->getConverted())
 						{
-							if (allFollowers[i]->isAlive())
+							if (allFollowers[i]->getAlive())
 							{
-
 								server.sendFollowerPos(allFollowers[i]->getPosition(), i);
 								server.sendFollowerAnim(i, allFollowers[i]->getCurrentColummn(), allFollowers[i]->getCurrentRow());
 							}
 						}
-						if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->isAlive())
+						if (allFollowers[i]->getConvertedByOther() && !allFollowers[i]->getAlive())
 						{
 							thisProphet->collectSouls(allFollowers[i]);
 						}
@@ -333,7 +327,6 @@ State GameHost::update()
 
 						if (allFollowers[i]->getAttackNotify())
 						{
-							std::cout << "Sent damage\n";
 							allFollowers[i]->otherAttackNotified();
 							server.sendFollowerDamage(i, allFollowers[i]->getHealth());
 
@@ -351,7 +344,6 @@ State GameHost::update()
 					server.sendSoulCollected(i);
 					deadFollowers[nrOfDead] = allFollowers[i];
 					nrOfDead++;
-					//delete allFollowers[i];
 					allFollowers[i] = new Follower();
 					allFollowers[i]->placeFollower(WIDTH, HEIGHT);
 				}
@@ -363,7 +355,6 @@ State GameHost::update()
 				{
 					if (thisProphet->getIfSoundBoolIsActive())
 					{
-						cout << "activate" << endl;
 						if (thisProphet->getCurrentAbility() == 0)
 						{
 							soundManager.bomb();
@@ -379,8 +370,8 @@ State GameHost::update()
 
 					}
 				}
-				 if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
-				 {
+				if (otherProphet != nullptr && otherProphet->getCurAbil() != nullptr)
+				{
 					if (otherProphet->getIfSoundBoolIsActive())
 					{
 						if (otherProphet->getCurrentAbility() == 0)
@@ -397,7 +388,7 @@ State GameHost::update()
 						}
 
 					}
-				 }
+				}
 				if (thisProphet->getIfAbilityIsActive())
 				{
 
@@ -449,8 +440,6 @@ State GameHost::update()
 				uiManager.addFps(thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getTextureName(), thisProphet->getASingleFollower(this->thisProphet->getNrOfFollowers() - 1).getHealth(), thisProphet->getAllNrOfFollowers(thisProphet->getCurrentGroup()));
 
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
-				cout << "working " << endl;
-
 			}
 
 			soundManager.deleteAudio();
@@ -461,11 +450,7 @@ State GameHost::update()
 			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
 		}
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			netWorkThread.join();
-			state = State::EXIT;
-		}
+
 		if (activeClient)
 		{
 
@@ -482,7 +467,6 @@ State GameHost::update()
 				}
 
 				server.disconnect();
-				std::cout << "Disconnected\n";
 				netWorkThread.join();
 			}
 		}
@@ -512,20 +496,17 @@ void GameHost::render()
 	{
 		window.draw(*this->thisProphet->getCurAbil());
 	}
-	if (activeClient)
+	if (activeClient && otherProphet != nullptr)
 	{
-		if (otherProphet != nullptr)
+		if (otherProphet->getCurAbil() != nullptr)
 		{
 
-			if (otherProphet->getCurAbil() != nullptr)
+			if (otherProphet->getIfAbilityIsActive())
 			{
-
-				if (otherProphet->getIfAbilityIsActive())
-				{
-					window.draw(*this->otherProphet->getCurAbil());
-				}
+				window.draw(*this->otherProphet->getCurAbil());
 			}
 		}
+
 	}
 	for (int i = 0; i < nrOfTotalFollowers; i++)
 	{

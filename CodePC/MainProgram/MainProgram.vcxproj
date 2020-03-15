@@ -27,7 +27,6 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Closest.cpp" />
     <ClCompile Include="CommandManager.cpp" />
-    <ClCompile Include="ControlManager.cpp" />
     <ClCompile Include="Follow.cpp" />
     <ClCompile Include="Follower.cpp" />
     <ClCompile Include="GameClient.cpp" />
@@ -59,7 +58,6 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Closest.h" />
     <ClInclude Include="CommandManager.h" />
-    <ClInclude Include="ControlManager.h" />
     <ClInclude Include="Follow.h" />
     <ClInclude Include="Follower.h" />
     <ClInclude Include="FOLLOWERSPRITEROW.h" />

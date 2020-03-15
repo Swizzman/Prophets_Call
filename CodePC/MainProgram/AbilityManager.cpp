@@ -200,13 +200,13 @@ void AbilityManager::stopReinforceAbility()
 					{
 						cout << "turn down damage" << endl;
 
-						if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true)
+						if (chosenAbility == 2 && followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility() == true)
 						{
 							//currentAbility->changeSoundBool(true);
 							//makeASoundBool = currentAbility->makeSound();
 
 							followerGroup[a].followers[i]->touchedByAbility(false);
-							followerGroup[a].followers[i]->returnDamage();
+							followerGroup[a].followers[i]->resetDamage();
 
 
 						}
@@ -314,7 +314,7 @@ void AbilityManager::placeCurrentAbility(sf::Vector2f position, int force)
 		}
 	}
 	
-	if (currentAbility != nullptr && !abilityActive/*&& hasPlacedAbility == true*/)
+	if (currentAbility != nullptr && hasPlacedAbility == true)
 	{
 	
 		startAbility();
@@ -344,27 +344,21 @@ void AbilityManager::whileAbilityIsActive()
 				for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 				{
 
-					//currentAbility->getPosition() - followerGroup->followers[i]->getPosition()
 					sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
 					float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
 					if (abs(magni) < currentAbility->getRadius())
 					{
 
-						if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == false)
+						if (chosenAbility == 2 && followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility() == false)
 						{
 							reinforcementIsOn = true;
 							followerGroup[a].followers[i]->increaseDamageDone(15);
 						}
 						followerGroup[a].followers[i]->touchedByAbility(true);
 
-						//followerGroup[a].followers[i]->touchedByAbility(true);
-
-
-
-					//followerGroup->followers[i]->touchedByAbility(true);
 					}
-					else if (chosenAbility == 2 && followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility() == true && abs(magni) > currentAbility->getRadius())
+					else if (chosenAbility == 2 && followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility() == true && abs(magni) > currentAbility->getRadius())
 					{
 						cout << "should not start" << endl;
 						if (currentAbility->abilityEffectPulse())
@@ -372,7 +366,7 @@ void AbilityManager::whileAbilityIsActive()
 
 
 							followerGroup[a].followers[i]->touchedByAbility(false);
-							followerGroup[a].followers[i]->returnDamage();
+							followerGroup[a].followers[i]->resetDamage();
 						}
 
 					}
@@ -395,7 +389,7 @@ void AbilityManager::whileAbilityIsActive()
 						{
 								currentAbility->changeSoundBool(true);
 								makeASoundBool = currentAbility->makeSound();
-							if (followerGroup[a].followers[i]->CheckIfEntityCanBeAffectedByAbility())
+							if (followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility())
 							{
 								followerGroup[a].followers[i]->gainHealth(currentAbility->getSpecificVar());
 							}
@@ -416,17 +410,6 @@ void AbilityManager::whileAbilityIsActive()
 
 bool AbilityManager::getActivateSoundBool()
 {
-	
-	/*if (makeASoundBool == true)
-	{
-
-		stopSoundFunction = true;
-		return currentAbility->makeSound();
-	}
-	else
-	{
-		return false;
-	}*/
 
 	if (makeASoundBool == true)
 	{
@@ -437,9 +420,7 @@ bool AbilityManager::getActivateSoundBool()
 		makeASoundBool = false;
 		soundCounter = 0;
 	}
-	//cout << "regenSound" << endl;
 	return makeASoundBool;
-	//cout << "aaaaa" << endl;
 }
 
 Ability* AbilityManager::getCurrentAbility() const

@@ -52,7 +52,6 @@ private:
 
 
 	followerPortraitStruct** fps;
-//	followerPortraitStruct** fpsTemp;
 	std::vector<followerPortraitStruct> fpsTemp;
 	commandStruct** cs;
 	ProphetProperties pp;
@@ -61,8 +60,7 @@ private:
 	int currentCommandControll;
 	float healtProc;
 	bool canDrawPortrait;
-	//sf::RectangleShape** convertingOutline;
-	//sf::RectangleShape** convertingRec;
+
 	int nrOfCiv;
 public:
 	UIManager();
@@ -78,8 +76,7 @@ public:
 	void changeCS();
 	void updateCSNumber(int nrOfFollowers);
 	void decreaseCsNumber(int nrOfFollowers, int whichGroup);
-	int getNrOfCurrentGroup();
-	void convertingBar(int convertingPercent, sf::FloatRect civPos, int whichCiv);
+	int getNrOfCurrentGroup() const;
 	void drawUI(sf::RenderWindow& window);
 };
 

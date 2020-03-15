@@ -8,10 +8,6 @@ AttackProphet::~AttackProphet()
 {
 }
 
-//GameEntity* AttackProphet::calculateRoute(GameEntity* thisObject, GameEntity** object)
-//{
-//	return nullptr;
-//}
 
 sf::Vector2f AttackProphet::calculateRoute(GameEntity* thisObject, GameEntity* enemyObject, Follower* object)
 {

@@ -1,7 +1,6 @@
-
 #include "Ability.h"
 
-Ability::Ability(std::string texture, int radius, float activeTimer ,float pulseTime, bool fake)
+Ability::Ability(std::string texture, float radius, float activeTimer ,float pulseTime, bool fake)
 {
 	this->texture.loadFromFile("../images/" + texture);
 	this->sprite.setTexture(this->texture);
@@ -15,7 +14,6 @@ Ability::Ability(std::string texture, int radius, float activeTimer ,float pulse
 	this->isActive = false;
 	this->isDummy = fake;
 	changeCircleColor(sf::Color::Magenta);
-	//TimeBetweenAbilityPulse = sf::Time::Zero;
 }
 
 Ability::~Ability()
@@ -52,9 +50,6 @@ bool Ability::abilityLifeTime()
 	elapsedTimeSinceLastUpdate += clock.restart();
 	if (elapsedTimeSinceLastUpdate.asSeconds() > activeTime)
 	{
-		//delete[]currentAbility
-
-		
 		isActive = false;
 		elapsedTimeSinceLastUpdate = sf::Time::Zero;
 	}
@@ -74,9 +69,6 @@ bool Ability::abilityEffectPulse()
 
 	if (TimeBetweenAbilityPulse.asSeconds() > pulseTimer)
 	{
-	
-		
-
 		TimeBetweenAbilityPulse = sf::Time::Zero;
 		return true;
 		
@@ -86,12 +78,6 @@ bool Ability::abilityEffectPulse()
 		return false;
 	}
 }
-
-void Ability::turnPulseOff()
-{
-
-}
-
 void Ability::resetClock()
 {
 	abilityClock.restart();

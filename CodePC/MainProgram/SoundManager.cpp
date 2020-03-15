@@ -2,18 +2,16 @@
 
 SoundManager::SoundManager()
 {
-	attackBuffer.loadFromFile("../Sounds/attack.wav");
-	abilityBuffer.loadFromFile("../Sounds/ability.wav");
-	convertBuffer.loadFromFile("../Sounds/convert.wav");
-	bombBuffer.loadFromFile("../Sounds/bomb.wav");
-	DeathBuffer.loadFromFile("../Sounds/death.wav");
-	HealthRegenBuffer.loadFromFile("../Sounds/HealthRegen.wav");
-	takingDamageBuffer.loadFromFile("../Sounds/hurt.wav");
-	reinforceBuffer.loadFromFile("../Sounds/reinforce.wav");
-	//sound.setBuffer(attackBuffer);
-	nrOf = 0;
-	//sound.setBuffer(attackBuffer);
-	sound = new sf::Sound * [50]{nullptr};
+	this->attackBuffer.loadFromFile("../Sounds/attack.wav");
+	this->abilityBuffer.loadFromFile("../Sounds/ability.wav");
+	this->convertBuffer.loadFromFile("../Sounds/convert.wav");
+	this->bombBuffer.loadFromFile("../Sounds/bomb.wav");
+	this->DeathBuffer.loadFromFile("../Sounds/death.wav");
+	this->HealthRegenBuffer.loadFromFile("../Sounds/HealthRegen.wav");
+	this->takingDamageBuffer.loadFromFile("../Sounds/hurt.wav");
+	this->reinforceBuffer.loadFromFile("../Sounds/reinforce.wav");
+	this->nrOf = 0;
+	this->sound = new sf::Sound * [50]{ nullptr };
 }
 
 SoundManager::~SoundManager()
@@ -29,10 +27,10 @@ SoundManager::~SoundManager()
 			delete sound[i];
 		}
 	}
-	
+
 	delete[] sound;
-	
-	
+
+
 }
 
 
@@ -86,8 +84,8 @@ void SoundManager::takeDamage()
 
 void SoundManager::death()
 {
-	
-	
+
+
 	sound[nrOf] = new sf::Sound;
 
 	sound[nrOf]->setBuffer(DeathBuffer);
@@ -118,7 +116,6 @@ void SoundManager::deleteAudio()
 {
 	if (nrOf > 0)
 	{
-
 		for (int i = 0; i < nrOf; i++)
 		{
 			if (sound[i]->getStatus() != sf::Sound::Status::Playing)
@@ -132,12 +129,6 @@ void SoundManager::deleteAudio()
 				nrOf--;
 
 			}
-
-		
-		
-
 		}
 	}
-
-
 }
