@@ -26,7 +26,6 @@ AbilityManager::~AbilityManager()
 	{
 		delete currentAbility;
 	}
-	//currentAbility =  nullptr;
 
 
 
@@ -35,7 +34,7 @@ AbilityManager::~AbilityManager()
 int AbilityManager::switchAbility()
 {
 	chosenAbility++;
-	//cout << chosenAbility << endl;
+	
 	if (chosenAbility > 2)
 	{
 		chosenAbility = 0;
@@ -74,6 +73,7 @@ void AbilityManager::stopAbility()
 	abilityActive = currentAbility->abilityLifeTime();
 
 
+
 	if (abilityActive == false)
 	{
 
@@ -102,12 +102,14 @@ void AbilityManager::stopAbility()
 
 					for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 					{
+						
 						sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
 						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
 						if (abs(magni) < currentAbility->getRadius())
 						{
 							followerGroup[a].followers[i]->takeDamage(currentAbility->getSpecificVar());
+							
 						}
 
 					}
@@ -123,7 +125,9 @@ void AbilityManager::stopAbility()
 						if (abs(magni) < currentAbility->getRadius())
 						{
 							enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
+							
 
+						
 
 						}
 					}
@@ -133,6 +137,8 @@ void AbilityManager::stopAbility()
 					if (abs(magni) < currentAbility->getRadius())
 					{
 						enemyProphet->takeDamage(currentAbility->getSpecificVar());
+					
+						
 					}
 				}
 				
@@ -183,10 +189,11 @@ void AbilityManager::stopReinforceAbility()
 
 					for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 					{
-						cout << "turn down damage" << endl;
+						
 
 						if (chosenAbility == 2 && followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility() == true)
 						{
+							
 
 							followerGroup[a].followers[i]->touchedByAbility(false);
 							followerGroup[a].followers[i]->resetDamage();
@@ -343,6 +350,7 @@ void AbilityManager::whileAbilityIsActive()
 					}
 					else if (chosenAbility == 2 && followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility() == true && abs(magni) > currentAbility->getRadius())
 					{
+						
 						if (currentAbility->abilityEffectPulse())
 						{
 							followerGroup[a].followers[i]->touchedByAbility(false);

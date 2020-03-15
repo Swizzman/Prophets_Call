@@ -298,7 +298,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 {
 	int nrOfFollowersAlive = 0;
 	
-
+		std::cout << "is this even playing" << std::endl;
 		for (int i = 0; i < followersInGroup; i++)
 		{
 			if (health > 0)
