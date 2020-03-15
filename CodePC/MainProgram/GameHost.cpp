@@ -289,11 +289,7 @@ State GameHost::update()
 							{
 								thisProphet->removeFollower(allFollowers[i]);
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-								for (int a = 0; a < thisProphet->getAllNrOfFollowers(i); a++)
-								{
-
-									uiManager.removeFps(thisProphet->getAllNrOfFollowers(i), i, thisProphet->getAllFollowers(i)[a]->getHealth());
-								}
+								
 							}
 
 						}
