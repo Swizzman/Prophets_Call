@@ -28,7 +28,7 @@ UIManager::UIManager()
 
 	this->cs = new commandStruct * [GROUPCAP] {nullptr};
 	this->fps = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER] {nullptr};
-
+	this->fpsTemp = new followerPortraitStruct * [GROUPCAP * MAXFOLLOWER]{ nullptr };
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 		this->cs[i] = new commandStruct();
@@ -301,22 +301,35 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 {
 	int nrOfFollowersAlive = 0;
 	
-	
-		/*if (group[i].followers[a] == follower)
+	for (int i = 0; i < followersInGroup; i++)
+	{
+		if (health > 0)
 		{
-			group[i].followers[a] = nullptr;
-			for (int b = a; b < group[i].nrOfFollowers; b++)
-			{
-				group[i].followers[b] = group[i].followers[b + 1];
-			}
-			group[i].followers[group[i].nrOfFollowers] = nullptr;
-			group[i].nrOfFollowers--;
+			fpsTemp[nrOfFollowersAlive] = new followerPortraitStruct();
+			fpsTemp[nrOfFollowersAlive] = fps[i];
+			delete fps[i];
+			//	fps[i] = nullptr;
+			nrOfFollowersAlive++;
 
-		}*/
+
+		}
+	}
+
+	for (int a = 0; a < followersInGroup; a++)
+	{
+
+		fps[a] = new followerPortraitStruct();
+		fps[a] = fpsTemp[a];
+		//group[i].followers[group[i].nrOfFollowers++] = temp[a];
+		delete[] fpsTemp[a];
+	}
+
+	numberOfFollowers = followersInGroup;
+
 
 		for (int i = 0; i < followersInGroup; i++)
 		{
-			if (fps[i]->followerHealthBar.getSize().x <= 0 )
+			/*if (fps[i]->followerHealthBar.getSize().x <= 0 )
 			{
 
 				fps[i] = nullptr;
@@ -327,7 +340,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 				fps[followersInGroup] = nullptr;
 				numberOfFollowers = followersInGroup;
 				
-			}
+			}*/
 			
 			/*if (fps[i]->followerHealthBar.getSize().x > 0)
 			{

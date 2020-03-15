@@ -52,7 +52,8 @@ private:
 
 
 	followerPortraitStruct** fps;
-	std::vector<followerPortraitStruct> fpsTemp;
+	followerPortraitStruct** fpsTemp;
+	//std::vector<followerPortraitStruct> fpsTemp;
 	commandStruct** cs;
 	ProphetProperties pp;
 	int numberOfFollowers;
