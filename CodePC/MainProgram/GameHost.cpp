@@ -56,8 +56,10 @@ void GameHost::networking()
 		{
 			if (otherProphet != nullptr)
 			{
+
 				otherProphet->setPosition(packet.posX, packet.posY);
 			}
+
 		}
 		if (packet.type == 2)
 		{

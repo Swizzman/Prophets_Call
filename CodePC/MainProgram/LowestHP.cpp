@@ -3,7 +3,6 @@
 #include "Follower.h"
 LowestHP::LowestHP()
 {
-	std::cout << "1" << std::endl;
 	enemysNotInRange = true;
 	tempDist = sf::Vector2f(0, 0);
 	magniTemp = 100000;
