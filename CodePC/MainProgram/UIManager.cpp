@@ -327,7 +327,8 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 
 		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size());
 		numberOfFollowers = followersInGroup;
-	
+		std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
+		std::cout << "this is in UIManager " << std::endl;
 }
 
 void UIManager::addFps(std::string textureName, int maxHealth, int followersInGroup)

@@ -164,8 +164,13 @@ void GameClient::handleEvents()
 				break;
 			case sf::Keyboard::LControl:
 				thisProphet->placeAbil((sf::Vector2f)mouse.getPosition());
-				client.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
-				abilityplaced = true;
+				if (thisProphet->getIfAbilityIsActive())
+				{
+					client.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+					thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+					abilityplaced = true;
+
+				}
 				break;
 			case sf::Keyboard::Tab:
 				uiManager.changeCS();
@@ -202,9 +207,13 @@ void GameClient::handleEvents()
 			case sf::Mouse::Right:
 
 				thisProphet->placeAbil((sf::Vector2f)sf::Mouse::getPosition());
-				thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
-				abilityplaced = true;
-				client.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+				if (thisProphet->getIfAbilityIsActive())
+				{
+					thisProphet->startAnimation(thisProphet->getWalkingDirection() - 4, 7, 15, 1);
+					abilityplaced = true;
+					client.sendAbilPlace((sf::Vector2f)mouse.getPosition(), thisProphet->getCurrentAbility());
+
+				}
 				break;
 			default:
 				break;
