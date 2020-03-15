@@ -330,7 +330,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 			}
 		}
 
-		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size());
+		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size()-1);
 		numberOfFollowers = followersInGroup;
 		std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
 		std::cout << "this is in UIManager " << std::endl;
