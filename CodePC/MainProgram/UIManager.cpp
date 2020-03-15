@@ -565,15 +565,16 @@ void UIManager::decreaseCsNumber(int nrOfFollowers, int whichGroup)
 
 int UIManager::getNrOfCurrentGroup() const
 {
+	int nrOf = 0;
 	for (int i = 0; i < GROUPCAP; i++)
 	{
 		if (currentCommandControll == i)
 		{
-			return cs[i]->nummberOfFollowersInGroup;
+			nrOf =  cs[i]->nummberOfFollowersInGroup;
 		}
 
 	}
-
+	return nrOf;
 }
 
 

@@ -243,27 +243,30 @@ void Prophet::moveProphet()
 
 int Prophet::getNrOfFollowers()
 {
+	int nrOf = 0;
 	for (int i = 0; i < GROUPNR; i++)
 	{
 		if (currentCommandGroup == i)
 		{
-			return group[i].nrOfFollowers;
+			nrOf = group[i].nrOfFollowers;
 		}
 	}
-
+	return nrOf;
 }
 
 int Prophet::getAllNrOfFollowers(int thisGroup)
 {
+	int nrOf = 0;
 	for (int i = 0; i < GROUPNR; i++)
 	{
 		if (i == thisGroup)
 		{
-			return group[i].nrOfFollowers;
+			nrOf = group[i].nrOfFollowers;
 
 		}
 
 	}
+	return nrOf;
 }
 
 
@@ -302,18 +305,20 @@ void Prophet::decreaseSouls(int amount)
 
 Follower* Prophet::getFollowers() const
 {
+	Follower* follower = nullptr;
 	for (int i = 0; i < GROUPNR; i++)
 	{
 		if (currentCommandGroup == i)
 		{
-			return *group[i].followers;
+			follower = *group[i].followers;
 		}
 	}
-
+	return follower;
 }
 
 Follower& Prophet::getASingleFollower(int whichOne)const
 {
+
 	for (int i = 0; i < GROUPNR; i++)
 	{
 
@@ -387,7 +392,7 @@ void Prophet::changeCurrentCommandGroup()
 
 int Prophet::getcurrentGroupCommand()
 {
-
+	int command = 0;
 	for (int i = 0; i < GROUPNR; i++)
 	{
 
@@ -397,10 +402,10 @@ int Prophet::getcurrentGroupCommand()
 			{
 				this->group[i].currentCommand = 0;
 			}
-			return this->group[i].currentCommand;
+			command = this->group[i].currentCommand;
 		}
 	}
-
+	return command;
 
 
 }
@@ -418,7 +423,7 @@ Ability* Prophet::getCurAbil() const
 	}
 }
 
-bool Prophet::getIfSoundBoolIsActive() 
+bool Prophet::getIfSoundBoolIsActive()
 {
 	if (otherProphet != nullptr)
 	{
@@ -481,10 +486,12 @@ void Prophet::endingReinforcementAbility()
 
 bool Prophet::returnReinforceBool()
 {
+	bool reinforce = false;
 	if (otherProphet != nullptr)
 	{
-		return abilityMan.returnReinforcementBool();
+		reinforce = abilityMan.returnReinforcementBool();
 	}
+	return reinforce;
 
 }
 

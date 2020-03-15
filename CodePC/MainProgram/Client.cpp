@@ -32,7 +32,6 @@ Packet Client::recieveAPacket()
 {
 	sf::Packet packet;
 	Packet recieved;
-	sf::Uint16 x, y;
 
 	if (connectionSocket.receive(packet) == sf::Socket::Disconnected)
 	{

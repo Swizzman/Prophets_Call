@@ -1,6 +1,6 @@
 #include "Ability.h"
 
-Ability::Ability(std::string texture, int radius, float activeTimer ,float pulseTime, bool fake)
+Ability::Ability(std::string texture, float radius, float activeTimer ,float pulseTime, bool fake)
 {
 	this->texture.loadFromFile("../images/" + texture);
 	this->sprite.setTexture(this->texture);

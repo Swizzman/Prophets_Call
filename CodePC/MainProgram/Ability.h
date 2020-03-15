@@ -21,7 +21,7 @@ private:
 
 public:
 
-	Ability(std::string texture, int radius, float activeTimer, float pulseTime, bool fake);
+	Ability(std::string texture, float radius, float activeTimer, float pulseTime, bool fake);
 	virtual ~Ability();
 	int getRadius();
 	sf::Vector2f getPosition();

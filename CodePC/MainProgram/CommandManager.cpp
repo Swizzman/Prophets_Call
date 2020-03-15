@@ -150,7 +150,6 @@ void CommandManager::attackEnemy(int thisFollowerGroup, int thisFollowerInt)
 
 	sf::Vector2f temp(0, 0);
 	float magniTemp = 1000000;
-	GameEntity* tempEntity;
 	Follower enemyfol;
 	bool followerIsClosest = false;
 	if (chosenCommand == 0 && enemyProphet->getAllNrOfFollowers(0) != 0 && enemyProphet->getAllNrOfFollowers(1) != 0 && enemyProphet->getAllNrOfFollowers(2) != 0)
