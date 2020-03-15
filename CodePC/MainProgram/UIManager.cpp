@@ -328,7 +328,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		{
 			if (fps[i] != nullptr)
 			{
-				std::cout <<  "this is place i in array "<< i << std::endl: 
+				std::cout << "this is place i in array " << i << " : And this is nrOfFollowersAlive  " << nrOfFollowersAlive << std::endl;
 				delete fps[i];
 
 			}

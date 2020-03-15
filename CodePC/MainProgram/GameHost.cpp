@@ -285,7 +285,6 @@ State GameHost::update()
 						}
 						else
 						{
-							thisProphet->removeFollower(allFollowers[i]);
 							for (int i = 0; i < 3; i++)
 							{
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
@@ -295,6 +294,8 @@ State GameHost::update()
 									uiManager.removeFps(thisProphet->getAllNrOfFollowers(i), i, thisProphet->getAllFollowers(i)[a]->getHealth());
 								}
 							}
+							thisProphet->removeFollower(allFollowers[i]);
+							
 						}
 						soundManager.death();
 					}
