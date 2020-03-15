@@ -304,7 +304,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 		
 		for (int i = 0; i < followersInGroup; i++)
 		{
-			if (health > 0)
+			if (fps[i]->followerHealthBar.getSize().x > 0)
 			{
 				std::cout << "is this even playing" << std::endl;
 				fpsTemp.push_back(*fps[i]);
