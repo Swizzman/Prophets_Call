@@ -285,9 +285,9 @@ State GameHost::update()
 						}
 						else
 						{
+								thisProphet->removeFollower(allFollowers[i]);
 							for (int i = 0; i < 3; i++)
 							{
-								thisProphet->removeFollower(allFollowers[i]);
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 								
 							}
