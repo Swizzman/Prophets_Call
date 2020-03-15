@@ -275,16 +275,19 @@ void UIManager::updateFps(int health, int whichFollower)
 		{
 			if (health < 0)
 				health = 0;
-			
-			if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1 && fps[whichFollower]->followerMaxHealth >= health)
+			if (this->fps[whichFollower] != nullptr)
 			{
-				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
+				if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1 && fps[whichFollower]->followerMaxHealth >= health)
+				{
+					this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (health / this->fps[whichFollower]->followerMaxHealth)), 15));
 
 
-			}
-			if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1 && fps[whichFollower]->followerMaxHealth <= health)
-			{
-				this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (fps[whichFollower]->followerMaxHealth / this->fps[whichFollower]->followerMaxHealth)), 15));
+				}
+				if (whichFollower <= cs[i]->nummberOfFollowersInGroup - 1 && fps[whichFollower]->followerMaxHealth <= health)
+				{
+					this->fps[whichFollower]->followerHealthBar.setSize(sf::Vector2f((this->fps[whichFollower]->followerImage.getGlobalBounds().width - 10) / 100 * (100 * (fps[whichFollower]->followerMaxHealth / this->fps[whichFollower]->followerMaxHealth)), 15));
+
+				}
 
 			}
 		}
@@ -310,8 +313,8 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 			}
 			else
 			{
-				/*if (fps[i] != nullptr)
-				delete fps[i];*/
+				if (fps[i] != nullptr)
+				delete fps[i];
 			}
 		}
 		
@@ -321,7 +324,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 			*fps[i] = fpsTemp.at(i);
 			
 		}
-		for (int i = 0; i < followersInGroup; i++)
+		for (int i = nrOfFollowersAlive; i < followersInGroup; i++)
 		{
 			if (fps[i] != nullptr)
 			{
@@ -330,7 +333,7 @@ void UIManager::removeFps(int followersInGroup, int whichGroup, int health)
 			}
 		}
 
-		fpsTemp.erase(fpsTemp.begin() + fpsTemp.size()-1);
+	//	fpsTemp.erase(fpsTemp.begin() + fpsTemp.size()-1);
 		numberOfFollowers = followersInGroup;
 		std::cout << "number of followers in array "<< numberOfFollowers << ": number of followers that should be alive: " << nrOfFollowersAlive <<  std::endl;
 		std::cout << "this is in UIManager " << std::endl;
