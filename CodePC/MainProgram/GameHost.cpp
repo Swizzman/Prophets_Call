@@ -289,7 +289,7 @@ State GameHost::update()
 							{
 								thisProphet->removeFollower(allFollowers[i]);
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
-								
+
 							}
 
 						}
@@ -444,14 +444,8 @@ State GameHost::update()
 				uiManager.updateCSNumber(thisProphet->getNrOfFollowers());
 			}
 
-			soundManager.deleteAudio();
 
 		}
-		for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
-		{
-			uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
-		}
-		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 
 		if (otherProphet != nullptr)
 		{
@@ -471,6 +465,12 @@ State GameHost::update()
 				server.disconnect();
 				netWorkThread.join();
 			}
+			for (int i = 0; i < thisProphet->getNrOfFollowers(); i++)
+			{
+				uiManager.updateFps(thisProphet->getASingleFollower(i).getHealth(), i);
+			}
+			soundManager.deleteAudio();
+			uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 		}
 
 		return state;
