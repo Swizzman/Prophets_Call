@@ -160,6 +160,8 @@ void GameHost::handleEvents()
 				break;
 			case sf::Keyboard::Num1:
 				thisProphet->changeAbility();
+				
+				otherProphet->addFollower(allFollowers[1]);
 
 				break;
 			case sf::Keyboard::LControl:

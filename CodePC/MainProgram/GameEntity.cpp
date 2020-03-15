@@ -188,7 +188,8 @@ void GameEntity::moveTowardsDest(sf::Vector2f dest, int currentCommand)
 	if (alive == true)
 	{
 		getNewRandomPos(currentCommand, false);
-		if ((lastXDest > 0 && dest.x > 0) || (lastXDest < 0 && dest.x < 0))
+	
+		if ((lastXDest > 0 && dest.x > 0) && getCurrentPriority() <= 0 || (lastXDest < 0 && dest.x < 0) && getCurrentPriority() <= 0)
 		{
 			if (abs(dest.x) > abs(dest.y) && dest.x > 0.3)
 			{
