@@ -451,7 +451,7 @@ State GameHost::update()
 		}
 		uiManager.updatePp(thisProphet->getHealth(), thisProphet->getSouls(), thisProphet->getCurrentAbility());
 
-		if (activeClient)
+		if (otherProphet != nullptr)
 		{
 
 			if (thisProphet->getHealth() <= 0 || otherProphet->getHealth() <= 0)
