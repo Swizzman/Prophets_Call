@@ -119,7 +119,6 @@ Packet Server::recieveAPacket()
 
 	sf::Packet packet;
 	Packet recieved;
-	sf::Uint16 x, y;
 	if (clientSock->receive(packet) == sf::Socket::Disconnected)
 	{
 		clientConnected = false;
