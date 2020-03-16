@@ -3,8 +3,8 @@
 
 Server::Server()
 {
-	iP = sf::IpAddress::LocalHost;
 	iP = ("25.74.9.3");
+	iP = sf::IpAddress::LocalHost;
 	port = 55000;
 	listener.listen(port, iP);
 	std::cout << "Server started on: " << iP << ":" << port << std::endl;
@@ -119,7 +119,6 @@ Packet Server::recieveAPacket()
 
 	sf::Packet packet;
 	Packet recieved;
-	sf::Uint16 x, y;
 	if (clientSock->receive(packet) == sf::Socket::Disconnected)
 	{
 		clientConnected = false;

@@ -289,7 +289,7 @@ State GameHost::update()
 								uiManager.decreaseCsNumber(thisProphet->getAllNrOfFollowers(i), i);
 
 							}
-								thisProphet->removeFollower(allFollowers[i]);
+							thisProphet->removeFollower(allFollowers[i]);
 
 						}
 						soundManager.death();
