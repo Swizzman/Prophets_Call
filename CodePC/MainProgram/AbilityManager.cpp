@@ -26,7 +26,7 @@ AbilityManager::~AbilityManager()
 	{
 		delete currentAbility;
 	}
-	//currentAbility =  nullptr;
+
 
 
 
@@ -35,7 +35,7 @@ AbilityManager::~AbilityManager()
 int AbilityManager::switchAbility()
 {
 	chosenAbility++;
-	//cout << chosenAbility << endl;
+	
 	if (chosenAbility > 2)
 	{
 		chosenAbility = 0;
@@ -72,15 +72,6 @@ void AbilityManager::stopAbility()
 
 	
 	abilityActive = currentAbility->abilityLifeTime();
-	/*if (abilityActive == false)
-	{
-		currentAbility->changeSoundBool(true);
-		abilityActive = true;
-	}
-	if (abilityActive == true && currentAbility->makeSound())
-	{
-		abilityActive = false;
-	}*/
 
 
 	if (abilityActive == false)
@@ -111,14 +102,14 @@ void AbilityManager::stopAbility()
 
 					for (int i = 0; i < followerGroup[a].nrOfFollowers; i++)
 					{
-						//currentAbility->getPosition() - followerGroup->followers[i]->getPosition()
+			
 						sf::Vector2f dist = currentAbility->getPosition() - followerGroup[a].followers[i]->getPosition();
 						float magni = sqrt(pow(dist.x, 2) + pow(dist.y, 2));
 
 						if (abs(magni) < currentAbility->getRadius())
 						{
 							followerGroup[a].followers[i]->takeDamage(currentAbility->getSpecificVar());
-							//followerGroup->followers[i]->touchedByAbility(true);
+						
 						}
 
 					}
@@ -136,8 +127,6 @@ void AbilityManager::stopAbility()
 							enemyProphet->getAllFollowers(a)[i]->takeDamage(currentAbility->getSpecificVar());
 							cout << "enemy Follower takes damage" << endl;
 
-							//enemyProphet->getASingleFollower(i).touchedByAbility(true);
-
 						}
 					}
 
@@ -147,7 +136,7 @@ void AbilityManager::stopAbility()
 					{
 						enemyProphet->takeDamage(currentAbility->getSpecificVar());
 						cout << "enemy Prophet takes damage" << endl;
-						//enemyProphet->touchedByAbility(true);
+					
 					}
 				}
 				
@@ -202,8 +191,7 @@ void AbilityManager::stopReinforceAbility()
 
 						if (chosenAbility == 2 && followerGroup[a].followers[i]->checkIfEntityCanBeAffectedByAbility() == true)
 						{
-							//currentAbility->changeSoundBool(true);
-							//makeASoundBool = currentAbility->makeSound();
+						
 
 							followerGroup[a].followers[i]->touchedByAbility(false);
 							followerGroup[a].followers[i]->resetDamage();
