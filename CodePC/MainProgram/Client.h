@@ -6,7 +6,7 @@ struct Packet
 {
 	sf::Uint16 type;
 	sf::Uint32 posX;
-	sf::Uint32 posY;
+	sf::Uint32 posY;	
 	sf::Uint16 index;
 	sf::Uint32 health;
 	sf::Uint16 abilType;
